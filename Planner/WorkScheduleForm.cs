@@ -47,8 +47,6 @@ namespace Planner
         // https://stackoverflow.com/questions/41891108/merge-mulitple-row-headers-in-a-datagridview-with-c-sharp
         private void WorkScheduleForm_Load(object sender, EventArgs e)
         {
-            dataGridView1.RowHeadersWidth = 100;
-            dataGridView1.ColumnHeadersHeight = 70;
             // Columns - Production Lines
             for (int i = 0; i < productionLines.Length; i++)
             {
@@ -71,19 +69,21 @@ namespace Planner
                 }
             }
 
+            dataGridView1.RowHeadersWidth = 80;
             dataGridView1.AllowUserToResizeColumns = false;
             dataGridView1.AllowUserToResizeRows = false;
             dataGridView1.RowHeadersWidth = dataGridView1.RowHeadersWidth * 3/2;
             dataGridView1.RowHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            SizeDGV(dataGridView1);
-            this.AutoSize = true;
+            dataGridView1.Paint += dataGridView1_Paint;
+            dataGridView1.RowHeadersWidthChanged += dataGridView1_RowHeadersWidthChanged;
             foreach (DataGridViewColumn column in dataGridView1.Columns)
             {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
+                column.Width = 75;
             }
 
-            this.dataGridView1.Paint += dataGridView1_Paint;
-            this.dataGridView1.RowHeadersWidthChanged += dataGridView1_RowHeadersWidthChanged;
+            SizeDGV(dataGridView1);
+            this.AutoSize = true;
         }
 
         // Draw DataGridView Headers
@@ -91,7 +91,7 @@ namespace Planner
         {
             Rectangle rtHeader = this.dataGridView1.DisplayRectangle;
             rtHeader.Width = this.dataGridView1.RowHeadersWidth / 2;
-            this.dataGridView1.Invalidate(rtHeader);
+            dataGridView1.Invalidate(rtHeader);
         }
 
         // Draw DataGridView Headers
@@ -113,6 +113,7 @@ namespace Planner
                 using (StringFormat format = new StringFormat())
                 {
                     string dayText = day.DayOfWeek.ToString();
+                    dayText += Environment.NewLine + day.ToShortDateString();
 
                     format.Alignment = StringAlignment.Center;
                     format.LineAlignment = StringAlignment.Center;
