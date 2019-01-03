@@ -13,16 +13,16 @@ namespace Planner
         public int Hour { get; set; }
         public int ProdLineNo { get; set; }
         public DateTime Date { get; set; }
-        public int Planned { get; set; }
+        public int Order { get; set; }
         public List<Employee> EmployeeAssigned { get; set; }
 
-        public Shift(int day, int hour, int prodLineNo, int planned)
+        public Shift(int day, int hour, int prodLineNo, int order)
         {
             No = 3 * day + hour;
             Day = day;
             Hour = hour;
             ProdLineNo = prodLineNo;
-            Planned = planned;
+            Order = order;
             EmployeeAssigned = new List<Employee>();
         }
     }

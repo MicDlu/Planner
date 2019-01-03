@@ -22,7 +22,7 @@ namespace Planner
                 {
                     for (int h = 0; h < 3; h++)
                     {
-                        Shift shift = new Shift(d, h, p, 1);
+                        Shift shift = new Shift(d, h, p, 3);
                         Shifts[p, 3 * d + h] = shift;
                     }
                 }

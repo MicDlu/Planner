@@ -24,6 +24,41 @@ namespace Planner
             plan = new Plan(productionLines);
         }
 
+        private void WorkScheduleForm_Load(object sender, EventArgs e)
+        {
+            InitDataGridViewValues(plan);
+            InitDataGridViewStyle();
+            InitListBoxStyle();
+            InitGroupBoxAssignedStyle();
+            AlignFormSize();
+
+
+            plan.Shifts[2, 2].EmployeeAssigned.Add(new Employee(1, "Maciej", "Bojar"));
+            plan.Shifts[2, 2].EmployeeAssigned.Add(new Employee(2,"Kamil","Pieczara"));
+        }
+
+        private void InitGroupBoxAssignedStyle()
+        {
+            groupBoxEmployees.Location = new Point(
+                dataGridView1.Location.X + dataGridView1.Size.Width + 30,
+                dataGridView1.Location.Y
+            );
+        }
+
+        private void AlignFormSize()
+        {
+            this.Size = new Size(
+                groupBoxEmployees.Location.X + groupBoxEmployees.Size.Width + 30,
+                dataGridView1.Location.Y + dataGridView1.Size.Height + 50
+            ); 
+        }
+
+        private void InitListBoxStyle()
+        {
+            listBoxEmpolyees.DisplayMember = "DisplayName";
+            listBoxEmpolyees.ValueMember = "Id";
+        }
+
         // Draw DataGridView Headers
         // https://stackoverflow.com/questions/41891108/merge-mulitple-row-headers-in-a-datagridview-with-c-sharp
         private void InitDataGridViewStyle()
@@ -42,7 +77,7 @@ namespace Planner
 
             SizeDGV(dataGridView1);
             this.AutoSize = true;
-            
+
             dataGridView1.Paint += dataGridView1_Paint;
         }
 
@@ -74,9 +109,25 @@ namespace Planner
                     row.HeaderCell.Value = (rh + 1).ToString();
                     for (int c = 0; c < columnCount; c++)
                     {
-                        row.Cells[c].Value = plan.Shifts[c, r].Planned;
+                        row.Cells[c].Value = plan.Shifts[c, r].Order;
                     }
                     dataGridView1.Rows.Add(row);
+                }
+            }
+        }
+
+        private void SwitchValuesToOrder()
+        {
+
+        }
+
+        private void SwitchValuesToAssign()
+        {
+            for (int r = 0; r < dataGridView1.RowCount; r++)
+            {
+                for (int c = 0; c < dataGridView1.ColumnCount; c++)
+                {
+                    dataGridView1[c, r].Value = "1/1";
                 }
             }
         }
@@ -102,12 +153,6 @@ namespace Planner
             return newWeek;
         }
 
-
-        private void WorkScheduleForm_Load(object sender, EventArgs e)
-        {
-            InitDataGridViewValues(plan);
-            InitDataGridViewStyle();
-        }
 
         // Draw DataGridView Headers
         private void InvalidateHeader()
@@ -166,6 +211,39 @@ namespace Planner
         {
             InvalidateHeader();
             SizeDGV(dataGridView1);
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            listBoxEmpolyees.DataSource = plan.Shifts[e.ColumnIndex, e.RowIndex].EmployeeAssigned;
+            listBoxEmpolyees.DisplayMember = "DisplayName";
+            listBoxEmpolyees.ValueMember = "Id";
+        }
+
+        private void buttonRemoveEmployee_Click(object sender, EventArgs e)
+        {
+            int selectedCellX = dataGridView1.CurrentCell.RowIndex;
+            int selectedCellY = dataGridView1.CurrentCell.ColumnIndex;
+            List<Employee> employeeList = plan.Shifts[selectedCellX, selectedCellY].EmployeeAssigned;
+            if (employeeList.Count != 0)
+            {
+                employeeList.RemoveAt(listBoxEmpolyees.SelectedIndex);
+
+                listBoxEmpolyees.DataSource = null;
+                listBoxEmpolyees.DataSource = plan.Shifts[selectedCellX, selectedCellY].EmployeeAssigned;
+                listBoxEmpolyees.DisplayMember = "DisplayName";
+                listBoxEmpolyees.ValueMember = "Id";
+            }
+        }
+
+        private void ToolStripMenuItemDisplayOrder_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ToolStripMenuItemDisplayAssign_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
