@@ -22,6 +22,9 @@ namespace Planner
             week = InitWeek();
             productionLines = InitProductionLines();
             plan = new Plan(productionLines);
+            
+            plan.Shifts[2, 2].EmployeeAssigned.Add(new Employee(1, "Maciej", "Bojar"));
+            plan.Shifts[2, 2].EmployeeAssigned.Add(new Employee(2, "Kamil", "Pieczara"));
         }
 
         private void WorkScheduleForm_Load(object sender, EventArgs e)
@@ -31,10 +34,6 @@ namespace Planner
             InitListBoxStyle();
             InitGroupBoxAssignedStyle();
             AlignFormSize();
-
-
-            plan.Shifts[2, 2].EmployeeAssigned.Add(new Employee(1, "Maciej", "Bojar"));
-            plan.Shifts[2, 2].EmployeeAssigned.Add(new Employee(2,"Kamil","Pieczara"));
         }
 
         private void InitGroupBoxAssignedStyle()
@@ -65,20 +64,22 @@ namespace Planner
         {
             dataGridView1.AllowUserToResizeColumns = false;
             dataGridView1.AllowUserToResizeRows = false;
+            dataGridView1.MultiSelect = false;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
             dataGridView1.RowHeadersWidth = 80;
             dataGridView1.RowHeadersWidth = dataGridView1.RowHeadersWidth * 3 / 2;
             dataGridView1.RowHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             dataGridView1.RowHeadersWidthChanged += dataGridView1_RowHeadersWidthChanged;
+            dataGridView1.Paint += dataGridView1_Paint;
             foreach (DataGridViewColumn column in dataGridView1.Columns)
             {
                 column.SortMode = DataGridViewColumnSortMode.Programmatic;
                 column.Width = 75;
+                column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
 
             SizeDGV(dataGridView1);
             this.AutoSize = true;
-
-            dataGridView1.Paint += dataGridView1_Paint;
         }
 
         // Fill cells and headers with values
@@ -107,27 +108,25 @@ namespace Planner
                     DataGridViewRow row = new DataGridViewRow();
                     row.CreateCells(dataGridView1);
                     row.HeaderCell.Value = (rh + 1).ToString();
-                    for (int c = 0; c < columnCount; c++)
-                    {
-                        row.Cells[c].Value = plan.Shifts[c, r].Order;
-                    }
+                    //for (int c = 0; c < columnCount; c++)
+                    //{
+                    //    row.Cells[c].Value = plan.Shifts[c, r].Order;
+                    //}
                     dataGridView1.Rows.Add(row);
                 }
             }
+            UpdateAssignedValues();
         }
 
-        private void SwitchValuesToOrder()
-        {
-
-        }
-
-        private void SwitchValuesToAssign()
+        private void UpdateAssignedValues()
         {
             for (int r = 0; r < dataGridView1.RowCount; r++)
             {
                 for (int c = 0; c < dataGridView1.ColumnCount; c++)
                 {
-                    dataGridView1[c, r].Value = "1/1";
+                    string assigned = plan.Shifts[c, r].EmployeeAssigned.Count.ToString();
+                    string ordered = plan.Shifts[c, r].Order.ToString();
+                    dataGridView1[c, r].Value = assigned + "/" + ordered;
                 }
             }
         }
@@ -215,9 +214,12 @@ namespace Planner
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            listBoxEmpolyees.DataSource = plan.Shifts[e.ColumnIndex, e.RowIndex].EmployeeAssigned;
-            listBoxEmpolyees.DisplayMember = "DisplayName";
-            listBoxEmpolyees.ValueMember = "Id";
+            if (e.ColumnIndex >= 0 && e.RowIndex >= 0)
+            {
+                listBoxEmpolyees.DataSource = plan.Shifts[e.ColumnIndex, e.RowIndex].EmployeeAssigned;
+                listBoxEmpolyees.DisplayMember = "DisplayName";
+                listBoxEmpolyees.ValueMember = "Id";
+            }
         }
 
         private void buttonRemoveEmployee_Click(object sender, EventArgs e)
@@ -233,17 +235,8 @@ namespace Planner
                 listBoxEmpolyees.DataSource = plan.Shifts[selectedCellX, selectedCellY].EmployeeAssigned;
                 listBoxEmpolyees.DisplayMember = "DisplayName";
                 listBoxEmpolyees.ValueMember = "Id";
+                UpdateAssignedValues();
             }
-        }
-
-        private void ToolStripMenuItemDisplayOrder_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void ToolStripMenuItemDisplayAssign_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

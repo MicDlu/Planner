@@ -32,13 +32,8 @@
             this.listBoxEmpolyees = new System.Windows.Forms.ListBox();
             this.groupBoxEmployees = new System.Windows.Forms.GroupBox();
             this.buttonRemoveEmployee = new System.Windows.Forms.Button();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.ToolStripMenuItemDisplay = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItemDisplayOrder = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItemDisplayAssign = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBoxEmployees.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -78,6 +73,7 @@
             // 
             // buttonRemoveEmployee
             // 
+            this.buttonRemoveEmployee.Enabled = false;
             this.buttonRemoveEmployee.Location = new System.Drawing.Point(6, 273);
             this.buttonRemoveEmployee.Name = "buttonRemoveEmployee";
             this.buttonRemoveEmployee.Size = new System.Drawing.Size(75, 32);
@@ -86,40 +82,6 @@
             this.buttonRemoveEmployee.UseVisualStyleBackColor = true;
             this.buttonRemoveEmployee.Click += new System.EventHandler(this.buttonRemoveEmployee_Click);
             // 
-            // menuStrip1
-            // 
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripMenuItemDisplay});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1277, 28);
-            this.menuStrip1.TabIndex = 4;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // ToolStripMenuItemDisplay
-            // 
-            this.ToolStripMenuItemDisplay.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripMenuItemDisplayOrder,
-            this.ToolStripMenuItemDisplayAssign});
-            this.ToolStripMenuItemDisplay.Name = "ToolStripMenuItemDisplay";
-            this.ToolStripMenuItemDisplay.Size = new System.Drawing.Size(108, 24);
-            this.ToolStripMenuItemDisplay.Text = "Wyświetlanie";
-            // 
-            // ToolStripMenuItemDisplayOrder
-            // 
-            this.ToolStripMenuItemDisplayOrder.Name = "ToolStripMenuItemDisplayOrder";
-            this.ToolStripMenuItemDisplayOrder.Size = new System.Drawing.Size(216, 26);
-            this.ToolStripMenuItemDisplayOrder.Text = "Zamówienie";
-            this.ToolStripMenuItemDisplayOrder.Click += new System.EventHandler(this.ToolStripMenuItemDisplayOrder_Click);
-            // 
-            // ToolStripMenuItemDisplayAssign
-            // 
-            this.ToolStripMenuItemDisplayAssign.Name = "ToolStripMenuItemDisplayAssign";
-            this.ToolStripMenuItemDisplayAssign.Size = new System.Drawing.Size(216, 26);
-            this.ToolStripMenuItemDisplayAssign.Text = "Przypisanie";
-            this.ToolStripMenuItemDisplayAssign.Click += new System.EventHandler(this.ToolStripMenuItemDisplayAssign_Click);
-            // 
             // WorkScheduleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -127,17 +89,12 @@
             this.ClientSize = new System.Drawing.Size(1277, 476);
             this.Controls.Add(this.groupBoxEmployees);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
             this.Name = "WorkScheduleForm";
             this.Text = "WeekWorkSchedule";
             this.Load += new System.EventHandler(this.WorkScheduleForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBoxEmployees.ResumeLayout(false);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -147,9 +104,5 @@
         private System.Windows.Forms.ListBox listBoxEmpolyees;
         private System.Windows.Forms.GroupBox groupBoxEmployees;
         private System.Windows.Forms.Button buttonRemoveEmployee;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemDisplay;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemDisplayOrder;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemDisplayAssign;
     }
 }
