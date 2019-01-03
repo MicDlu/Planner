@@ -14,12 +14,71 @@ namespace Planner
     {
         private DateTime[] week;
         private String[] productionLines;
+        private Plan plan;
 
         public WorkScheduleForm()
         {
             InitializeComponent();
             week = InitWeek();
             productionLines = InitProductionLines();
+            plan = new Plan(productionLines);
+        }
+
+        // Draw DataGridView Headers
+        // https://stackoverflow.com/questions/41891108/merge-mulitple-row-headers-in-a-datagridview-with-c-sharp
+        private void InitDataGridViewStyle()
+        {
+            dataGridView1.AllowUserToResizeColumns = false;
+            dataGridView1.AllowUserToResizeRows = false;
+            dataGridView1.RowHeadersWidth = 80;
+            dataGridView1.RowHeadersWidth = dataGridView1.RowHeadersWidth * 3 / 2;
+            dataGridView1.RowHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dataGridView1.RowHeadersWidthChanged += dataGridView1_RowHeadersWidthChanged;
+            foreach (DataGridViewColumn column in dataGridView1.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.Programmatic;
+                column.Width = 75;
+            }
+
+            SizeDGV(dataGridView1);
+            this.AutoSize = true;
+            
+            dataGridView1.Paint += dataGridView1_Paint;
+        }
+
+        // Fill cells and headers with values
+        // https://stackoverflow.com/questions/29633018/show-2d-array-in-datagridview
+        private void InitDataGridViewValues(Plan plan)
+        {
+            int columnCount = productionLines.Length;
+            int rowCount = plan.Shifts.GetLength(1);
+
+            // Columns - Production Lines
+            for (int i = 0; i < productionLines.Length; i++)
+            {
+                DataGridViewTextBoxColumn dgvColumn = new DataGridViewTextBoxColumn()
+                {
+                    Name = productionLines[i],
+                    HeaderText = productionLines[i],
+                };
+                dataGridView1.Columns.Add(dgvColumn);
+            }
+            // Rows - Days / Shifts
+            for (int rd = 0; rd < rowCount / 3; rd++)
+            {
+                for (int rh = 0; rh < 3; rh++)
+                {
+                    int r = 3 * rd + rh;
+                    DataGridViewRow row = new DataGridViewRow();
+                    row.CreateCells(dataGridView1);
+                    row.HeaderCell.Value = (rh + 1).ToString();
+                    for (int c = 0; c < columnCount; c++)
+                    {
+                        row.Cells[c].Value = plan.Shifts[c, r].Planned;
+                    }
+                    dataGridView1.Rows.Add(row);
+                }
+            }
         }
 
         private string[] InitProductionLines()
@@ -43,47 +102,11 @@ namespace Planner
             return newWeek;
         }
 
-        // Draw DataGridView Headers
-        // https://stackoverflow.com/questions/41891108/merge-mulitple-row-headers-in-a-datagridview-with-c-sharp
+
         private void WorkScheduleForm_Load(object sender, EventArgs e)
         {
-            // Columns - Production Lines
-            for (int i = 0; i < productionLines.Length; i++)
-            {
-                DataGridViewTextBoxColumn dgvColumn = new DataGridViewTextBoxColumn()
-                {
-                    Name = productionLines[i],
-                    HeaderText = productionLines[i],
-                };
-                dataGridView1.Columns.Add(dgvColumn);
-            }
-            // Rows - Days / Shifts
-            for (int i = 0; i < week.Length; i++)
-            {
-                for (int j = 1; j <= 3; j++)
-                {
-                    DataGridViewRow row = new DataGridViewRow();
-                    row.CreateCells(dataGridView1);
-                    row.HeaderCell.Value = j.ToString();
-                    dataGridView1.Rows.Add(row);
-                }
-            }
-
-            dataGridView1.RowHeadersWidth = 80;
-            dataGridView1.AllowUserToResizeColumns = false;
-            dataGridView1.AllowUserToResizeRows = false;
-            dataGridView1.RowHeadersWidth = dataGridView1.RowHeadersWidth * 3/2;
-            dataGridView1.RowHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridView1.Paint += dataGridView1_Paint;
-            dataGridView1.RowHeadersWidthChanged += dataGridView1_RowHeadersWidthChanged;
-            foreach (DataGridViewColumn column in dataGridView1.Columns)
-            {
-                column.SortMode = DataGridViewColumnSortMode.NotSortable;
-                column.Width = 75;
-            }
-
-            SizeDGV(dataGridView1);
-            this.AutoSize = true;
+            InitDataGridViewValues(plan);
+            InitDataGridViewStyle();
         }
 
         // Draw DataGridView Headers
