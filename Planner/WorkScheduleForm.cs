@@ -28,7 +28,7 @@ namespace Planner
         }
 
         private void WorkScheduleForm_Load(object sender, EventArgs e)
-        {
+        {           
             InitDataGridViewValues(plan);
             InitDataGridViewStyle();
             InitListBoxStyle();
@@ -237,6 +237,14 @@ namespace Planner
                 listBoxEmpolyees.ValueMember = "Id";
                 UpdateAssignedValues();
             }
+        }
+
+        private void importToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string filename = @"C:\Users\micha\Documents\Planer Manpower\PLANER 2018 t.38.xlsm";
+            ExcelInterop excel = new ExcelInterop(filename);
+            excel.SetWeekCellRange("E6");
+            excel.ProcessOrder();
         }
     }
 }
