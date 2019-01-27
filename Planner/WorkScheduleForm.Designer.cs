@@ -33,10 +33,11 @@
             this.groupBoxEmployees = new System.Windows.Forms.GroupBox();
             this.buttonRemoveEmployee = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.comboBoxSex = new System.Windows.Forms.ComboBox();
+            this.groupBoxView = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBoxEmployees.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
+            this.groupBoxView.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -67,7 +68,7 @@
             // 
             this.groupBoxEmployees.Controls.Add(this.buttonRemoveEmployee);
             this.groupBoxEmployees.Controls.Add(this.listBoxEmpolyees);
-            this.groupBoxEmployees.Location = new System.Drawing.Point(614, 31);
+            this.groupBoxEmployees.Location = new System.Drawing.Point(614, 137);
             this.groupBoxEmployees.Name = "groupBoxEmployees";
             this.groupBoxEmployees.Size = new System.Drawing.Size(335, 311);
             this.groupBoxEmployees.TabIndex = 2;
@@ -88,26 +89,37 @@
             // menuStrip1
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.importToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1277, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1277, 24);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // importToolStripMenuItem
+            // comboBoxSex
             // 
-            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(66, 24);
-            this.importToolStripMenuItem.Text = "Import";
-            this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
+            this.comboBoxSex.FormattingEnabled = true;
+            this.comboBoxSex.Location = new System.Drawing.Point(6, 21);
+            this.comboBoxSex.Name = "comboBoxSex";
+            this.comboBoxSex.Size = new System.Drawing.Size(323, 24);
+            this.comboBoxSex.TabIndex = 4;
+            this.comboBoxSex.SelectedIndexChanged += new System.EventHandler(this.comboBoxSex_SelectedIndexChanged);
+            // 
+            // groupBoxView
+            // 
+            this.groupBoxView.Controls.Add(this.comboBoxSex);
+            this.groupBoxView.Location = new System.Drawing.Point(614, 31);
+            this.groupBoxView.Name = "groupBoxView";
+            this.groupBoxView.Size = new System.Drawing.Size(335, 61);
+            this.groupBoxView.TabIndex = 5;
+            this.groupBoxView.TabStop = false;
+            this.groupBoxView.Text = "Wyświetlanie";
             // 
             // WorkScheduleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1277, 476);
+            this.Controls.Add(this.groupBoxView);
             this.Controls.Add(this.groupBoxEmployees);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.menuStrip1);
@@ -116,8 +128,7 @@
             this.Load += new System.EventHandler(this.WorkScheduleForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBoxEmployees.ResumeLayout(false);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.groupBoxView.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -130,6 +141,7 @@
         private System.Windows.Forms.GroupBox groupBoxEmployees;
         private System.Windows.Forms.Button buttonRemoveEmployee;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
+        private System.Windows.Forms.ComboBox comboBoxSex;
+        private System.Windows.Forms.GroupBox groupBoxView;
     }
 }

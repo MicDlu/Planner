@@ -13,17 +13,33 @@ namespace Planner
         public int Hour { get; set; }
         public int ProdLineNo { get; set; }
         public DateTime Date { get; set; }
-        public int Order { get; set; }
-        public List<Employee> EmployeeAssigned { get; set; }
+        public OrderPerSex[] PerSex { get; set; }
+        //public int Order { get; set; }
+        //public List<Employee> EmployeeAssigned { get; set; }
 
-        public Shift(int day, int hour, int prodLineNo, int order)
+        public Shift(int day, int hour, int prodLineNo)
         {
-            No = Constants.ShiftsPerDay * day + hour;
+            No = Const.ShiftsPerDay * day + hour;
             Day = day;
             Hour = hour;
             ProdLineNo = prodLineNo;
-            Order = order;
-            EmployeeAssigned = new List<Employee>();
+            PerSex = new OrderPerSex[2];
+            //Order = order;
+            //EmployeeAssigned = new List<Employee>();
+        }
+
+        public void SetOrderPerSex(Const.Sex sex, int order)
+        {
+            PerSex[(int)sex].sex = sex;
+            PerSex[(int)sex].order = order;
+            PerSex[(int)sex].employeeAssigned = new List<Employee>();
+        }
+
+        public struct OrderPerSex
+        {
+            public Const.Sex sex;
+            public int order;
+            public List<Employee> employeeAssigned;
         }
     }
 }

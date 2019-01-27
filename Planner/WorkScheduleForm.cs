@@ -13,31 +13,47 @@ namespace Planner
     public partial class WorkScheduleForm : Form
     {
         private Plan plan;
+        private Const.Sex Sex;
 
         public WorkScheduleForm()
         {
             InitializeComponent();
+            Sex = Const.Sex.Female;
+
             plan = new Plan("test");
             plan.ExtractOrderAmountsFromRange("E7");
             
-            plan.Shifts[2, 2].EmployeeAssigned.Add(new Employee(1, "Maciej", "Bojar"));
-            plan.Shifts[2, 2].EmployeeAssigned.Add(new Employee(2, "Kamil", "Pieczara"));
+            //plan.Shifts[2, 2].EmployeeAssigned.Add(new Employee(1, "Maciej", "Bojar"));
+            //plan.Shifts[2, 2].EmployeeAssigned.Add(new Employee(2, "Kamil", "Pieczara"));
         }
 
         private void WorkScheduleForm_Load(object sender, EventArgs e)
         {           
             InitDataGridViewValues(plan);
             InitDataGridViewStyle();
+            InitComboboxStyle();
             InitListBoxStyle();
             InitGroupBoxAssignedStyle();
             AlignFormSize();
         }
 
+        private void InitComboboxStyle()
+        {
+            groupBoxView.Location = new Point(
+                dataGridView1.Location.X + dataGridView1.Size.Width + 10,
+                dataGridView1.Location.Y
+            );
+
+            comboBoxSex.Items.Add(new ComboBoxItem("Mężczyźni", (int)Const.Sex.Male));
+            comboBoxSex.Items.Add(new ComboBoxItem("Kobiety", (int)Const.Sex.Female));
+            comboBoxSex.SelectedIndex = (int)Const.Sex.Male;
+        }
+
         private void InitGroupBoxAssignedStyle()
         {
             groupBoxEmployees.Location = new Point(
-                dataGridView1.Location.X + dataGridView1.Size.Width + 30,
-                dataGridView1.Location.Y
+                dataGridView1.Location.X + dataGridView1.Size.Width + 10,
+                dataGridView1.Location.Y + groupBoxView.Height + 10
             );
         }
 
@@ -68,6 +84,7 @@ namespace Planner
             dataGridView1.RowHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             dataGridView1.RowHeadersWidthChanged += dataGridView1_RowHeadersWidthChanged;
             dataGridView1.Paint += dataGridView1_Paint;
+            dataGridView1.Font = new Font(dataGridView1.Font, FontStyle.Bold);
             foreach (DataGridViewColumn column in dataGridView1.Columns)
             {
                 column.SortMode = DataGridViewColumnSortMode.Programmatic;
@@ -97,11 +114,11 @@ namespace Planner
                 dataGridView1.Columns.Add(dgvColumn);
             }
             // Rows - Days / Shifts
-            for (int rd = 0; rd < rowCount / Constants.ShiftsPerDay; rd++)
+            for (int rd = 0; rd < rowCount / Const.ShiftsPerDay; rd++)
             {
-                for (int rh = 0; rh < Constants.ShiftsPerDay; rh++)
+                for (int rh = 0; rh < Const.ShiftsPerDay; rh++)
                 {
-                    int r = Constants.ShiftsPerDay * rd + rh;
+                    int r = Const.ShiftsPerDay * rd + rh;
                     DataGridViewRow row = new DataGridViewRow();
                     row.CreateCells(dataGridView1);
                     row.HeaderCell.Value = (rh + 1).ToString();
@@ -117,9 +134,17 @@ namespace Planner
             {
                 for (int c = 0; c < dataGridView1.ColumnCount; c++)
                 {
-                    string assigned = plan.Shifts[c, r].EmployeeAssigned.Count.ToString();
-                    string ordered = plan.Shifts[c, r].Order.ToString();
-                    dataGridView1[c, r].Value = assigned + "/" + ordered;
+                    int assigned = plan.Shifts[c, r].PerSex[(int)Sex].employeeAssigned.Count;
+                    int ordered = plan.Shifts[c, r].PerSex[(int)Sex].order;
+                    dataGridView1[c, r].Value = assigned.ToString() + " / " + ordered.ToString();
+                    
+                    if (ordered == 0)
+                        dataGridView1[c, r].Style.BackColor = Color.White;
+                    else if (assigned < ordered)
+                        dataGridView1[c, r].Style.BackColor = Color.Gray;
+                    else if (assigned == ordered)
+                        dataGridView1[c, r].Style.BackColor = Color.LightGray;
+
                 }
             }
         }
@@ -142,7 +167,7 @@ namespace Planner
                 Rectangle dayRect = dataGridView1.GetCellDisplayRectangle(-1, row, true);
                 dayRect.X =  1;
                 dayRect.Y = row * dayRect.Height + dataGridView1.ColumnHeadersHeight;
-                dayRect.Height = dayRect.Height * Constants.ShiftsPerDay - 2;
+                dayRect.Height = dayRect.Height * Const.ShiftsPerDay - 2;
                 dayRect.Width = dayRect.Width * 2 / 3 - 2;
 
                 using (Brush back = new SolidBrush(dataGridView1.RowHeadersDefaultCellStyle.BackColor))
@@ -160,7 +185,7 @@ namespace Planner
                     e.Graphics.DrawRectangle(p, dayRect);
                     e.Graphics.DrawString(dayText, dataGridView1.RowHeadersDefaultCellStyle.Font, fore, dayRect, format);
                 }
-                row += Constants.ShiftsPerDay;
+                row += Const.ShiftsPerDay;
             }
         }
 
@@ -187,7 +212,7 @@ namespace Planner
         {
             if (e.ColumnIndex >= 0 && e.RowIndex >= 0)
             {
-                listBoxEmpolyees.DataSource = plan.Shifts[e.ColumnIndex, e.RowIndex].EmployeeAssigned;
+                listBoxEmpolyees.DataSource = plan.Shifts[e.ColumnIndex, e.RowIndex].PerSex[(int)Sex].employeeAssigned;
                 listBoxEmpolyees.DisplayMember = "DisplayName";
                 listBoxEmpolyees.ValueMember = "Id";
             }
@@ -197,25 +222,23 @@ namespace Planner
         {
             int selectedCellX = dataGridView1.CurrentCell.RowIndex;
             int selectedCellY = dataGridView1.CurrentCell.ColumnIndex;
-            List<Employee> employeeList = plan.Shifts[selectedCellX, selectedCellY].EmployeeAssigned;
+            List<Employee> employeeList = plan.Shifts[selectedCellX, selectedCellY].PerSex[(int)Sex].employeeAssigned;
             if (employeeList.Count != 0)
             {
                 employeeList.RemoveAt(listBoxEmpolyees.SelectedIndex);
 
                 listBoxEmpolyees.DataSource = null;
-                listBoxEmpolyees.DataSource = plan.Shifts[selectedCellX, selectedCellY].EmployeeAssigned;
+                listBoxEmpolyees.DataSource = plan.Shifts[selectedCellX, selectedCellY].PerSex[(int)Sex].employeeAssigned;
                 listBoxEmpolyees.DisplayMember = "DisplayName";
                 listBoxEmpolyees.ValueMember = "Id";
                 UpdateAssignedValues();
             }
         }
 
-        private void importToolStripMenuItem_Click(object sender, EventArgs e)
+        private void comboBoxSex_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //string filename = @"C:\Users\micha\Documents\Planer Manpower\PLANER 2018 t.38.xlsm";
-            //ExcelInterop excel = new ExcelInterop(filename);
-            //excel.SetWeekCellRange("E6");
-            //excel.ProcessOrder();
+            Sex = (Const.Sex) comboBoxSex.SelectedIndex;
+            UpdateAssignedValues();
         }
     }
 }

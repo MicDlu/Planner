@@ -14,26 +14,10 @@ namespace Planner
         public DateTime[] Week { get; set; }
         private ExcelInterop Excel; 
 
-        public Plan()
-        {
-            Week = InitWeek();
-            ProductionLines = InitProductionLines(false);
-            Shifts = new Shift[Constants.ProductionLinesCount, Constants.GridRowsCount];
-            for (int p = 0; p < Constants.ProductionLinesCount; p++)
-            {
-                for (int d = 0; d < Constants.WorkDays; d++)
-                {
-                    for (int h = 0; h < Constants.ShiftsPerDay; h++)
-                    {
-                        Shift shift = new Shift(d, h, p, 3);
-                        Shifts[p, Constants.ShiftsPerDay * d + h] = shift;
-                    }
-                }
-            }
-        }
-
         public Plan(string filename)
         {
+            ProductionLines = InitProductionLines(true);
+            Week = InitWeek();
             filename = @"C:\Users\micha\Documents\Planer Manpower\PLANER 2018 t.38.xlsm";
             Excel = new ExcelInterop(filename);
         }
@@ -42,14 +26,33 @@ namespace Planner
         {
             Excel.SetWeekCellRange(cellBegin,cellEnd);
             int[,] rawOrder = Excel.ExtractRangeValues();
+
+            Shifts = new Shift[Const.ProductionLinesCount, Const.GridRowsCount];
+            for (int p = 0; p < Const.ProductionLinesCount; p++)
+            {
+                for (int d = 0; d < Const.WorkDays; d++)
+                {
+                    for (int s = 0; s < Const.ShiftsPerDay; s++)
+                    {
+                        Shift shift = new Shift(d, s, p);
+
+                        int rawRow = p * 7 + s * 2;
+                        int rawCol = d * 3;
+                        shift.SetOrderPerSex(Const.Sex.Female, rawOrder[rawRow,rawCol]);
+                        shift.SetOrderPerSex(Const.Sex.Male, rawOrder[rawRow + 1, rawCol]);
+
+                        Shifts[p, Const.ShiftsPerDay * d + s] = shift;
+                    }
+                }
+            }
         }
 
         private string[] InitProductionLines(bool open)
         {
             if (open)
-                return Constants.ProductionLines;
-            String[] newProductionLines = new string[Constants.ProductionLinesCount];
-            for (int i = 0; i < Constants.ProductionLinesCount; i++)
+                return Const.ProductionLines;
+            String[] newProductionLines = new string[Const.ProductionLinesCount];
+            for (int i = 0; i < Const.ProductionLinesCount; i++)
             {
                 newProductionLines[i] = "Production Line " + (i+1).ToString();
             }
@@ -58,9 +61,9 @@ namespace Planner
 
         private DateTime[] InitWeek()
         {
-            DateTime[] newWeek = new DateTime[Constants.WorkDays];
+            DateTime[] newWeek = new DateTime[Const.WorkDays];
             newWeek[0] = new DateTime(2018, 12, 24);
-            for (int i = 1; i < Constants.WorkDays; i++)
+            for (int i = 1; i < Const.WorkDays; i++)
             {
                 newWeek[i] = newWeek[0].AddDays(i);
             }
