@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Planner
 {
-    class Plan
+    public class Plan
     {
         public Shift[,] Shifts { get; set; }
         public DateTime WeekStart { get; set; }
@@ -18,7 +18,6 @@ namespace Planner
         {
             ProductionLines = InitProductionLines(true);
             Week = InitWeek();
-            filename = @"C:\Users\micha\Documents\Planer Manpower\PLANER 2018 t.38.xlsm";
             Excel = new ExcelInterop(filename);
         }
 

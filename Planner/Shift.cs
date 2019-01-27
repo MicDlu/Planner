@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Planner
 {
-    class Shift
+    public class Shift
     {
         public int No { get; set; }
         public int Day { get; set; }

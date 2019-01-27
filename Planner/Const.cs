@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Planner
 {
-    static class Const
+    static public class Const
     {
         public const int ProductionLinesCount = 12;
         public static readonly string[] ProductionLines = { "C650", "Czekolada", "Eclairs", "Green&Black", "Magazyn Opak.", "Magazyn Sur.", "Mignonnettes", "Mini Eggs", "MWG", "Myjnia", "Pakowalnia", "S&C" };

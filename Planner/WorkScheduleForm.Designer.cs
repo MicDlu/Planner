@@ -35,6 +35,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.comboBoxSex = new System.Windows.Forms.ComboBox();
             this.groupBoxView = new System.Windows.Forms.GroupBox();
+            this.buttonAddEmployee = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBoxEmployees.SuspendLayout();
             this.groupBoxView.SuspendLayout();
@@ -66,6 +67,7 @@
             // 
             // groupBoxEmployees
             // 
+            this.groupBoxEmployees.Controls.Add(this.buttonAddEmployee);
             this.groupBoxEmployees.Controls.Add(this.buttonRemoveEmployee);
             this.groupBoxEmployees.Controls.Add(this.listBoxEmpolyees);
             this.groupBoxEmployees.Location = new System.Drawing.Point(614, 137);
@@ -90,7 +92,7 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1277, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(987, 24);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -113,11 +115,21 @@
             this.groupBoxView.TabStop = false;
             this.groupBoxView.Text = "Wyświetlanie";
             // 
+            // buttonAddEmployee
+            // 
+            this.buttonAddEmployee.Location = new System.Drawing.Point(254, 273);
+            this.buttonAddEmployee.Name = "buttonAddEmployee";
+            this.buttonAddEmployee.Size = new System.Drawing.Size(75, 32);
+            this.buttonAddEmployee.TabIndex = 3;
+            this.buttonAddEmployee.Text = "Dodaj...";
+            this.buttonAddEmployee.UseVisualStyleBackColor = true;
+            this.buttonAddEmployee.Click += new System.EventHandler(this.buttonAddEmployee_Click);
+            // 
             // WorkScheduleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1277, 476);
+            this.ClientSize = new System.Drawing.Size(987, 476);
             this.Controls.Add(this.groupBoxView);
             this.Controls.Add(this.groupBoxEmployees);
             this.Controls.Add(this.dataGridView1);
@@ -142,5 +154,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ComboBox comboBoxSex;
         private System.Windows.Forms.GroupBox groupBoxView;
+        private System.Windows.Forms.Button buttonAddEmployee;
     }
 }

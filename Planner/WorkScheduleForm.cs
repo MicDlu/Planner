@@ -20,7 +20,7 @@ namespace Planner
             InitializeComponent();
             SexSelected = Const.Sex.Male;
 
-            plan = new Plan("test");
+            plan = new Plan(@"C:\Users\micha\Documents\Planer Manpower\PLANER 2018 t.38.xlsm");
             plan.ExtractOrderAmountsFromRange("E7");
 
             plan.Shifts[0, 0].AddWorker(new Employee(1, "Maciej", "Bojar", Const.Sex.Male), SexSelected);
@@ -216,22 +216,21 @@ namespace Planner
             }
         }
 
-        private void FillAssignedWorkerList(int selectedCellX, int selectedCellY)
+        private void FillAssignedWorkerList(int selectedRow, int selectedCol)
         {
             listBoxEmpolyees.DataSource = null;
-            listBoxEmpolyees.DataSource = plan.Shifts[selectedCellX, selectedCellY].PerSex[(int)SexSelected].employeeAssigned;
+            listBoxEmpolyees.DataSource = plan.Shifts[selectedRow, selectedCol].PerSex[(int)SexSelected].employeeAssigned;
             listBoxEmpolyees.DisplayMember = "DisplayName";
             listBoxEmpolyees.ValueMember = "Id";
         }
 
         private void buttonRemoveEmployee_Click(object sender, EventArgs e)
         {
-            int selectedCellX = dataGridView1.CurrentCell.RowIndex;
-            int selectedCellY = dataGridView1.CurrentCell.ColumnIndex;
-            if (plan.Shifts[selectedCellX, selectedCellY].RemoveWorker((Employee)listBoxEmpolyees.SelectedItem, SexSelected)) 
+            int selectedRow = dataGridView1.CurrentCell.RowIndex;
+            int selectedCol = dataGridView1.CurrentCell.ColumnIndex;
+            if (plan.Shifts[selectedCol, selectedRow].RemoveWorker((Employee)listBoxEmpolyees.SelectedItem, SexSelected)) 
             {
-
-                FillAssignedWorkerList(selectedCellX, selectedCellY);
+                FillAssignedWorkerList(selectedRow, selectedCol);
                 UpdateAssignedValues();
             }
         }
@@ -239,6 +238,20 @@ namespace Planner
         private void comboBoxSex_SelectedIndexChanged(object sender, EventArgs e)
         {
             SexSelected = (Const.Sex) comboBoxSex.SelectedIndex;
+            UpdateAssignedValues();
+        }
+
+        private void buttonAddEmployee_Click(object sender, EventArgs e)
+        {
+            WorkerForm workerForm = new WorkerForm();
+            var result = workerForm.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                int selectedRow = dataGridView1.CurrentCell.RowIndex;
+                int selectedCol = dataGridView1.CurrentCell.ColumnIndex;
+                plan.Shifts[selectedCol, selectedRow].AddWorker(workerForm.WorkerSelected, SexSelected);
+            }
+            FillAssignedWorkerList(selectedRow, selectedCol);
             UpdateAssignedValues();
         }
     }

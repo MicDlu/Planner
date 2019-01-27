@@ -7,7 +7,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Planner
 {
-    class ExcelInterop
+    public class ExcelInterop
     {
         Excel.Application excelApp;
         Excel.Workbook excelWorkbook;
