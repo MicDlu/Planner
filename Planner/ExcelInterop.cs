@@ -44,7 +44,6 @@ namespace Planner
         public void ProcessOrder()
         {
 
-
         }
 
         public void FindWeekRangeByDate()

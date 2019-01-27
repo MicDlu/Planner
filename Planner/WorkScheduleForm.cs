@@ -12,16 +12,12 @@ namespace Planner
 {
     public partial class WorkScheduleForm : Form
     {
-        private DateTime[] week;
-        private String[] productionLines;
         private Plan plan;
 
         public WorkScheduleForm()
         {
             InitializeComponent();
-            week = InitWeek();
-            productionLines = InitProductionLines();
-            plan = new Plan(productionLines);
+            plan = new Plan();
             
             plan.Shifts[2, 2].EmployeeAssigned.Add(new Employee(1, "Maciej", "Bojar"));
             plan.Shifts[2, 2].EmployeeAssigned.Add(new Employee(2, "Kamil", "Pieczara"));
@@ -86,32 +82,28 @@ namespace Planner
         // https://stackoverflow.com/questions/29633018/show-2d-array-in-datagridview
         private void InitDataGridViewValues(Plan plan)
         {
-            int columnCount = productionLines.Length;
+            int columnCount = plan.ProductionLines.Length;
             int rowCount = plan.Shifts.GetLength(1);
 
             // Columns - Production Lines
-            for (int i = 0; i < productionLines.Length; i++)
+            for (int i = 0; i < plan.ProductionLines.Length; i++)
             {
                 DataGridViewTextBoxColumn dgvColumn = new DataGridViewTextBoxColumn()
                 {
-                    Name = productionLines[i],
-                    HeaderText = productionLines[i],
+                    Name = plan.ProductionLines[i],
+                    HeaderText = plan.ProductionLines[i],
                 };
                 dataGridView1.Columns.Add(dgvColumn);
             }
             // Rows - Days / Shifts
-            for (int rd = 0; rd < rowCount / 3; rd++)
+            for (int rd = 0; rd < rowCount / Constants.ShiftsPerDay; rd++)
             {
-                for (int rh = 0; rh < 3; rh++)
+                for (int rh = 0; rh < Constants.ShiftsPerDay; rh++)
                 {
-                    int r = 3 * rd + rh;
+                    int r = Constants.ShiftsPerDay * rd + rh;
                     DataGridViewRow row = new DataGridViewRow();
                     row.CreateCells(dataGridView1);
                     row.HeaderCell.Value = (rh + 1).ToString();
-                    //for (int c = 0; c < columnCount; c++)
-                    //{
-                    //    row.Cells[c].Value = plan.Shifts[c, r].Order;
-                    //}
                     dataGridView1.Rows.Add(row);
                 }
             }
@@ -130,29 +122,7 @@ namespace Planner
                 }
             }
         }
-
-        private string[] InitProductionLines()
-        {
-            String[] newProductionLines = new string[8];
-            for (int i = 0; i < 8; i++)
-            {
-                newProductionLines[i] = "ProLine " + i.ToString();
-            }
-            return newProductionLines;
-        }
-
-        private DateTime[] InitWeek()
-        {
-            DateTime[] newWeek = new DateTime[7];
-            newWeek[0] = new DateTime(2018, 12, 24);
-            for (int i = 1; i < 7; i++)
-            {
-                newWeek[i] = newWeek[0].AddDays(i);
-            }
-            return newWeek;
-        }
-
-
+        
         // Draw DataGridView Headers
         private void InvalidateHeader()
         {
@@ -164,14 +134,14 @@ namespace Planner
         // Draw DataGridView Headers
         private void dataGridView1_Paint(object sender, PaintEventArgs e)
         {
-            int row = 1;
+            int row = 0;
 
-            foreach (DateTime day in week)
+            foreach (DateTime day in plan.Week)
             {
                 Rectangle dayRect = dataGridView1.GetCellDisplayRectangle(-1, row, true);
                 dayRect.X =  1;
-                dayRect.Y = row * dayRect.Height;
-                dayRect.Height = dayRect.Height * 3 - 2;
+                dayRect.Y = row * dayRect.Height + dataGridView1.ColumnHeadersHeight;
+                dayRect.Height = dayRect.Height * Constants.ShiftsPerDay - 2;
                 dayRect.Width = dayRect.Width * 2 / 3 - 2;
 
                 using (Brush back = new SolidBrush(dataGridView1.RowHeadersDefaultCellStyle.BackColor))
@@ -189,7 +159,7 @@ namespace Planner
                     e.Graphics.DrawRectangle(p, dayRect);
                     e.Graphics.DrawString(dayText, dataGridView1.RowHeadersDefaultCellStyle.Font, fore, dayRect, format);
                 }
-                row += 3;
+                row += Constants.ShiftsPerDay;
             }
         }
 

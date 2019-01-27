@@ -18,7 +18,7 @@ namespace Planner
 
         public Shift(int day, int hour, int prodLineNo, int order)
         {
-            No = 3 * day + hour;
+            No = Constants.ShiftsPerDay * day + hour;
             Day = day;
             Hour = hour;
             ProdLineNo = prodLineNo;
