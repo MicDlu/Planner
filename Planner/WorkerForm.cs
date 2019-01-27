@@ -43,17 +43,17 @@ namespace Planner
 
         private void InitDGVHeaders()
         {
-            //dgvWorkers.Columns.Add(new DataGridViewColumn(new DataGridViewTextBoxCell()) { Name = "ID", HeaderText = "ID" });
-            //dgvWorkers.Columns.Add(new DataGridViewColumn(new DataGridViewTextBoxCell()) { Name = "Name", HeaderText = "Imię" });
-            //dgvWorkers.Columns.Add(new DataGridViewColumn(new DataGridViewTextBoxCell()) { Name = "Lastname", HeaderText = "Nazwisko" });
-            //dgvWorkers.Columns.Add(new DataGridViewColumn(new DataGridViewTextBoxCell()) { Name = "Sex", HeaderText = "Płeć" });
+            dgvWorkers.Columns.Add(new DataGridViewColumn(new DataGridViewTextBoxCell()) { Name = "ID", HeaderText = "ID" });
+            dgvWorkers.Columns.Add(new DataGridViewColumn(new DataGridViewTextBoxCell()) { Name = "Name", HeaderText = "Imię" });
+            dgvWorkers.Columns.Add(new DataGridViewColumn(new DataGridViewTextBoxCell()) { Name = "Lastname", HeaderText = "Nazwisko" });
+            dgvWorkers.Columns.Add(new DataGridViewColumn(new DataGridViewTextBoxCell()) { Name = "Sex", HeaderText = "Płeć" });
 
-            dgvWorkers.Columns.Clear();
-            dgvWorkers.ColumnCount = 4;
-            dgvWorkers.Columns[0].Name = "ID";
-            dgvWorkers.Columns[1].Name = "Name";
-            dgvWorkers.Columns[2].Name = "Lastname";
-            dgvWorkers.Columns[3].Name = "Sex";
+            //dgvWorkers.Columns.Clear();
+            //dgvWorkers.ColumnCount = 4;
+            //dgvWorkers.Columns[0].Name = "ID";
+            //dgvWorkers.Columns[1].Name = "Name";
+            //dgvWorkers.Columns[2].Name = "Lastname";
+            //dgvWorkers.Columns[3].Name = "Sex";
         }
 
         private void FillDGVRows()
@@ -66,7 +66,7 @@ namespace Planner
                 row.Cells[0].Value = worker.Id.ToString();
                 row.Cells[1].Value = worker.Name;
                 row.Cells[2].Value = worker.Lastname;
-                row.Cells[3].Value = worker.Sex;
+                row.Cells[3].Value = (worker.Sex == Const.Sex.Male)?("♂ Mężczyzna") :("♀ Kobieta");
                 dgvWorkers.Rows.Add(row);
             }
         }
