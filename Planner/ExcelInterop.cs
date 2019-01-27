@@ -13,8 +13,7 @@ namespace Planner
         Excel.Workbook excelWorkbook;
         Excel.Worksheet excelWorksheetOrder;
         private string FileName { get; set; }
-        public DateTime StartDate { get; set; }
-        public Excel.Range WeekCellRange { get; set; }
+        public Excel.Range CellRange { get; set; }
         public int[] weekRangeSize = { 84, 21 };
 
         public ExcelInterop(string filename)
@@ -36,14 +35,32 @@ namespace Planner
         public void SetWeekCellRange(string cellBegin, string cellEnd = null)
         {
             if (cellEnd == null)
-                WeekCellRange = excelWorksheetOrder.Range[cellBegin].Resize[weekRangeSize[0], weekRangeSize[1]];
+                CellRange = excelWorksheetOrder.Range[cellBegin].Resize[weekRangeSize[0], weekRangeSize[1]];
             else
-                WeekCellRange = excelWorksheetOrder.Range[cellBegin, cellEnd];
+                CellRange = excelWorksheetOrder.Range[cellBegin, cellEnd];
         }
 
-        public void ProcessOrder()
+        public int[,] ExtractRangeValues()
         {
+            object[,] objectValues = (object[,])CellRange.get_Value(Excel.XlRangeValueDataType.xlRangeValueDefault);
+            int[,] integerValues = new int[objectValues.GetLength(0), objectValues.GetLength(1)];
 
+            for (int i=0; i< objectValues.GetLength(0); i++)
+            {
+                for (int j = 0; j < objectValues.GetLength(1); j++)
+                {
+                    if (objectValues[i + 1, j + 1] == null)
+                        integerValues[i, j] = 0;
+                    else
+                    {
+                        string value = objectValues[i + 1, j + 1].ToString();
+                        if (!int.TryParse(value, out integerValues[i, j]))
+                            integerValues[i, j] = 0;
+                    }
+                    
+                }
+            }
+            return integerValues;
         }
 
         public void FindWeekRangeByDate()

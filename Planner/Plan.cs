@@ -12,6 +12,7 @@ namespace Planner
         public DateTime WeekStart { get; set; }
         public String[] ProductionLines { get; set; }
         public DateTime[] Week { get; set; }
+        private ExcelInterop Excel; 
 
         public Plan()
         {
@@ -34,22 +35,13 @@ namespace Planner
         public Plan(string filename)
         {
             filename = @"C:\Users\micha\Documents\Planer Manpower\PLANER 2018 t.38.xlsm";
-            ExcelInterop excel = new ExcelInterop(filename);
-            excel.SetWeekCellRange("E6");
+            Excel = new ExcelInterop(filename);
+        }
 
-            ProductionLines = InitProductionLines(true);
-            Shifts = new Shift[Constants.ProductionLinesCount, Constants.GridRowsCount];
-            for (int p = 0; p < Constants.ProductionLinesCount; p++)
-            {
-                for (int d = 0; d < Constants.WorkDays; d++)
-                {
-                    for (int h = 0; h < Constants.ShiftsPerDay; h++)
-                    {
-                        Shift shift = new Shift(d, h, p, Constants.WorkDays);
-                        Shifts[p, Constants.ShiftsPerDay * d + h] = shift;
-                    }
-                }
-            }
+        public void ExtractOrderAmountsFromRange(string cellBegin, string cellEnd = null)
+        {
+            Excel.SetWeekCellRange(cellBegin,cellEnd);
+            int[,] rawOrder = Excel.ExtractRangeValues();
         }
 
         private string[] InitProductionLines(bool open)

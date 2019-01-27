@@ -12,6 +12,7 @@ namespace Planner
         public static readonly string[] ProductionLines = { "C650", "Czekolada", "Eclairs", "Green&Black", "Magazyn Opak.", "Magazyn Sur.", "Mignonnettes", "Mini Eggs", "MWG", "Myjnia", "Pakowalnia", "S&C"};
         public const int ShiftsPerDay = 3;
         public const int WorkDays = 7;
+        public const int SexTypes = 2;
         public const int GridColumnsCount = ProductionLinesCount;
         public const int GridRowsCount = ShiftsPerDay * WorkDays;
     }

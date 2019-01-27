@@ -17,7 +17,8 @@ namespace Planner
         public WorkScheduleForm()
         {
             InitializeComponent();
-            plan = new Plan();
+            plan = new Plan("test");
+            plan.ExtractOrderAmountsFromRange("E7");
             
             plan.Shifts[2, 2].EmployeeAssigned.Add(new Employee(1, "Maciej", "Bojar"));
             plan.Shifts[2, 2].EmployeeAssigned.Add(new Employee(2, "Kamil", "Pieczara"));
@@ -211,10 +212,10 @@ namespace Planner
 
         private void importToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string filename = @"C:\Users\micha\Documents\Planer Manpower\PLANER 2018 t.38.xlsm";
-            ExcelInterop excel = new ExcelInterop(filename);
-            excel.SetWeekCellRange("E6");
-            excel.ProcessOrder();
+            //string filename = @"C:\Users\micha\Documents\Planer Manpower\PLANER 2018 t.38.xlsm";
+            //ExcelInterop excel = new ExcelInterop(filename);
+            //excel.SetWeekCellRange("E6");
+            //excel.ProcessOrder();
         }
     }
 }
