@@ -35,6 +35,26 @@ namespace Planner
             PerSex[(int)sex].employeeAssigned = new List<Employee>();
         }
 
+        public bool AddWorker(Employee worker, Const.Sex targetSex)
+        {
+            if (PerSex[(int)worker.Sex].employeeAssigned.Count < PerSex[(int)targetSex].order)
+            {
+                PerSex[(int)targetSex].employeeAssigned.Add(worker);
+                return true;
+            }
+            return false;
+        }
+
+        public bool RemoveWorker(Employee worker, Const.Sex targetSex)
+        {
+            if (PerSex[(int)targetSex].employeeAssigned.Count > 0)
+            {
+                PerSex[(int)targetSex].employeeAssigned.Remove(worker);
+                return true;
+            }
+            return false;
+        }
+
         public struct OrderPerSex
         {
             public Const.Sex sex;

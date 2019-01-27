@@ -77,7 +77,6 @@
             // 
             // buttonRemoveEmployee
             // 
-            this.buttonRemoveEmployee.Enabled = false;
             this.buttonRemoveEmployee.Location = new System.Drawing.Point(6, 273);
             this.buttonRemoveEmployee.Name = "buttonRemoveEmployee";
             this.buttonRemoveEmployee.Size = new System.Drawing.Size(75, 32);

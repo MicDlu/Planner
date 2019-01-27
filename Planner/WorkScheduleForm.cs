@@ -13,18 +13,18 @@ namespace Planner
     public partial class WorkScheduleForm : Form
     {
         private Plan plan;
-        private Const.Sex Sex;
+        private Const.Sex SexSelected;
 
         public WorkScheduleForm()
         {
             InitializeComponent();
-            Sex = Const.Sex.Female;
+            SexSelected = Const.Sex.Male;
 
             plan = new Plan("test");
             plan.ExtractOrderAmountsFromRange("E7");
-            
-            //plan.Shifts[2, 2].EmployeeAssigned.Add(new Employee(1, "Maciej", "Bojar"));
-            //plan.Shifts[2, 2].EmployeeAssigned.Add(new Employee(2, "Kamil", "Pieczara"));
+
+            plan.Shifts[0, 0].AddWorker(new Employee(1, "Maciej", "Bojar", Const.Sex.Male), SexSelected);
+            plan.Shifts[0, 0].AddWorker(new Employee(2, "Kamil", "Pieczara", Const.Sex.Male), SexSelected);
         }
 
         private void WorkScheduleForm_Load(object sender, EventArgs e)
@@ -46,7 +46,7 @@ namespace Planner
 
             comboBoxSex.Items.Add(new ComboBoxItem("Mężczyźni", (int)Const.Sex.Male));
             comboBoxSex.Items.Add(new ComboBoxItem("Kobiety", (int)Const.Sex.Female));
-            comboBoxSex.SelectedIndex = (int)Const.Sex.Male;
+            comboBoxSex.SelectedIndex = (int)SexSelected;
         }
 
         private void InitGroupBoxAssignedStyle()
@@ -134,8 +134,8 @@ namespace Planner
             {
                 for (int c = 0; c < dataGridView1.ColumnCount; c++)
                 {
-                    int assigned = plan.Shifts[c, r].PerSex[(int)Sex].employeeAssigned.Count;
-                    int ordered = plan.Shifts[c, r].PerSex[(int)Sex].order;
+                    int assigned = plan.Shifts[c, r].PerSex[(int)SexSelected].employeeAssigned.Count;
+                    int ordered = plan.Shifts[c, r].PerSex[(int)SexSelected].order;
                     dataGridView1[c, r].Value = assigned.ToString() + " / " + ordered.ToString();
                     
                     if (ordered == 0)
@@ -212,32 +212,33 @@ namespace Planner
         {
             if (e.ColumnIndex >= 0 && e.RowIndex >= 0)
             {
-                listBoxEmpolyees.DataSource = plan.Shifts[e.ColumnIndex, e.RowIndex].PerSex[(int)Sex].employeeAssigned;
-                listBoxEmpolyees.DisplayMember = "DisplayName";
-                listBoxEmpolyees.ValueMember = "Id";
+                FillAssignedWorkerList(e.ColumnIndex,e.RowIndex);
             }
+        }
+
+        private void FillAssignedWorkerList(int selectedCellX, int selectedCellY)
+        {
+            listBoxEmpolyees.DataSource = null;
+            listBoxEmpolyees.DataSource = plan.Shifts[selectedCellX, selectedCellY].PerSex[(int)SexSelected].employeeAssigned;
+            listBoxEmpolyees.DisplayMember = "DisplayName";
+            listBoxEmpolyees.ValueMember = "Id";
         }
 
         private void buttonRemoveEmployee_Click(object sender, EventArgs e)
         {
             int selectedCellX = dataGridView1.CurrentCell.RowIndex;
             int selectedCellY = dataGridView1.CurrentCell.ColumnIndex;
-            List<Employee> employeeList = plan.Shifts[selectedCellX, selectedCellY].PerSex[(int)Sex].employeeAssigned;
-            if (employeeList.Count != 0)
+            if (plan.Shifts[selectedCellX, selectedCellY].RemoveWorker((Employee)listBoxEmpolyees.SelectedItem, SexSelected)) 
             {
-                employeeList.RemoveAt(listBoxEmpolyees.SelectedIndex);
 
-                listBoxEmpolyees.DataSource = null;
-                listBoxEmpolyees.DataSource = plan.Shifts[selectedCellX, selectedCellY].PerSex[(int)Sex].employeeAssigned;
-                listBoxEmpolyees.DisplayMember = "DisplayName";
-                listBoxEmpolyees.ValueMember = "Id";
+                FillAssignedWorkerList(selectedCellX, selectedCellY);
                 UpdateAssignedValues();
             }
         }
 
         private void comboBoxSex_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Sex = (Const.Sex) comboBoxSex.SelectedIndex;
+            SexSelected = (Const.Sex) comboBoxSex.SelectedIndex;
             UpdateAssignedValues();
         }
     }
