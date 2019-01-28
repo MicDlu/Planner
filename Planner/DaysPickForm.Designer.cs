@@ -1,6 +1,6 @@
 ﻿namespace Planner
 {
-    partial class DayDispositionForm
+    partial class DaysPickForm
     {
         /// <summary>
         /// Required designer variable.
@@ -44,13 +44,14 @@
             this.dataGridView1.Location = new System.Drawing.Point(12, 12);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(551, 175);
+            this.dataGridView1.Size = new System.Drawing.Size(632, 181);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // bOK
             // 
             this.bOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.bOK.Location = new System.Drawing.Point(164, 214);
+            this.bOK.Location = new System.Drawing.Point(191, 213);
             this.bOK.Name = "bOK";
             this.bOK.Size = new System.Drawing.Size(75, 33);
             this.bOK.TabIndex = 1;
@@ -61,24 +62,24 @@
             // bCancel
             // 
             this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.bCancel.Location = new System.Drawing.Point(341, 214);
+            this.bCancel.Location = new System.Drawing.Point(368, 213);
             this.bCancel.Name = "bCancel";
             this.bCancel.Size = new System.Drawing.Size(75, 33);
             this.bCancel.TabIndex = 2;
             this.bCancel.Text = "Anuluj";
             this.bCancel.UseVisualStyleBackColor = true;
             // 
-            // DayDispositionForm
+            // DaysPickForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(578, 259);
+            this.ClientSize = new System.Drawing.Size(656, 259);
             this.Controls.Add(this.bCancel);
             this.Controls.Add(this.bOK);
             this.Controls.Add(this.dataGridView1);
-            this.Name = "DayDispositionForm";
-            this.Text = "DayDispositionForm";
-            this.Load += new System.EventHandler(this.DayDispositionForm_Load);
+            this.Name = "DaysPickForm";
+            this.Text = "DaysPickForm";
+            this.Load += new System.EventHandler(this.DaysPickForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 

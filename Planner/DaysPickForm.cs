@@ -10,16 +10,16 @@ using System.Windows.Forms;
 
 namespace Planner
 {
-    public partial class DayDispositionForm : Form
+    public partial class DaysPickForm : Form
     {
         public bool[,] Matrix { get; set; }
 
-        public DayDispositionForm()
+        public DaysPickForm()
         {
             InitializeComponent();
         }
 
-        private void DayDispositionForm_Load(object sender, EventArgs e)
+        private void DaysPickForm_Load(object sender, EventArgs e)
         {
             InitDGVValues();
         }
@@ -62,6 +62,11 @@ namespace Planner
                         Matrix[c, r] = false;
                 }
             }
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

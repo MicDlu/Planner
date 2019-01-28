@@ -12,8 +12,11 @@ namespace Planner
 {
     public partial class WorkerSetupForm : Form
     {
-        public List<Worker> Workers { get; set; }
-        public Worker WorkerSelected { get; set; }
+        private List<Worker> Workers { get; set; }
+        public Worker CurrWorker { get; set; }
+        private bool[,] WeekDisposition { get; set; }
+        private bool[,] FixedDisposition { get; set; }
+        private bool[] ProductionsCheck { get; set; }
 
         public WorkerSetupForm()
         {
@@ -24,42 +27,88 @@ namespace Planner
         private void InitTestWorkers()
         {
             int idx = 1;
-            Workers = new List<Worker>();
-            Workers.Add(new Worker(idx++, "Pracownik", "Testowy" + idx.ToString(), Const.Sex.Male));
-            Workers.Add(new Worker(idx++, "Pracownik", "Testowy" + idx.ToString(), Const.Sex.Male));
-            Workers.Add(new Worker(idx++, "Pracownik", "Testowy" + idx.ToString(), Const.Sex.Male));
-            Workers.Add(new Worker(idx++, "Pracownik", "Testowy" + idx.ToString(), Const.Sex.Male));
-            Workers.Add(new Worker(idx++, "Pracownica", "Testowa" + idx.ToString(), Const.Sex.Female));
-            Workers.Add(new Worker(idx++, "Pracownica", "Testowa" + idx.ToString(), Const.Sex.Female));
-            Workers.Add(new Worker(idx++, "Pracownica", "Testowa" + idx.ToString(), Const.Sex.Female));
-            Workers.Add(new Worker(idx++, "Pracownica", "Testowa" + idx.ToString(), Const.Sex.Female));
+            Workers = new List<Worker>
+            {
+                new Worker(idx++, "Pracownik", "Testowy" + idx.ToString(), Const.Sex.Male),
+                new Worker(idx++, "Pracownik", "Testowy" + idx.ToString(), Const.Sex.Male),
+                new Worker(idx++, "Pracownik", "Testowy" + idx.ToString(), Const.Sex.Male),
+                new Worker(idx++, "Pracownik", "Testowy" + idx.ToString(), Const.Sex.Male),
+                new Worker(idx++, "Pracownica", "Testowa" + idx.ToString(), Const.Sex.Female),
+                new Worker(idx++, "Pracownica", "Testowa" + idx.ToString(), Const.Sex.Female),
+                new Worker(idx++, "Pracownica", "Testowa" + idx.ToString(), Const.Sex.Female),
+                new Worker(idx++, "Pracownica", "Testowa" + idx.ToString(), Const.Sex.Female)
+            };
         }
 
         private void WorkerSetupForm_Load(object sender, EventArgs e)
         {
             InitDGVHeaders();
+            InitPriorityItems();
+            InitShiftItems();
             FillDGVRows();
-            PopulateWorkerData();
+        }
+
+        private void InitShiftItems()
+        {
+            cbLastShift.Items.Clear();
+            cbLastShift.Items.Add(new ComboBoxItem() { Name = "", Value = 0 });
+            for (int i = 1; i <= Const.ShiftsPerDay; i++)
+            {
+                cbLastShift.Items.Add(new ComboBoxItem() { Name = i.ToString(), Value = i });
+            }
+        }
+
+        private void InitPriorityItems()
+        {
+            cbPriority.Items.Clear();
+            for (int i = -Const.PriorityRange; i <= Const.PriorityRange; i++)
+            {
+                cbPriority.Items.Add(new ComboBoxItem() { Name = i.ToString(), Value = i });
+            }
         }
 
         private void PopulateWorkerData()
         {
-            tbID.Text = WorkerSelected.Id.ToString();
-            tbName.Text = WorkerSelected.Name;
-            tbLastname.Text = WorkerSelected.Lastname;
-            cbSex.SelectedIndex = (int)WorkerSelected.Sex;
-
-            if (WorkerSelected.AvailableFrom == new DateTime())
-                dtpActualFrom.Checked = false;
+            tbID.Text = CurrWorker.Id.ToString();
+            tbName.Text = CurrWorker.Name;
+            tbLastname.Text = CurrWorker.Lastname;
+            cbSex.SelectedIndex = (int)CurrWorker.Sex;
+            cbPriority.SelectedIndex = cbPriority.FindStringExact(CurrWorker.Priority.ToString());
+            WeekDisposition = CurrWorker.WeekDisposition;
+            tbActualWeekAvailability.Text = CurrWorker.DaysCheckToText(WeekDisposition);
+            FixedDisposition = CurrWorker.FixedPerDay;
+            tbFixedDay.Text = CurrWorker.DaysCheckToText(FixedDisposition);
+            ProductionsCheck = CurrWorker.ProductionsCheck;
+            tbFixedProduction.Text = CurrWorker.ProductionsCheckToText(ProductionsCheck);
+            // From
+            if (CurrWorker.AvailableFrom.date <= dtpActualFrom.MaxDate && CurrWorker.AvailableFrom.date >= dtpActualFrom.MinDate)
+                dtpActualFrom.Value = CurrWorker.AvailableFrom.date;
             else
-                dtpActualFrom.Value = WorkerSelected.AvailableFrom;
-
-            if (WorkerSelected.AvailableTo == new DateTime())
-                dtpActualTo.Checked = false;
+                dtpActualFrom.Value = DateTime.Today;
+            dtpActualFrom.Checked = CurrWorker.AvailableFrom.active;
+            // To
+            if (CurrWorker.AvailableTo.date <= dtpActualTo.MaxDate && CurrWorker.AvailableTo.date >= dtpActualTo.MinDate)
+                dtpActualTo.Value = CurrWorker.AvailableTo.date;
             else
-                dtpActualTo.Value = WorkerSelected.AvailableTo;
+                dtpActualTo.Value = DateTime.Today;
+            dtpActualTo.Checked = CurrWorker.AvailableTo.active;
+            // Free day
+            if (CurrWorker.LastFreeDay <= dtpActualLastFreeDay.MaxDate && CurrWorker.LastFreeDay >= dtpActualLastFreeDay.MinDate)
+                dtpActualLastFreeDay.Value = CurrWorker.LastFreeDay;
+            else
+                dtpActualLastFreeDay.Value = dtpActualLastFreeDay.MinDate;
+            // Free sunday
+            if (CurrWorker.LastFreeSunday <= dtpActualLastFreeSunday.MaxDate && CurrWorker.LastFreeSunday >= dtpActualLastFreeSunday.MinDate)
+                dtpActualLastFreeSunday.Value = CurrWorker.LastFreeSunday;
+            else
+                dtpActualLastFreeSunday.Value = dtpActualLastFreeSunday.MinDate;
+            // Last shift
+            if (CurrWorker.LastShift.date <= dtpLastShift.MaxDate && CurrWorker.LastShift.date >= dtpLastShift.MinDate)
+                dtpLastShift.Value = CurrWorker.LastShift.date;
+            else
+                dtpLastShift.Value = dtpActualLastFreeSunday.MinDate;
 
-            tbActualPriority.Text = WorkerSelected.Priority.ToString();
+            cbLastShift.SelectedIndex = CurrWorker.LastShift.shift;
         }
 
         private void InitDGVHeaders()
@@ -87,63 +136,65 @@ namespace Planner
 
         private void dgvWorkers_SelectionChanged(object sender, EventArgs e)
         {
-            WorkerSelected = Workers[dgvWorkers.CurrentCell.RowIndex];
+            CurrWorker = Workers[dgvWorkers.CurrentCell.RowIndex];
             PopulateWorkerData();
         }
 
         private void bActualWeekAvailability_Click(object sender, EventArgs e)
         {
-            DayDispositionForm dayDispositionForm = new DayDispositionForm();
-            dayDispositionForm.Matrix = WorkerSelected.WeekDisposition;
-            var result = dayDispositionForm.ShowDialog();
+            DaysPickForm DaysPickForm = new DaysPickForm
+            {
+                Matrix = WeekDisposition
+            };
+            var result = DaysPickForm.ShowDialog();
             if (result == DialogResult.OK)
             {
-                WorkerSelected.WeekDisposition = dayDispositionForm.Matrix;
-                tbActualWeekAvailability.Text = WorkerSelected.DispositionToText(WorkerSelected.WeekDisposition);
+                WeekDisposition = DaysPickForm.Matrix;
+                tbActualWeekAvailability.Text = CurrWorker.DaysCheckToText(WeekDisposition);
             }
         }
 
         private void bFixedDay_Click(object sender, EventArgs e)
         {
-            DayDispositionForm dayDispositionForm = new DayDispositionForm();
-            dayDispositionForm.Matrix = WorkerSelected.FixedPerDay;
-            var result = dayDispositionForm.ShowDialog();
+            DaysPickForm daysPickForm = new DaysPickForm
+            {
+                Matrix = FixedDisposition
+            };
+            var result = daysPickForm.ShowDialog();
             if (result == DialogResult.OK)
             {
-                WorkerSelected.FixedPerDay = dayDispositionForm.Matrix;
-                tbFixedDay.Text = WorkerSelected.DispositionToText(WorkerSelected.FixedPerDay);
+                FixedDisposition = daysPickForm.Matrix;
+                tbFixedDay.Text = CurrWorker.DaysCheckToText(FixedDisposition);
             }
         }
 
-        private void tbName_TextChanged(object sender, EventArgs e)
+        private void bSave_Click(object sender, EventArgs e)
         {
-            WorkerSelected.Name = tbName.Text;
+            CurrWorker.Name = tbName.Text;
+            CurrWorker.Lastname = tbLastname.Text;
+            CurrWorker.Sex = (Const.Sex)cbSex.SelectedIndex;
+            CurrWorker.Priority = ((ComboBoxItem)cbPriority.SelectedItem).Value;
+            CurrWorker.WeekDisposition = WeekDisposition;
+            CurrWorker.FixedPerDay = FixedDisposition;
+            CurrWorker.AvailableFrom = new Worker.DateBool() { active = dtpActualFrom.Checked, date = dtpActualFrom.Value };
+            CurrWorker.AvailableTo = new Worker.DateBool() { active = dtpActualTo.Checked, date = dtpActualTo.Value };
+            CurrWorker.LastFreeDay = dtpActualLastFreeDay.Value;
+            CurrWorker.LastFreeSunday = dtpActualLastFreeSunday.Value;
+            CurrWorker.LastShift = new Worker.DateShift() { date = dtpLastShift.Value, shift = ((ComboBoxItem)cbLastShift.SelectedItem).Value };
         }
 
-        private void tbLastname_TextChanged(object sender, EventArgs e)
+        private void bFixedProduction_Click(object sender, EventArgs e)
         {
-            WorkerSelected.Lastname = tbLastname.Text;
-        }
-
-        private void cbSex_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            WorkerSelected.Sex = (Const.Sex)cbSex.SelectedIndex;
-        }
-
-        private void dtpActualFrom_ValueChanged(object sender, EventArgs e)
-        {
-            if (dtpActualFrom.Checked)
-                WorkerSelected.AvailableFrom = dtpActualFrom.Value;
-            else
-                WorkerSelected.AvailableFrom = new DateTime();
-        }
-
-        private void dtpActualTo_ValueChanged(object sender, EventArgs e)
-        {
-            if (dtpActualTo.Checked)
-                WorkerSelected.AvailableTo = dtpActualTo.Value;
-            else
-                WorkerSelected.AvailableTo = new DateTime();
+            ProductionsPickForm productionsPickForm = new ProductionsPickForm
+            {
+                Matrix = ProductionsCheck
+            };
+            var result = productionsPickForm.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                ProductionsCheck = productionsPickForm.Matrix;
+                tbFixedProduction.Text = CurrWorker.ProductionsCheckToText(ProductionsCheck);
+            }
         }
     }
 }

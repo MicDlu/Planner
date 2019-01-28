@@ -17,14 +17,7 @@ namespace Planner
         public enum Sex { Male, Female };
         public const int GridColumnsCount = ProductionLinesCount;
         public const int GridRowsCount = ShiftsPerDay * WorkDays;
-
-        //public struct Sexes
-        //{
-        //    public const Sex MALE = Sex.Male;
-        //    public const Sex FEMALE = Sex.Female;
-        //}
-
-
+        public const int PriorityRange = 3;
     }
 
     static public class Values
@@ -36,11 +29,7 @@ namespace Planner
     {
         public string Name;
         public int Value;
-        public ComboBoxItem(string name, int value)
-        {
-            Name = name;
-            Value = value;
-        }
+
         public override string ToString()
         {
             return Name;

@@ -44,8 +44,8 @@ namespace Planner
                 dataGridView1.Location.Y
             );
 
-            comboBoxSex.Items.Add(new ComboBoxItem("♂ Mężczyźni", (int)Const.Sex.Male));
-            comboBoxSex.Items.Add(new ComboBoxItem("♀ Kobiety", (int)Const.Sex.Female));
+            comboBoxSex.Items.Add(new ComboBoxItem() { Name = "♂ Mężczyźni", Value = (int)Const.Sex.Male });
+            comboBoxSex.Items.Add(new ComboBoxItem() { Name = "♀ Kobiety", Value = (int)Const.Sex.Female });
             comboBoxSex.SelectedIndex = (int)SexSelected;
         }
 
@@ -249,7 +249,7 @@ namespace Planner
             {
                 int selectedRow = dataGridView1.CurrentCell.RowIndex;
                 int selectedCol = dataGridView1.CurrentCell.ColumnIndex;
-                if (plan.Shifts[selectedCol, selectedRow].AddWorker(workerSetupForm.WorkerSelected, SexSelected))
+                if (plan.Shifts[selectedCol, selectedRow].AddWorker(workerSetupForm.CurrWorker, SexSelected))
                 {
                     FillAssignedWorkerList(selectedRow, selectedCol);
                     UpdateAssignedValues();
