@@ -243,13 +243,13 @@ namespace Planner
 
         private void buttonAddEmployee_Click(object sender, EventArgs e)
         {
-            WorkerForm workerForm = new WorkerForm();
-            var result = workerForm.ShowDialog();
+            WorkerSetupForm WorkerSetupForm = new WorkerSetupForm();
+            var result = WorkerSetupForm.ShowDialog();
             if (result == DialogResult.OK)
             {
                 int selectedRow = dataGridView1.CurrentCell.RowIndex;
                 int selectedCol = dataGridView1.CurrentCell.ColumnIndex;
-                if (plan.Shifts[selectedCol, selectedRow].AddWorker(workerForm.WorkerSelected, SexSelected))
+                if (plan.Shifts[selectedCol, selectedRow].AddWorker(WorkerSetupForm.WorkerSelected, SexSelected))
                 {
                     FillAssignedWorkerList(selectedRow, selectedCol);
                     UpdateAssignedValues();

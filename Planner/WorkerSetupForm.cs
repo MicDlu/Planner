@@ -10,12 +10,12 @@ using System.Windows.Forms;
 
 namespace Planner
 {
-    public partial class WorkerForm : Form
+    public partial class WorkerSetupForm : Form
     {
         public List<Employee> Workers { get; set; }
         public Employee WorkerSelected { get; set; }
 
-        public WorkerForm()
+        public WorkerSetupForm()
         {
             InitializeComponent();
             InitTestWorkers();
@@ -35,7 +35,7 @@ namespace Planner
             Workers.Add(new Employee(idx++, "Pracownica", "Testowa" + idx.ToString(), Const.Sex.Female));
         }
 
-        private void WorkerForm_Load(object sender, EventArgs e)
+        private void WorkerSetupForm_Load(object sender, EventArgs e)
         {
             InitDGVHeaders();
             FillDGVRows();
