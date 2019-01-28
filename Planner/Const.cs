@@ -12,6 +12,7 @@ namespace Planner
         public static readonly string[] ProductionLines = { "C650", "Czekolada", "Eclairs", "Green&Black", "Magazyn Opak.", "Magazyn Sur.", "Mignonnettes", "Mini Eggs", "MWG", "Myjnia", "Pakowalnia", "S&C" };
         public const int ShiftsPerDay = 3;
         public const int WorkDays = 7;
+        public static readonly string[] Days = { "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela" };
         public const int SexTypes = 2;
         public enum Sex { Male, Female };
         public const int GridColumnsCount = ProductionLinesCount;
@@ -24,6 +25,11 @@ namespace Planner
         //}
 
 
+    }
+
+    static public class Values
+    {
+        public static DateTime[] Week { get; set; }
     }
 
     class ComboBoxItem

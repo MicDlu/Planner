@@ -12,8 +12,8 @@ namespace Planner
 {
     public partial class WorkerSetupForm : Form
     {
-        public List<Employee> Workers { get; set; }
-        public Employee WorkerSelected { get; set; }
+        public List<Worker> Workers { get; set; }
+        public Worker WorkerSelected { get; set; }
 
         public WorkerSetupForm()
         {
@@ -24,15 +24,15 @@ namespace Planner
         private void InitTestWorkers()
         {
             int idx = 1;
-            Workers = new List<Employee>();
-            Workers.Add(new Employee(idx++, "Pracownik", "Testowy" + idx.ToString(), Const.Sex.Male));
-            Workers.Add(new Employee(idx++, "Pracownik", "Testowy" + idx.ToString(), Const.Sex.Male));
-            Workers.Add(new Employee(idx++, "Pracownik", "Testowy" + idx.ToString(), Const.Sex.Male));
-            Workers.Add(new Employee(idx++, "Pracownik", "Testowy" + idx.ToString(), Const.Sex.Male));
-            Workers.Add(new Employee(idx++, "Pracownica", "Testowa" + idx.ToString(), Const.Sex.Female));
-            Workers.Add(new Employee(idx++, "Pracownica", "Testowa" + idx.ToString(), Const.Sex.Female));
-            Workers.Add(new Employee(idx++, "Pracownica", "Testowa" + idx.ToString(), Const.Sex.Female));
-            Workers.Add(new Employee(idx++, "Pracownica", "Testowa" + idx.ToString(), Const.Sex.Female));
+            Workers = new List<Worker>();
+            Workers.Add(new Worker(idx++, "Pracownik", "Testowy" + idx.ToString(), Const.Sex.Male));
+            Workers.Add(new Worker(idx++, "Pracownik", "Testowy" + idx.ToString(), Const.Sex.Male));
+            Workers.Add(new Worker(idx++, "Pracownik", "Testowy" + idx.ToString(), Const.Sex.Male));
+            Workers.Add(new Worker(idx++, "Pracownik", "Testowy" + idx.ToString(), Const.Sex.Male));
+            Workers.Add(new Worker(idx++, "Pracownica", "Testowa" + idx.ToString(), Const.Sex.Female));
+            Workers.Add(new Worker(idx++, "Pracownica", "Testowa" + idx.ToString(), Const.Sex.Female));
+            Workers.Add(new Worker(idx++, "Pracownica", "Testowa" + idx.ToString(), Const.Sex.Female));
+            Workers.Add(new Worker(idx++, "Pracownica", "Testowa" + idx.ToString(), Const.Sex.Female));
         }
 
         private void WorkerSetupForm_Load(object sender, EventArgs e)
@@ -47,13 +47,6 @@ namespace Planner
             dgvWorkers.Columns.Add(new DataGridViewColumn(new DataGridViewTextBoxCell()) { Name = "Name", HeaderText = "Imię" });
             dgvWorkers.Columns.Add(new DataGridViewColumn(new DataGridViewTextBoxCell()) { Name = "Lastname", HeaderText = "Nazwisko" });
             dgvWorkers.Columns.Add(new DataGridViewColumn(new DataGridViewTextBoxCell()) { Name = "Sex", HeaderText = "Płeć" });
-
-            //dgvWorkers.Columns.Clear();
-            //dgvWorkers.ColumnCount = 4;
-            //dgvWorkers.Columns[0].Name = "ID";
-            //dgvWorkers.Columns[1].Name = "Name";
-            //dgvWorkers.Columns[2].Name = "Lastname";
-            //dgvWorkers.Columns[3].Name = "Sex";
         }
 
         private void FillDGVRows()
@@ -74,6 +67,16 @@ namespace Planner
         private void dgvWorkers_SelectionChanged(object sender, EventArgs e)
         {
             WorkerSelected = Workers[dgvWorkers.CurrentCell.RowIndex];
+        }
+
+        private void bActualWeekAvailability_Click(object sender, EventArgs e)
+        {
+            DayDispositionForm dayDispositionForm = new DayDispositionForm();
+            var result = dayDispositionForm.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                WorkerSelected.WeekDisposition = dayDispositionForm.Matrix;
+            }
         }
     }
 }

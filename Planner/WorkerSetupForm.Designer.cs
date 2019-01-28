@@ -45,6 +45,15 @@
             this.tbFixedDay = new System.Windows.Forms.TextBox();
             this.lFixedDay = new System.Windows.Forms.Label();
             this.gbActual = new System.Windows.Forms.GroupBox();
+            this.bActualWeekAvailability = new System.Windows.Forms.Button();
+            this.tbActualWeekAvailability = new System.Windows.Forms.TextBox();
+            this.lActualWeekAvailability = new System.Windows.Forms.Label();
+            this.tbActualLastFreeSunday = new System.Windows.Forms.TextBox();
+            this.lActualLastFreeSunday = new System.Windows.Forms.Label();
+            this.tbActualLastFreeDay = new System.Windows.Forms.TextBox();
+            this.lActualLastFreeDay = new System.Windows.Forms.Label();
+            this.tbActualPriority = new System.Windows.Forms.TextBox();
+            this.lActualPriority = new System.Windows.Forms.Label();
             this.tbActualLastShift = new System.Windows.Forms.TextBox();
             this.lActualLastShift = new System.Windows.Forms.Label();
             this.tbActualTo = new System.Windows.Forms.TextBox();
@@ -62,15 +71,6 @@
             this.lID = new System.Windows.Forms.Label();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.tbActualPriority = new System.Windows.Forms.TextBox();
-            this.lActualPriority = new System.Windows.Forms.Label();
-            this.tbActualLastFreeDay = new System.Windows.Forms.TextBox();
-            this.lActualLastFreeDay = new System.Windows.Forms.Label();
-            this.tbActualLastFreeSunday = new System.Windows.Forms.TextBox();
-            this.lActualLastFreeSunday = new System.Windows.Forms.Label();
-            this.bActualWeekAvailability = new System.Windows.Forms.Button();
-            this.tbActualWeekAvailability = new System.Windows.Forms.TextBox();
-            this.lActualWeekAvailability = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvWorkers)).BeginInit();
             this.gbWorkerSetup.SuspendLayout();
             this.gbFixed.SuspendLayout();
@@ -148,6 +148,7 @@
             // 
             // bFixedWorker
             // 
+            this.bFixedWorker.Enabled = false;
             this.bFixedWorker.Location = new System.Drawing.Point(403, 76);
             this.bFixedWorker.Name = "bFixedWorker";
             this.bFixedWorker.Size = new System.Drawing.Size(56, 23);
@@ -157,6 +158,7 @@
             // 
             // bFixedLeader
             // 
+            this.bFixedLeader.Enabled = false;
             this.bFixedLeader.Location = new System.Drawing.Point(402, 49);
             this.bFixedLeader.Name = "bFixedLeader";
             this.bFixedLeader.Size = new System.Drawing.Size(56, 23);
@@ -193,6 +195,7 @@
             // 
             // tbFixedWorker
             // 
+            this.tbFixedWorker.Enabled = false;
             this.tbFixedWorker.Location = new System.Drawing.Point(213, 77);
             this.tbFixedWorker.Name = "tbFixedWorker";
             this.tbFixedWorker.Size = new System.Drawing.Size(184, 22);
@@ -200,6 +203,7 @@
             // 
             // lFixedWorker
             // 
+            this.lFixedWorker.Enabled = false;
             this.lFixedWorker.Location = new System.Drawing.Point(5, 77);
             this.lFixedWorker.Name = "lFixedWorker";
             this.lFixedWorker.Size = new System.Drawing.Size(202, 22);
@@ -209,6 +213,7 @@
             // 
             // tbFixedLeader
             // 
+            this.tbFixedLeader.Enabled = false;
             this.tbFixedLeader.Location = new System.Drawing.Point(213, 49);
             this.tbFixedLeader.Name = "tbFixedLeader";
             this.tbFixedLeader.Size = new System.Drawing.Size(184, 22);
@@ -216,6 +221,7 @@
             // 
             // lFixedLeader
             // 
+            this.lFixedLeader.Enabled = false;
             this.lFixedLeader.Location = new System.Drawing.Point(5, 49);
             this.lFixedLeader.Name = "lFixedLeader";
             this.lFixedLeader.Size = new System.Drawing.Size(202, 22);
@@ -262,6 +268,80 @@
             this.gbActual.TabIndex = 1;
             this.gbActual.TabStop = false;
             this.gbActual.Text = "Aktualne";
+            // 
+            // bActualWeekAvailability
+            // 
+            this.bActualWeekAvailability.Location = new System.Drawing.Point(403, 189);
+            this.bActualWeekAvailability.Name = "bActualWeekAvailability";
+            this.bActualWeekAvailability.Size = new System.Drawing.Size(56, 23);
+            this.bActualWeekAvailability.TabIndex = 30;
+            this.bActualWeekAvailability.Text = "...";
+            this.bActualWeekAvailability.UseVisualStyleBackColor = true;
+            this.bActualWeekAvailability.Click += new System.EventHandler(this.bActualWeekAvailability_Click);
+            // 
+            // tbActualWeekAvailability
+            // 
+            this.tbActualWeekAvailability.Location = new System.Drawing.Point(214, 190);
+            this.tbActualWeekAvailability.Name = "tbActualWeekAvailability";
+            this.tbActualWeekAvailability.Size = new System.Drawing.Size(184, 22);
+            this.tbActualWeekAvailability.TabIndex = 29;
+            // 
+            // lActualWeekAvailability
+            // 
+            this.lActualWeekAvailability.Location = new System.Drawing.Point(6, 190);
+            this.lActualWeekAvailability.Name = "lActualWeekAvailability";
+            this.lActualWeekAvailability.Size = new System.Drawing.Size(202, 22);
+            this.lActualWeekAvailability.TabIndex = 28;
+            this.lActualWeekAvailability.Text = "Dyspozycja w tym tygodniu";
+            this.lActualWeekAvailability.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // tbActualLastFreeSunday
+            // 
+            this.tbActualLastFreeSunday.Location = new System.Drawing.Point(214, 161);
+            this.tbActualLastFreeSunday.Name = "tbActualLastFreeSunday";
+            this.tbActualLastFreeSunday.Size = new System.Drawing.Size(245, 22);
+            this.tbActualLastFreeSunday.TabIndex = 27;
+            // 
+            // lActualLastFreeSunday
+            // 
+            this.lActualLastFreeSunday.Location = new System.Drawing.Point(6, 161);
+            this.lActualLastFreeSunday.Name = "lActualLastFreeSunday";
+            this.lActualLastFreeSunday.Size = new System.Drawing.Size(202, 22);
+            this.lActualLastFreeSunday.TabIndex = 26;
+            this.lActualLastFreeSunday.Text = "Poprzednia wolna niedziela";
+            this.lActualLastFreeSunday.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // tbActualLastFreeDay
+            // 
+            this.tbActualLastFreeDay.Location = new System.Drawing.Point(214, 133);
+            this.tbActualLastFreeDay.Name = "tbActualLastFreeDay";
+            this.tbActualLastFreeDay.Size = new System.Drawing.Size(245, 22);
+            this.tbActualLastFreeDay.TabIndex = 25;
+            // 
+            // lActualLastFreeDay
+            // 
+            this.lActualLastFreeDay.Location = new System.Drawing.Point(6, 133);
+            this.lActualLastFreeDay.Name = "lActualLastFreeDay";
+            this.lActualLastFreeDay.Size = new System.Drawing.Size(202, 22);
+            this.lActualLastFreeDay.TabIndex = 24;
+            this.lActualLastFreeDay.Text = "Poprzedni dzień wolny";
+            this.lActualLastFreeDay.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // tbActualPriority
+            // 
+            this.tbActualPriority.Location = new System.Drawing.Point(214, 77);
+            this.tbActualPriority.Name = "tbActualPriority";
+            this.tbActualPriority.Size = new System.Drawing.Size(245, 22);
+            this.tbActualPriority.TabIndex = 23;
+            // 
+            // lActualPriority
+            // 
+            this.lActualPriority.Location = new System.Drawing.Point(6, 77);
+            this.lActualPriority.Name = "lActualPriority";
+            this.lActualPriority.Size = new System.Drawing.Size(202, 22);
+            this.lActualPriority.TabIndex = 22;
+            this.lActualPriority.Text = "Priorytet";
+            this.lActualPriority.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // tbActualLastShift
             // 
@@ -415,79 +495,6 @@
             this.button1.TabIndex = 3;
             this.button1.Text = "OK";
             this.button1.UseVisualStyleBackColor = true;
-            // 
-            // tbActualPriority
-            // 
-            this.tbActualPriority.Location = new System.Drawing.Point(214, 77);
-            this.tbActualPriority.Name = "tbActualPriority";
-            this.tbActualPriority.Size = new System.Drawing.Size(245, 22);
-            this.tbActualPriority.TabIndex = 23;
-            // 
-            // lActualPriority
-            // 
-            this.lActualPriority.Location = new System.Drawing.Point(6, 77);
-            this.lActualPriority.Name = "lActualPriority";
-            this.lActualPriority.Size = new System.Drawing.Size(202, 22);
-            this.lActualPriority.TabIndex = 22;
-            this.lActualPriority.Text = "Priorytet";
-            this.lActualPriority.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // tbActualLastFreeDay
-            // 
-            this.tbActualLastFreeDay.Location = new System.Drawing.Point(214, 133);
-            this.tbActualLastFreeDay.Name = "tbActualLastFreeDay";
-            this.tbActualLastFreeDay.Size = new System.Drawing.Size(245, 22);
-            this.tbActualLastFreeDay.TabIndex = 25;
-            // 
-            // lActualLastFreeDay
-            // 
-            this.lActualLastFreeDay.Location = new System.Drawing.Point(6, 133);
-            this.lActualLastFreeDay.Name = "lActualLastFreeDay";
-            this.lActualLastFreeDay.Size = new System.Drawing.Size(202, 22);
-            this.lActualLastFreeDay.TabIndex = 24;
-            this.lActualLastFreeDay.Text = "Poprzedni dzień wolny";
-            this.lActualLastFreeDay.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // tbActualLastFreeSunday
-            // 
-            this.tbActualLastFreeSunday.Location = new System.Drawing.Point(214, 161);
-            this.tbActualLastFreeSunday.Name = "tbActualLastFreeSunday";
-            this.tbActualLastFreeSunday.Size = new System.Drawing.Size(245, 22);
-            this.tbActualLastFreeSunday.TabIndex = 27;
-            // 
-            // lActualLastFreeSunday
-            // 
-            this.lActualLastFreeSunday.Location = new System.Drawing.Point(6, 161);
-            this.lActualLastFreeSunday.Name = "lActualLastFreeSunday";
-            this.lActualLastFreeSunday.Size = new System.Drawing.Size(202, 22);
-            this.lActualLastFreeSunday.TabIndex = 26;
-            this.lActualLastFreeSunday.Text = "Poprzednia wolna niedziela";
-            this.lActualLastFreeSunday.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // bActualWeekAvailability
-            // 
-            this.bActualWeekAvailability.Location = new System.Drawing.Point(403, 189);
-            this.bActualWeekAvailability.Name = "bActualWeekAvailability";
-            this.bActualWeekAvailability.Size = new System.Drawing.Size(56, 23);
-            this.bActualWeekAvailability.TabIndex = 30;
-            this.bActualWeekAvailability.Text = "...";
-            this.bActualWeekAvailability.UseVisualStyleBackColor = true;
-            // 
-            // tbActualWeekAvailability
-            // 
-            this.tbActualWeekAvailability.Location = new System.Drawing.Point(214, 190);
-            this.tbActualWeekAvailability.Name = "tbActualWeekAvailability";
-            this.tbActualWeekAvailability.Size = new System.Drawing.Size(184, 22);
-            this.tbActualWeekAvailability.TabIndex = 29;
-            // 
-            // lActualWeekAvailability
-            // 
-            this.lActualWeekAvailability.Location = new System.Drawing.Point(6, 190);
-            this.lActualWeekAvailability.Name = "lActualWeekAvailability";
-            this.lActualWeekAvailability.Size = new System.Drawing.Size(202, 22);
-            this.lActualWeekAvailability.TabIndex = 28;
-            this.lActualWeekAvailability.Text = "Dyspozycja w tym tygodniu";
-            this.lActualWeekAvailability.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // WorkerSetupForm
             // 

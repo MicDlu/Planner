@@ -66,6 +66,7 @@ namespace Planner
             {
                 newWeek[i] = newWeek[0].AddDays(i);
             }
+            Values.Week = newWeek;
             return newWeek;
         }
     }

@@ -23,8 +23,8 @@ namespace Planner
             plan = new Plan(@"C:\Users\micha\Documents\Planer Manpower\PLANER 2018 t.38.xlsm");
             plan.ExtractOrderAmountsFromRange("E7");
 
-            plan.Shifts[0, 0].AddWorker(new Employee(1, "Maciej", "Bojar", Const.Sex.Male), SexSelected);
-            plan.Shifts[0, 0].AddWorker(new Employee(2, "Kamil", "Pieczara", Const.Sex.Male), SexSelected);
+            plan.Shifts[0, 0].AddWorker(new Worker(1, "Maciej", "Bojar", Const.Sex.Male), SexSelected);
+            plan.Shifts[0, 0].AddWorker(new Worker(2, "Kamil", "Pieczara", Const.Sex.Male), SexSelected);
         }
 
         private void WorkScheduleForm_Load(object sender, EventArgs e)
@@ -228,7 +228,7 @@ namespace Planner
         {
             int selectedRow = dataGridView1.CurrentCell.RowIndex;
             int selectedCol = dataGridView1.CurrentCell.ColumnIndex;
-            if (plan.Shifts[selectedCol, selectedRow].RemoveWorker((Employee)listBoxEmpolyees.SelectedItem, SexSelected)) 
+            if (plan.Shifts[selectedCol, selectedRow].RemoveWorker((Worker)listBoxEmpolyees.SelectedItem, SexSelected)) 
             {
                 FillAssignedWorkerList(selectedRow, selectedCol);
                 UpdateAssignedValues();
@@ -243,13 +243,13 @@ namespace Planner
 
         private void buttonAddEmployee_Click(object sender, EventArgs e)
         {
-            WorkerSetupForm WorkerSetupForm = new WorkerSetupForm();
-            var result = WorkerSetupForm.ShowDialog();
+            WorkerSetupForm workerSetupForm = new WorkerSetupForm();
+            var result = workerSetupForm.ShowDialog();
             if (result == DialogResult.OK)
             {
                 int selectedRow = dataGridView1.CurrentCell.RowIndex;
                 int selectedCol = dataGridView1.CurrentCell.ColumnIndex;
-                if (plan.Shifts[selectedCol, selectedRow].AddWorker(WorkerSetupForm.WorkerSelected, SexSelected))
+                if (plan.Shifts[selectedCol, selectedRow].AddWorker(workerSetupForm.WorkerSelected, SexSelected))
                 {
                     FillAssignedWorkerList(selectedRow, selectedCol);
                     UpdateAssignedValues();

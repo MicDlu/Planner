@@ -32,10 +32,10 @@ namespace Planner
         {
             PerSex[(int)sex].sex = sex;
             PerSex[(int)sex].order = order;
-            PerSex[(int)sex].employeeAssigned = new List<Employee>();
+            PerSex[(int)sex].employeeAssigned = new List<Worker>();
         }
 
-        public bool AddWorker(Employee worker, Const.Sex targetSex)
+        public bool AddWorker(Worker worker, Const.Sex targetSex)
         {
             if (PerSex[(int)worker.Sex].employeeAssigned.Count < PerSex[(int)targetSex].order)
             {
@@ -45,7 +45,7 @@ namespace Planner
             return false;
         }
 
-        public bool RemoveWorker(Employee worker, Const.Sex targetSex)
+        public bool RemoveWorker(Worker worker, Const.Sex targetSex)
         {
             if (PerSex[(int)targetSex].employeeAssigned.Count > 0)
             {
@@ -59,7 +59,7 @@ namespace Planner
         {
             public Const.Sex sex;
             public int order;
-            public List<Employee> employeeAssigned;
+            public List<Worker> employeeAssigned;
         }
     }
 }

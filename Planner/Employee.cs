@@ -6,16 +6,25 @@ using System.Threading.Tasks;
 
 namespace Planner
 {
-    public class Employee
+    public class Worker
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Lastname { get; set; }
-        public string DisplayName { get; set; }
-        public List<Plan> ShiftPlanned { get; set; }
         public Const.Sex Sex { get; set; }
+        public string DisplayName { get; set; }
 
-        public Employee(int id, string name, string lastname, Const.Sex sex)
+        public DateTime AvailableFrom { get; set; }
+        public DateTime AvailableTo { get; set; }
+        public int Priority { get; set; }
+        public string LastShiftt { get; set; } // DDMMYYYY-S (S=1/2/3)
+        public DateTime LastFreeDay { get; set; }
+        public DateTime LastFreeSunday { get; set; }
+        public bool[,] WeekDisposition { get; set; }
+        public bool[,] FixedPerDay { get; set; }
+
+
+        public Worker(int id, string name, string lastname, Const.Sex sex)
         {
             Id = id;
             Name = name;
