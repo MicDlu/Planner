@@ -65,7 +65,7 @@
             this.bCancel.Name = "bCancel";
             this.bCancel.Size = new System.Drawing.Size(75, 33);
             this.bCancel.TabIndex = 2;
-            this.bCancel.Text = "button2";
+            this.bCancel.Text = "Anuluj";
             this.bCancel.UseVisualStyleBackColor = true;
             // 
             // DayDispositionForm

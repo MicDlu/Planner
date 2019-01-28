@@ -39,6 +39,27 @@ namespace Planner
         {
             InitDGVHeaders();
             FillDGVRows();
+            PopulateWorkerData();
+        }
+
+        private void PopulateWorkerData()
+        {
+            tbID.Text = WorkerSelected.Id.ToString();
+            tbName.Text = WorkerSelected.Name;
+            tbLastname.Text = WorkerSelected.Lastname;
+            cbSex.SelectedIndex = (int)WorkerSelected.Sex;
+
+            if (WorkerSelected.AvailableFrom == new DateTime())
+                dtpActualFrom.Checked = false;
+            else
+                dtpActualFrom.Value = WorkerSelected.AvailableFrom;
+
+            if (WorkerSelected.AvailableTo == new DateTime())
+                dtpActualTo.Checked = false;
+            else
+                dtpActualTo.Value = WorkerSelected.AvailableTo;
+
+            tbActualPriority.Text = WorkerSelected.Priority.ToString();
         }
 
         private void InitDGVHeaders()
@@ -67,16 +88,62 @@ namespace Planner
         private void dgvWorkers_SelectionChanged(object sender, EventArgs e)
         {
             WorkerSelected = Workers[dgvWorkers.CurrentCell.RowIndex];
+            PopulateWorkerData();
         }
 
         private void bActualWeekAvailability_Click(object sender, EventArgs e)
         {
             DayDispositionForm dayDispositionForm = new DayDispositionForm();
+            dayDispositionForm.Matrix = WorkerSelected.WeekDisposition;
             var result = dayDispositionForm.ShowDialog();
             if (result == DialogResult.OK)
             {
                 WorkerSelected.WeekDisposition = dayDispositionForm.Matrix;
+                tbActualWeekAvailability.Text = WorkerSelected.DispositionToText(WorkerSelected.WeekDisposition);
             }
+        }
+
+        private void bFixedDay_Click(object sender, EventArgs e)
+        {
+            DayDispositionForm dayDispositionForm = new DayDispositionForm();
+            dayDispositionForm.Matrix = WorkerSelected.FixedPerDay;
+            var result = dayDispositionForm.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                WorkerSelected.FixedPerDay = dayDispositionForm.Matrix;
+                tbFixedDay.Text = WorkerSelected.DispositionToText(WorkerSelected.FixedPerDay);
+            }
+        }
+
+        private void tbName_TextChanged(object sender, EventArgs e)
+        {
+            WorkerSelected.Name = tbName.Text;
+        }
+
+        private void tbLastname_TextChanged(object sender, EventArgs e)
+        {
+            WorkerSelected.Lastname = tbLastname.Text;
+        }
+
+        private void cbSex_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            WorkerSelected.Sex = (Const.Sex)cbSex.SelectedIndex;
+        }
+
+        private void dtpActualFrom_ValueChanged(object sender, EventArgs e)
+        {
+            if (dtpActualFrom.Checked)
+                WorkerSelected.AvailableFrom = dtpActualFrom.Value;
+            else
+                WorkerSelected.AvailableFrom = new DateTime();
+        }
+
+        private void dtpActualTo_ValueChanged(object sender, EventArgs e)
+        {
+            if (dtpActualTo.Checked)
+                WorkerSelected.AvailableTo = dtpActualTo.Value;
+            else
+                WorkerSelected.AvailableTo = new DateTime();
         }
     }
 }

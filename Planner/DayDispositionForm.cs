@@ -42,6 +42,8 @@ namespace Planner
             {
                 DataGridViewRow row = new DataGridViewRow();
                 row.CreateCells(dataGridView1);
+                for (int d = 0; d < Const.WorkDays; d++)
+                    row.Cells[d].Value = Matrix[d, s];
                 row.HeaderCell.Value = (s + 1).ToString();
                 dataGridView1.Rows.Add(row);
             }
@@ -54,10 +56,10 @@ namespace Planner
             {
                 for (int c = 0; c < dataGridView1.ColumnCount; c++)
                 {
-                    if ((dataGridView1[c, r].Value) == null)
-                        Matrix[c, r] = false;
+                    if ((dataGridView1[c, r].Value) != null)
+                        Matrix[c, r] = (bool)dataGridView1[c, r].Value;
                     else
-                        Matrix[c, r] = true;
+                        Matrix[c, r] = false;
                 }
             }
         }
