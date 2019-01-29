@@ -68,34 +68,29 @@ namespace Planner
             // StartDate -> WeekCellRange
         }
 
-        //public void ProcessOrder()
-        //{
-        //    const int dateRow = 5;
-        //    const int dateColumnStart = 6;
-        //    const int dateColumnStep = 21;
-        //    excelWorksheetOrder = excelWorkbook.Worksheets["Zamówienie"];
-        //    if (StartDate == null)
-        //    {
-        //        // choose last week
-        //    }
-        //    else
-        //    {
-        //        // set week by date
-        //        string formattedStartDate = StartDate.ToString("dd.MM.yyyy");
-        //        string cellValue;
-        //        int dateColumn = 1;
-        //        do
-        //        {
-        //            cellValue = excelWorksheetOrder.Cells[dateRow, dateColumn].Value2.ToString();
-        //            dateColumn += 1;
-        //        } while (cellValue != formattedStartDate);
-        //    }
-        //}
-
         public void Close()
         {
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(excelWorksheetOrder);
             excelWorkbook.Close(excelWorkbook);
             System.Runtime.InteropServices.Marshal.ReleaseComObject(excelWorkbook);
+            excelApp.Quit();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
+        }
+
+        public void KillAllExcelProcesses()
+        {
+            System.Diagnostics.Process[] process = System.Diagnostics.Process.GetProcessesByName("Excel");
+            foreach (System.Diagnostics.Process p in process)
+            {
+                if (!string.IsNullOrEmpty(p.ProcessName))
+                {
+                    try
+                    {
+                        p.Kill();
+                    }
+                    catch { }
+                }
+            }
         }
     }
 }

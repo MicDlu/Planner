@@ -46,6 +46,12 @@ namespace Planner
             }
         }
 
+        public void CloseExcel()
+        {
+            Excel.Close();
+            // Excel.KillAllExcelProcesses();
+        }
+
         private string[] InitProductionLines(bool open)
         {
             if (open)

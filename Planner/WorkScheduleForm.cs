@@ -20,8 +20,9 @@ namespace Planner
             InitializeComponent();
             SexSelected = Const.Sex.Male;
 
-            plan = new Plan(@"C:\Users\micha\Documents\Planer Manpower\PLANER 2018 t.38.xlsm");
+            plan = new Plan(@"C:\Users\micha\Documents\Planer Manpower\Planner Test.xlsx");
             plan.ExtractOrderAmountsFromRange("E7");
+            plan.CloseExcel();
 
             plan.Shifts[0, 0].AddWorker(new Worker(1, "Maciej", "Bojar", Const.Sex.Male), SexSelected);
             plan.Shifts[0, 0].AddWorker(new Worker(2, "Kamil", "Pieczara", Const.Sex.Male), SexSelected);
