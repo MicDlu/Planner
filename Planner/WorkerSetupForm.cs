@@ -211,6 +211,7 @@ namespace Planner
 
         private void zapiszDoPlikuToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Values.plan.Workers = Workers;
             Values.plan.SaveWorkersToFile();
         }
     }

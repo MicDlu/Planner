@@ -31,11 +31,11 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.listBoxEmpolyees = new System.Windows.Forms.ListBox();
             this.groupBoxEmployees = new System.Windows.Forms.GroupBox();
+            this.buttonAddEmployee = new System.Windows.Forms.Button();
             this.buttonRemoveEmployee = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.comboBoxSex = new System.Windows.Forms.ComboBox();
             this.groupBoxView = new System.Windows.Forms.GroupBox();
-            this.buttonAddEmployee = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBoxEmployees.SuspendLayout();
             this.groupBoxView.SuspendLayout();
@@ -77,6 +77,16 @@
             this.groupBoxEmployees.TabStop = false;
             this.groupBoxEmployees.Text = "Przypisani pracownicy";
             // 
+            // buttonAddEmployee
+            // 
+            this.buttonAddEmployee.Location = new System.Drawing.Point(254, 273);
+            this.buttonAddEmployee.Name = "buttonAddEmployee";
+            this.buttonAddEmployee.Size = new System.Drawing.Size(75, 32);
+            this.buttonAddEmployee.TabIndex = 3;
+            this.buttonAddEmployee.Text = "Dodaj...";
+            this.buttonAddEmployee.UseVisualStyleBackColor = true;
+            this.buttonAddEmployee.Click += new System.EventHandler(this.buttonAddEmployee_Click);
+            // 
             // buttonRemoveEmployee
             // 
             this.buttonRemoveEmployee.Location = new System.Drawing.Point(6, 273);
@@ -115,16 +125,6 @@
             this.groupBoxView.TabStop = false;
             this.groupBoxView.Text = "Wyświetlanie";
             // 
-            // buttonAddEmployee
-            // 
-            this.buttonAddEmployee.Location = new System.Drawing.Point(254, 273);
-            this.buttonAddEmployee.Name = "buttonAddEmployee";
-            this.buttonAddEmployee.Size = new System.Drawing.Size(75, 32);
-            this.buttonAddEmployee.TabIndex = 3;
-            this.buttonAddEmployee.Text = "Dodaj...";
-            this.buttonAddEmployee.UseVisualStyleBackColor = true;
-            this.buttonAddEmployee.Click += new System.EventHandler(this.buttonAddEmployee_Click);
-            // 
             // WorkScheduleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -136,6 +136,7 @@
             this.Controls.Add(this.menuStrip1);
             this.Name = "WorkScheduleForm";
             this.Text = "WeekWorkSchedule";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.WorkScheduleForm_FormClosing);
             this.Load += new System.EventHandler(this.WorkScheduleForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBoxEmployees.ResumeLayout(false);

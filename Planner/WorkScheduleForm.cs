@@ -12,7 +12,6 @@ namespace Planner
 {
     public partial class WorkScheduleForm : Form
     {
-        private Plan plan;
         private Const.Sex SexSelected;
 
         public WorkScheduleForm()
@@ -20,18 +19,17 @@ namespace Planner
             InitializeComponent();
             SexSelected = Const.Sex.Male;
 
-            plan = new Plan(@"C:\Users\micha\Documents\Planer Manpower\Planner Test.xlsx");
-            plan.ExtractOrderAmountsFromRange("E7");
-            Values.plan = plan;
+            Values.plan = new Plan(@"C:\Users\micha\Documents\Planer Manpower\Planner Test.xlsx");
+            Values.plan.ExtractOrderAmountsFromRange("E7");
             //plan.CloseExcel();
 
-            plan.Shifts[0, 0].AddWorker(new Worker(1, "Maciej", "Bojar", Const.Sex.Male), SexSelected);
-            plan.Shifts[0, 0].AddWorker(new Worker(2, "Kamil", "Pieczara", Const.Sex.Male), SexSelected);
+            Values.plan.Shifts[0, 0].AddWorker(new Worker(1, "Maciej", "Bojar", Const.Sex.Male), SexSelected);
+            Values.plan.Shifts[0, 0].AddWorker(new Worker(2, "Kamil", "Pieczara", Const.Sex.Male), SexSelected);
         }
 
         private void WorkScheduleForm_Load(object sender, EventArgs e)
         {           
-            InitDataGridViewValues(plan);
+            InitDataGridViewValues(Values.plan);
             InitDataGridViewStyle();
             InitComboboxStyle();
             InitListBoxStyle();
@@ -136,8 +134,8 @@ namespace Planner
             {
                 for (int c = 0; c < dataGridView1.ColumnCount; c++)
                 {
-                    int assigned = plan.Shifts[c, r].PerSex[(int)SexSelected].employeeAssigned.Count;
-                    int ordered = plan.Shifts[c, r].PerSex[(int)SexSelected].order;
+                    int assigned = Values.plan.Shifts[c, r].PerSex[(int)SexSelected].employeeAssigned.Count;
+                    int ordered = Values.plan.Shifts[c, r].PerSex[(int)SexSelected].order;
                     dataGridView1[c, r].Value = assigned.ToString() + " / " + ordered.ToString();
                     
                     if (ordered == 0)
@@ -164,7 +162,7 @@ namespace Planner
         {
             int row = 0;
 
-            foreach (DateTime day in plan.Week)
+            foreach (DateTime day in Values.plan.Week)
             {
                 Rectangle dayRect = dataGridView1.GetCellDisplayRectangle(-1, row, true);
                 dayRect.X =  1;
@@ -221,7 +219,7 @@ namespace Planner
         private void FillAssignedWorkerList(int selectedRow, int selectedCol)
         {
             listBoxEmpolyees.DataSource = null;
-            listBoxEmpolyees.DataSource = plan.Shifts[selectedRow, selectedCol].PerSex[(int)SexSelected].employeeAssigned;
+            listBoxEmpolyees.DataSource = Values.plan.Shifts[selectedRow, selectedCol].PerSex[(int)SexSelected].employeeAssigned;
             listBoxEmpolyees.DisplayMember = "DisplayName";
             listBoxEmpolyees.ValueMember = "Id";
         }
@@ -230,7 +228,7 @@ namespace Planner
         {
             int selectedRow = dataGridView1.CurrentCell.RowIndex;
             int selectedCol = dataGridView1.CurrentCell.ColumnIndex;
-            if (plan.Shifts[selectedCol, selectedRow].RemoveWorker((Worker)listBoxEmpolyees.SelectedItem, SexSelected)) 
+            if (Values.plan.Shifts[selectedCol, selectedRow].RemoveWorker((Worker)listBoxEmpolyees.SelectedItem, SexSelected)) 
             {
                 FillAssignedWorkerList(selectedRow, selectedCol);
                 UpdateAssignedValues();
@@ -251,12 +249,17 @@ namespace Planner
             {
                 int selectedRow = dataGridView1.CurrentCell.RowIndex;
                 int selectedCol = dataGridView1.CurrentCell.ColumnIndex;
-                if (plan.Shifts[selectedCol, selectedRow].AddWorker(workerSetupForm.CurrWorker, SexSelected))
+                if (Values.plan.Shifts[selectedCol, selectedRow].AddWorker(workerSetupForm.CurrWorker, SexSelected))
                 {
                     FillAssignedWorkerList(selectedRow, selectedCol);
                     UpdateAssignedValues();
                 }
             }
+        }
+
+        private void WorkScheduleForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Values.plan.CloseExcel(true);
         }
     }
 }

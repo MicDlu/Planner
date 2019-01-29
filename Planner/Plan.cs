@@ -13,7 +13,7 @@ namespace Planner
         public String[] ProductionLines { get; set; }
         public DateTime[] Week { get; set; }
         private ExcelInterop Excel;
-        private List<Worker> Workers { get; set; }
+        public List<Worker> Workers { get; set; }
 
         public Plan(string filename)
         {
@@ -47,9 +47,9 @@ namespace Planner
             }
         }
 
-        public void CloseExcel()
+        public void CloseExcel(bool save)
         {
-            Excel.Close();
+            Excel.Close(save);
             // Excel.KillAllExcelProcesses();
         }
 

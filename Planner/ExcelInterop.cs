@@ -75,9 +75,10 @@ namespace Planner
                     excelWorksheetWorkers.Cells[i + 2, a + 1] = attributes[a];
                 }
             }
-            excelWorkbook.SaveAs(FileName, Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing,
-                false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange,
-                Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+
+            //excelWorkbook.SaveAs(GetFileDirectory(FileName) + "\\test", Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing,
+            //    false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange,
+            //    Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
         }
 
         public void FindWeekRangeByDate()
@@ -85,9 +86,11 @@ namespace Planner
             // StartDate -> WeekCellRange
         }
 
-        public void Close()
+        public void Close(bool save = false)
         {
             System.Runtime.InteropServices.Marshal.ReleaseComObject(excelWorksheetOrder);
+            if (save)
+                excelWorkbook.Save();
             excelWorkbook.Close(excelWorkbook);
             System.Runtime.InteropServices.Marshal.ReleaseComObject(excelWorkbook);
             excelApp.Quit();
@@ -108,6 +111,11 @@ namespace Planner
                     catch { }
                 }
             }
+        }
+
+        private string GetFileDirectory(string filepath)
+        {
+            return filepath.Substring(0, filepath.LastIndexOf('\\'));
         }
     }
 }
