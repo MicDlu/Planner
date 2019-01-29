@@ -81,6 +81,25 @@ namespace Planner
             //    Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
         }
 
+        public List<Worker> LoadWorkers()
+        {
+            List<Worker> workers = new List<Worker>();
+            int row = 2;
+            while ((excelWorksheetWorkers.Cells[row, 1] as Excel.Range).Value2 != null)
+            {
+                List<string> attributes = new List<string>();
+                Excel.Range RowRange = (excelWorksheetWorkers.Cells[row++, 1] as Excel.Range).Resize[1, Const.attributeCount];
+                object[,] objectValues = (object[,])RowRange.get_Value(Excel.XlRangeValueDataType.xlRangeValueDefault);
+
+                for (int i = 0; i < Const.attributeCount; i++)
+                {
+                    attributes.Add(objectValues[1,i+1]==null?string.Empty:objectValues[1, i + 1].ToString());
+                }
+                workers.Add(new Worker(attributes));
+            }
+            return workers;
+        }
+
         public void FindWeekRangeByDate()
         {
             // StartDate -> WeekCellRange
@@ -90,7 +109,14 @@ namespace Planner
         {
             System.Runtime.InteropServices.Marshal.ReleaseComObject(excelWorksheetOrder);
             if (save)
-                excelWorkbook.Save();
+                try
+                {
+                    excelWorkbook.Save();
+                }
+                catch (System.Runtime.InteropServices.COMException e)
+                {
+
+                }
             excelWorkbook.Close(excelWorkbook);
             System.Runtime.InteropServices.Marshal.ReleaseComObject(excelWorkbook);
             excelApp.Quit();

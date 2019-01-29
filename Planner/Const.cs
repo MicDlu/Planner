@@ -19,7 +19,8 @@ namespace Planner
         public const int GridRowsCount = ShiftsPerDay * WorkDays;
         public const int PriorityRange = 3;
         public static readonly string systemUIDateFormat = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.ShortDatePattern;
-        public static readonly ExcelFields excelFields = new ExcelFields() { ID = 1, NAME = 2, LASTNAME = 3, GENDER = 4, PRIORITY = 5, FROM = 6, TO = 7, LASTSHIFT = 8, LASTFREEDAY = 9, LASTFREESUNDAY = 10, THISWEEK = 11, FIXEDWEEK = 12, FIXEDPRODUCTION = 13 };
+        public static readonly ExcelFields excelFields = new ExcelFields() { ID = 0, NAME = 1, LASTNAME = 2, GENDER = 3, PRIORITY = 4, FROM = 5, TO = 6, LASTSHIFT = 7, LASTFREEDAY = 8, LASTFREESUNDAY = 9, THISWEEK = 10, FIXEDWEEK = 11, FIXEDPRODUCTION = 12 };
+        public const int attributeCount = 13;
     }
 
     static public class Values

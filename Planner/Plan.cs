@@ -20,6 +20,7 @@ namespace Planner
             ProductionLines = InitProductionLines(true);
             Week = InitWeek();
             Excel = new ExcelInterop(filename);
+            LoadWorkersFromFile();
         }
 
         public void ExtractOrderAmountsFromRange(string cellBegin, string cellEnd = null)
@@ -50,12 +51,17 @@ namespace Planner
         public void CloseExcel(bool save)
         {
             Excel.Close(save);
-            // Excel.KillAllExcelProcesses();
+            //Excel.KillAllExcelProcesses();
         }
 
         public void SaveWorkersToFile()
         {
             Excel.SaveWorkers(Workers);
+        }
+
+        public void LoadWorkersFromFile()
+        {
+            Workers = Excel.LoadWorkers();
         }
 
         private string[] InitProductionLines(bool open)

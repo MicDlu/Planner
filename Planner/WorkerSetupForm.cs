@@ -12,7 +12,6 @@ namespace Planner
 {
     public partial class WorkerSetupForm : Form
     {
-        private List<Worker> Workers { get; set; }
         public Worker CurrWorker { get; set; }
         private bool[,] WeekDisposition { get; set; }
         private bool[,] FixedDisposition { get; set; }
@@ -21,23 +20,6 @@ namespace Planner
         public WorkerSetupForm()
         {
             InitializeComponent();
-            InitTestWorkers();
-        }
-
-        private void InitTestWorkers()
-        {
-            int idx = 1;
-            Workers = new List<Worker>
-            {
-                new Worker(idx++, "Pracownik", "Testowy" + idx.ToString(), Const.Sex.Male),
-                new Worker(idx++, "Pracownik", "Testowy" + idx.ToString(), Const.Sex.Male),
-                new Worker(idx++, "Pracownik", "Testowy" + idx.ToString(), Const.Sex.Male),
-                new Worker(idx++, "Pracownik", "Testowy" + idx.ToString(), Const.Sex.Male),
-                new Worker(idx++, "Pracownica", "Testowa" + idx.ToString(), Const.Sex.Female),
-                new Worker(idx++, "Pracownica", "Testowa" + idx.ToString(), Const.Sex.Female),
-                new Worker(idx++, "Pracownica", "Testowa" + idx.ToString(), Const.Sex.Female),
-                new Worker(idx++, "Pracownica", "Testowa" + idx.ToString(), Const.Sex.Female)
-            };
         }
 
         private void WorkerSetupForm_Load(object sender, EventArgs e)
@@ -123,7 +105,7 @@ namespace Planner
         private void FillDGVRows()
         {
             dgvWorkers.Rows.Clear();
-            foreach (var worker in Workers)
+            foreach (var worker in Values.plan.Workers)
             {
                 DataGridViewRow row = new DataGridViewRow();
                 row.CreateCells(dgvWorkers);
@@ -137,7 +119,7 @@ namespace Planner
 
         private void dgvWorkers_SelectionChanged(object sender, EventArgs e)
         {
-            CurrWorker = Workers[dgvWorkers.CurrentCell.RowIndex];
+            CurrWorker = Values.plan.Workers[dgvWorkers.CurrentCell.RowIndex];
             PopulateWorkerData();
         }
 
@@ -211,7 +193,7 @@ namespace Planner
 
         private void zapiszDoPlikuToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Values.plan.Workers = Workers;
+            Values.plan.Workers = Values.plan.Workers;
             Values.plan.SaveWorkersToFile();
         }
     }
