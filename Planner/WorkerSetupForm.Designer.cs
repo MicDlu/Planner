@@ -50,6 +50,7 @@
             this.dtpActualTo = new System.Windows.Forms.DateTimePicker();
             this.cbLastShift = new System.Windows.Forms.ComboBox();
             this.dtpLastShift = new System.Windows.Forms.DateTimePicker();
+            this.lActualPriority = new System.Windows.Forms.Label();
             this.dtpActualLastFreeSunday = new System.Windows.Forms.DateTimePicker();
             this.dtpActualLastFreeDay = new System.Windows.Forms.DateTimePicker();
             this.dtpActualFrom = new System.Windows.Forms.DateTimePicker();
@@ -58,7 +59,6 @@
             this.lActualWeekAvailability = new System.Windows.Forms.Label();
             this.lActualLastFreeSunday = new System.Windows.Forms.Label();
             this.lActualLastFreeDay = new System.Windows.Forms.Label();
-            this.lActualPriority = new System.Windows.Forms.Label();
             this.lActualLastShift = new System.Windows.Forms.Label();
             this.lActualTo = new System.Windows.Forms.Label();
             this.lActualFrom = new System.Windows.Forms.Label();
@@ -75,6 +75,8 @@
             this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.msSaveToFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.bNew = new System.Windows.Forms.Button();
+            this.bRemove = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvWorkers)).BeginInit();
             this.gbWorkerSetup.SuspendLayout();
             this.gbFixed.SuspendLayout();
@@ -101,6 +103,8 @@
             // 
             // gbWorkerSetup
             // 
+            this.gbWorkerSetup.Controls.Add(this.bRemove);
+            this.gbWorkerSetup.Controls.Add(this.bNew);
             this.gbWorkerSetup.Controls.Add(this.bSave);
             this.gbWorkerSetup.Controls.Add(this.gbFixed);
             this.gbWorkerSetup.Controls.Add(this.gbActual);
@@ -114,9 +118,9 @@
             // 
             // bSave
             // 
-            this.bSave.Location = new System.Drawing.Point(176, 556);
+            this.bSave.Location = new System.Drawing.Point(393, 556);
             this.bSave.Name = "bSave";
-            this.bSave.Size = new System.Drawing.Size(289, 28);
+            this.bSave.Size = new System.Drawing.Size(170, 28);
             this.bSave.TabIndex = 4;
             this.bSave.Text = "Zapisz";
             this.bSave.UseVisualStyleBackColor = true;
@@ -325,6 +329,15 @@
             this.dtpLastShift.Size = new System.Drawing.Size(273, 22);
             this.dtpLastShift.TabIndex = 35;
             // 
+            // lActualPriority
+            // 
+            this.lActualPriority.Location = new System.Drawing.Point(9, 23);
+            this.lActualPriority.Name = "lActualPriority";
+            this.lActualPriority.Size = new System.Drawing.Size(202, 22);
+            this.lActualPriority.TabIndex = 22;
+            this.lActualPriority.Text = "Priorytet";
+            this.lActualPriority.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // dtpActualLastFreeSunday
             // 
             this.dtpActualLastFreeSunday.Location = new System.Drawing.Point(213, 161);
@@ -392,15 +405,6 @@
             this.lActualLastFreeDay.TabIndex = 24;
             this.lActualLastFreeDay.Text = "Poprzedni dzień wolny";
             this.lActualLastFreeDay.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lActualPriority
-            // 
-            this.lActualPriority.Location = new System.Drawing.Point(9, 23);
-            this.lActualPriority.Name = "lActualPriority";
-            this.lActualPriority.Size = new System.Drawing.Size(202, 22);
-            this.lActualPriority.TabIndex = 22;
-            this.lActualPriority.Text = "Priorytet";
-            this.lActualPriority.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lActualLastShift
             // 
@@ -553,6 +557,26 @@
             this.msSaveToFile.Text = "Zapisz do pliku";
             this.msSaveToFile.Click += new System.EventHandler(this.zapiszDoPlikuToolStripMenuItem_Click);
             // 
+            // bNew
+            // 
+            this.bNew.Location = new System.Drawing.Point(177, 559);
+            this.bNew.Name = "bNew";
+            this.bNew.Size = new System.Drawing.Size(165, 28);
+            this.bNew.TabIndex = 5;
+            this.bNew.Text = "Nowy";
+            this.bNew.UseVisualStyleBackColor = true;
+            this.bNew.Click += new System.EventHandler(this.bNew_Click);
+            // 
+            // bRemove
+            // 
+            this.bRemove.Location = new System.Drawing.Point(6, 559);
+            this.bRemove.Name = "bRemove";
+            this.bRemove.Size = new System.Drawing.Size(165, 28);
+            this.bRemove.TabIndex = 6;
+            this.bRemove.Text = "Usuń";
+            this.bRemove.UseVisualStyleBackColor = true;
+            this.bRemove.Click += new System.EventHandler(this.bRemove_Click);
+            // 
             // WorkerSetupForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -631,5 +655,7 @@
         private System.Windows.Forms.CheckBox chbWeekAvailability;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem msSaveToFile;
+        private System.Windows.Forms.Button bNew;
+        private System.Windows.Forms.Button bRemove;
     }
 }

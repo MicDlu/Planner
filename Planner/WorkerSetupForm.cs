@@ -119,7 +119,10 @@ namespace Planner
 
         private void dgvWorkers_SelectionChanged(object sender, EventArgs e)
         {
-            CurrWorker = Values.plan.Workers[dgvWorkers.CurrentCell.RowIndex];
+            if (dgvWorkers.CurrentCell.RowIndex >= Values.plan.Workers.Count)
+                CurrWorker = Values.plan.Workers[dgvWorkers.CurrentCell.RowIndex-1];
+            else
+                CurrWorker = Values.plan.Workers[dgvWorkers.CurrentCell.RowIndex];
             PopulateWorkerData();
         }
 
@@ -195,6 +198,19 @@ namespace Planner
         {
             Values.plan.Workers = Values.plan.Workers;
             Values.plan.SaveWorkersToFile();
+        }
+
+        private void bNew_Click(object sender, EventArgs e)
+        {
+            Values.plan.Workers.Add(new Worker(Values.plan.Workers.Count + 1, "", "", Const.Sex.Male));
+            FillDGVRows();
+            dgvWorkers.CurrentCell = dgvWorkers.Rows[Values.plan.Workers.Count - 1].Cells[0];
+        }
+
+        private void bRemove_Click(object sender, EventArgs e)
+        {
+            Values.plan.Workers.RemoveAt(Values.plan.Workers.FindIndex(x => x.Id == CurrWorker.Id));
+            FillDGVRows();
         }
     }
 }

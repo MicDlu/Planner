@@ -31,16 +31,27 @@ namespace Planner
             Lastname = lastname;
             DisplayName = name + " " + lastname;
             Sex = sex;
-
-            //AvailableFrom = new DateBool() { date = new DateTime(), active = false };
-            //AvailableTo = new DateBool() { date = new DateTime(), active = false };           
-            //Priority = Const.MaxPriority/2;
-            //LastShift = new DateShift() { date = new DateTime(), shift = 0 };
-            //LastFreeDay = new DateTime();
-            //LastFreeSunday = new DateTime();
             WeekDisposition = new bool[Const.WorkDays, Const.ShiftsPerDay];
             FixedPerDay = new bool[Const.WorkDays, Const.ShiftsPerDay];
             ProductionsCheck = new bool[Const.ProductionLinesCount];
+        }
+
+        public Worker(int id, string name, string lastname, Const.Sex sex, int priority, DateBool dateFrom, DateBool dateTo, DateShift dateShift, DateTime freeDay, DateTime freeSunday, bool[,] currWeek, bool[,] fixedWeek, bool[] fixedProduction)
+        {
+            Id = id;
+            Name = name;
+            Lastname = lastname;
+            DisplayName = name + " " + lastname;
+            Sex = sex;
+            Priority = priority;
+            AvailableFrom = dateFrom;
+            AvailableTo = dateTo;
+            LastShift = dateShift;
+            LastFreeDay = freeDay;
+            LastFreeSunday = freeSunday;
+            WeekDisposition = currWeek;
+            FixedPerDay = fixedWeek;
+            ProductionsCheck = fixedProduction;
         }
 
         public Worker(List<string> fromExcel)

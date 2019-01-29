@@ -14,13 +14,16 @@ namespace Planner
         public DateTime[] Week { get; set; }
         private ExcelInterop Excel;
         public List<Worker> Workers { get; set; }
+        Random random = new Random();
 
         public Plan(string filename)
         {
             ProductionLines = InitProductionLines(true);
             Week = InitWeek();
             Excel = new ExcelInterop(filename);
-            LoadWorkersFromFile();
+            //LoadWorkersFromFile();
+            DateTime prevWeekMonday = new DateTime(2019, 1, 27);
+            GenerateRandomWorkers(50, prevWeekMonday);
         }
 
         public void ExtractOrderAmountsFromRange(string cellBegin, string cellEnd = null)
@@ -86,6 +89,65 @@ namespace Planner
             }
             Values.Week = newWeek;
             return newWeek;
+        }
+
+        public void GenerateRandomWorkers(int count, DateTime prevWeekSunday)
+        {
+            string[] lastnames = { "Mazur", "Górski", "Potok", "Podgórski", "Borkowski", "Stawecki", "Krajewski", "Czech", "Szymański", "Jankowski", "Wojciechowski", "Piotrowski", "Pawłowski", "Jakubowski", "Kowalski", "Woźniak", "Krawczyk", "Szewczyk", "Swat", "Kaczmarek", "Wdowiak", "Cichocki", "Wysocki", "Czarnecki", "Wesołowski", "Małecki", "Kędzierski", "Dobrucki", "Cieślak "};
+            List<string>[] names = new List<string>[2];
+            names[0] = new List<string>() { "Stanisław", "Andrzej", "Józef", "Tadeusz", "Jerzy", "Zbigniew", "Krzysztof", "Henryk", "Ryszard", "Kazimierz", "Marek", "Marian", "Piotr", "Janusz", "Władysław", "Adam", "Wiesław", "Zdzisław", "Edward", "Mieczysław", "Roman", "Mirosław", "Grzegorz", "Czesław", "Dariusz", "Wojciech", "Jacek", "Eugeniusz", "Tomasz"};
+            names[1] = new List<string>() { "Krystyna", "Anna", "Barbara", "Teresa", "Elżbieta", "Janina", "Zofia", "Jadwiga", "Danuta", "Halina", "Irena", "Ewa", "Małgorzata", "Helena", "Grażyna", "Bożena", "Stanisława", "Jolanta", "Marianna", "Urszula", "Wanda", "Alicja", "Dorota", "Agnieszka", "Beata", "Katarzyna", "Joanna", "Wiesława", "Renata" };
+
+            Workers = new List<Worker>();
+            
+            for (int i = 0; i < count; i++)
+            {
+                Worker.DateBool dbFrom;
+                Worker.DateShift dsLast;
+                int gender = random.Next(2);
+                DateTime sunday = new DateTime(2019, 1, random.Next(4) * 7 + 6);
+                Worker worker = new Worker(
+                    i+1,
+                    names[gender].ElementAt(random.Next(names[gender].Count)),
+                    lastnames[random.Next(lastnames.Length)],
+                    (Const.Sex)gender,
+                    random.Next(-3, 3),
+                    dbFrom = new Worker.DateBool() { active = (random.Next(2) == 1), date = new DateTime(random.Next(2018, 2020), random.Next(1, 13), random.Next(1, 29)) },
+                    new Worker.DateBool() { active = (random.Next(2) == 1), date = dbFrom.date.Add(new TimeSpan(random.Next(365),0,0,0)) },
+                    dsLast = new Worker.DateShift() { shift = random.Next(1, 4), date = prevWeekSunday.Subtract(new TimeSpan(random.Next(15),0,0,0)) },
+                    prevWeekSunday,
+                    dsLast.date==prevWeekSunday?prevWeekSunday.Subtract(new TimeSpan(random.Next(1,7)*7,0,0,0)): prevWeekSunday,
+                    RandomDayPick(true),
+                    RandomDayPick(false),
+                    RandomProductionPick()
+                );                                                           
+                Workers.Add(worker);
+            }
+        }
+
+        private bool[,] RandomDayPick(bool allowNull)
+        {
+            if (allowNull && (random.Next(2) == 1))
+                return null;
+            bool[,] pick = new bool[Const.WorkDays, Const.ShiftsPerDay];
+            for (int i = 0; i < pick.GetLength(0); i++)
+            {
+                for (int j = 0; j < pick.GetLength(1); j++)
+                {
+                    pick[i, j] = random.Next(2) == 1;
+                }
+            }
+            return pick;
+        }
+
+        private bool[] RandomProductionPick()
+        {
+            bool[] pick = new bool[Const.ProductionLinesCount];
+            for (int i = 0; i < pick.GetLength(0); i++)
+            {
+                pick[i] = random.Next(2) == 1;
+            }
+            return pick;
         }
     }
 }
