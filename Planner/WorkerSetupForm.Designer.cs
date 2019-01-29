@@ -45,6 +45,7 @@
             this.tbFixedDay = new System.Windows.Forms.TextBox();
             this.lFixedDay = new System.Windows.Forms.Label();
             this.gbActual = new System.Windows.Forms.GroupBox();
+            this.chbWeekAvailability = new System.Windows.Forms.CheckBox();
             this.cbPriority = new System.Windows.Forms.ComboBox();
             this.dtpActualTo = new System.Windows.Forms.DateTimePicker();
             this.cbLastShift = new System.Windows.Forms.ComboBox();
@@ -72,7 +73,6 @@
             this.lID = new System.Windows.Forms.Label();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.chbWeekAvailability = new System.Windows.Forms.CheckBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.msSaveToFile = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvWorkers)).BeginInit();
@@ -264,6 +264,7 @@
             this.gbActual.Controls.Add(this.dtpActualTo);
             this.gbActual.Controls.Add(this.cbLastShift);
             this.gbActual.Controls.Add(this.dtpLastShift);
+            this.gbActual.Controls.Add(this.lActualPriority);
             this.gbActual.Controls.Add(this.dtpActualLastFreeSunday);
             this.gbActual.Controls.Add(this.dtpActualLastFreeDay);
             this.gbActual.Controls.Add(this.dtpActualFrom);
@@ -272,7 +273,6 @@
             this.gbActual.Controls.Add(this.lActualWeekAvailability);
             this.gbActual.Controls.Add(this.lActualLastFreeSunday);
             this.gbActual.Controls.Add(this.lActualLastFreeDay);
-            this.gbActual.Controls.Add(this.lActualPriority);
             this.gbActual.Controls.Add(this.lActualLastShift);
             this.gbActual.Controls.Add(this.lActualTo);
             this.gbActual.Controls.Add(this.lActualFrom);
@@ -283,17 +283,27 @@
             this.gbActual.TabStop = false;
             this.gbActual.Text = "Aktualne";
             // 
+            // chbWeekAvailability
+            // 
+            this.chbWeekAvailability.AutoSize = true;
+            this.chbWeekAvailability.Location = new System.Drawing.Point(214, 194);
+            this.chbWeekAvailability.Name = "chbWeekAvailability";
+            this.chbWeekAvailability.Size = new System.Drawing.Size(18, 17);
+            this.chbWeekAvailability.TabIndex = 38;
+            this.chbWeekAvailability.UseVisualStyleBackColor = true;
+            this.chbWeekAvailability.CheckedChanged += new System.EventHandler(this.chbWeekAvailability_CheckedChanged);
+            // 
             // cbPriority
             // 
             this.cbPriority.FormattingEnabled = true;
-            this.cbPriority.Location = new System.Drawing.Point(213, 75);
+            this.cbPriority.Location = new System.Drawing.Point(216, 21);
             this.cbPriority.Name = "cbPriority";
             this.cbPriority.Size = new System.Drawing.Size(337, 24);
             this.cbPriority.TabIndex = 8;
             // 
             // dtpActualTo
             // 
-            this.dtpActualTo.Location = new System.Drawing.Point(214, 47);
+            this.dtpActualTo.Location = new System.Drawing.Point(216, 77);
             this.dtpActualTo.Name = "dtpActualTo";
             this.dtpActualTo.ShowCheckBox = true;
             this.dtpActualTo.Size = new System.Drawing.Size(336, 22);
@@ -331,7 +341,7 @@
             // 
             // dtpActualFrom
             // 
-            this.dtpActualFrom.Location = new System.Drawing.Point(214, 21);
+            this.dtpActualFrom.Location = new System.Drawing.Point(216, 51);
             this.dtpActualFrom.Name = "dtpActualFrom";
             this.dtpActualFrom.ShowCheckBox = true;
             this.dtpActualFrom.Size = new System.Drawing.Size(336, 22);
@@ -385,7 +395,7 @@
             // 
             // lActualPriority
             // 
-            this.lActualPriority.Location = new System.Drawing.Point(6, 77);
+            this.lActualPriority.Location = new System.Drawing.Point(9, 23);
             this.lActualPriority.Name = "lActualPriority";
             this.lActualPriority.Size = new System.Drawing.Size(202, 22);
             this.lActualPriority.TabIndex = 22;
@@ -403,7 +413,7 @@
             // 
             // lActualTo
             // 
-            this.lActualTo.Location = new System.Drawing.Point(6, 49);
+            this.lActualTo.Location = new System.Drawing.Point(8, 79);
             this.lActualTo.Name = "lActualTo";
             this.lActualTo.Size = new System.Drawing.Size(202, 22);
             this.lActualTo.TabIndex = 4;
@@ -412,7 +422,7 @@
             // 
             // lActualFrom
             // 
-            this.lActualFrom.Location = new System.Drawing.Point(6, 21);
+            this.lActualFrom.Location = new System.Drawing.Point(8, 51);
             this.lActualFrom.Name = "lActualFrom";
             this.lActualFrom.Size = new System.Drawing.Size(202, 22);
             this.lActualFrom.TabIndex = 2;
@@ -524,16 +534,6 @@
             this.button1.TabIndex = 3;
             this.button1.Text = "OK";
             this.button1.UseVisualStyleBackColor = true;
-            // 
-            // chbWeekAvailability
-            // 
-            this.chbWeekAvailability.AutoSize = true;
-            this.chbWeekAvailability.Location = new System.Drawing.Point(214, 194);
-            this.chbWeekAvailability.Name = "chbWeekAvailability";
-            this.chbWeekAvailability.Size = new System.Drawing.Size(18, 17);
-            this.chbWeekAvailability.TabIndex = 38;
-            this.chbWeekAvailability.UseVisualStyleBackColor = true;
-            this.chbWeekAvailability.CheckedChanged += new System.EventHandler(this.chbWeekAvailability_CheckedChanged);
             // 
             // menuStrip1
             // 

@@ -68,8 +68,8 @@ namespace Planner
 
             LastShift = new DateShift()
             {
-                date = DateTime.ParseExact(fromExcel[Const.excelFields.LASTSHIFT].Substring(0, 8), Const.systemUIDateFormat, null),
-                shift = int.Parse(fromExcel[Const.excelFields.LASTSHIFT].Substring(9, 1))
+                date = DateTime.ParseExact(fromExcel[Const.excelFields.LASTSHIFT].Substring(0, 10), Const.systemUIDateFormat, null),
+                shift = int.Parse(fromExcel[Const.excelFields.LASTSHIFT].Substring(11, 1))
             };
 
             LastFreeDay = fromExcel[Const.excelFields.LASTFREEDAY] == string.Empty ? new DateTime() : DateTime.ParseExact(fromExcel[Const.excelFields.LASTFREEDAY], Const.systemUIDateFormat, null);
@@ -88,9 +88,9 @@ namespace Planner
                 Name,
                 Lastname,
                 Sex==Const.Sex.Male?"M":"K",
+                Priority.ToString(),
                 AvailableFrom.ToString(),
                 AvailableTo.ToString(),
-                Priority.ToString(),
                 LastShift.ToString(),
                 LastFreeDay.ToString(Const.systemUIDateFormat),
                 LastFreeSunday.ToString(Const.systemUIDateFormat),
@@ -102,6 +102,8 @@ namespace Planner
 
         public string DaysCheckToText(bool[,] disposition)
         {
+            if (disposition == null)
+                return string.Empty;
             string result = string.Empty;
             for (int r = 0; r < disposition.GetLength(0); r++)
             {
@@ -126,7 +128,7 @@ namespace Planner
             {
                 for (int c = 0; c < Const.ShiftsPerDay; c++)
                 {
-                    result[c, r] = text[6 * r + 2*c] == '1' ? true : false;
+                    result[r, c] = text[6 * r + 2*c] == '1' ? true : false;
                 }
             }
             return result;
@@ -134,6 +136,8 @@ namespace Planner
 
         public string ProductionsCheckToText(bool[] check)
         {
+            if (check == null)
+                return string.Empty;
             string result = string.Empty;
             for (int r = 0; r < check.GetLength(0); r++)
             {

@@ -20,11 +20,7 @@ namespace Planner
             SexSelected = Const.Sex.Male;
 
             Values.plan = new Plan(@"C:\Users\micha\Documents\Planer Manpower\Planner Test.xlsx");
-            Values.plan.ExtractOrderAmountsFromRange("E7");
-            //plan.CloseExcel();
-
-            Values.plan.Shifts[0, 0].AddWorker(new Worker(1, "Maciej", "Bojar", Const.Sex.Male), SexSelected);
-            Values.plan.Shifts[0, 0].AddWorker(new Worker(2, "Kamil", "Pieczara", Const.Sex.Male), SexSelected);
+            Values.plan.ExtractOrderAmountsFromRange("E6");
         }
 
         private void WorkScheduleForm_Load(object sender, EventArgs e)
