@@ -12,6 +12,7 @@ namespace Planner
         Excel.Application excelApp;
         Excel.Workbook excelWorkbook;
         Excel.Worksheet excelWorksheetOrder;
+        Excel.Worksheet excelWorksheetWorkers;
         private string FileName { get; set; }
         public Excel.Range CellRange { get; set; }
         public int[] weekRangeSize = { 84, 21 };
@@ -30,6 +31,7 @@ namespace Planner
             excelApp = new Excel.Application();
             excelWorkbook = excelApp.Workbooks.Open(FileName);
             excelWorksheetOrder = excelWorkbook.Worksheets["Zamówienie"];
+            excelWorksheetWorkers = excelWorkbook.Worksheets["Pracownicy"];
         }
 
         public void SetWeekCellRange(string cellBegin, string cellEnd = null)
@@ -61,6 +63,21 @@ namespace Planner
                 }
             }
             return integerValues;
+        }
+
+        internal void SaveWorkers(List<Worker> workers)
+        {
+            for (int i = 0; i < workers.Count; i++)
+            {
+                List<string> attributes = workers[i].ToExcelFormat();
+                for (int a = 0; a < attributes.Count; a++)
+                {
+                    excelWorksheetWorkers.Cells[i + 2, a + 1] = attributes[a];
+                }
+            }
+            excelWorkbook.SaveAs(FileName, Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing,
+                false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange,
+                Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
         }
 
         public void FindWeekRangeByDate()

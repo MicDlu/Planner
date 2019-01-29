@@ -12,7 +12,8 @@ namespace Planner
         public DateTime WeekStart { get; set; }
         public String[] ProductionLines { get; set; }
         public DateTime[] Week { get; set; }
-        private ExcelInterop Excel; 
+        private ExcelInterop Excel;
+        private List<Worker> Workers { get; set; }
 
         public Plan(string filename)
         {
@@ -50,6 +51,11 @@ namespace Planner
         {
             Excel.Close();
             // Excel.KillAllExcelProcesses();
+        }
+
+        public void SaveWorkersToFile()
+        {
+            Excel.SaveWorkers(Workers);
         }
 
         private string[] InitProductionLines(bool open)

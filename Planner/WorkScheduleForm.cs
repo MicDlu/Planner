@@ -22,7 +22,8 @@ namespace Planner
 
             plan = new Plan(@"C:\Users\micha\Documents\Planer Manpower\Planner Test.xlsx");
             plan.ExtractOrderAmountsFromRange("E7");
-            plan.CloseExcel();
+            Values.plan = plan;
+            //plan.CloseExcel();
 
             plan.Shifts[0, 0].AddWorker(new Worker(1, "Maciej", "Bojar", Const.Sex.Male), SexSelected);
             plan.Shifts[0, 0].AddWorker(new Worker(2, "Kamil", "Pieczara", Const.Sex.Male), SexSelected);
