@@ -9,21 +9,19 @@ namespace Planner
     public class Plan
     {
         public Shift[,] Shifts { get; set; }
-        public DateTime WeekStart { get; set; }
         public String[] ProductionLines { get; set; }
         public DateTime[] Week { get; set; }
         private ExcelInterop Excel;
         public List<Worker> Workers { get; set; }
         Random random = new Random();
 
-        public Plan(string filename)
+        public Plan(string filename, DateTime monday)
         {
             ProductionLines = InitProductionLines(true);
-            Week = InitWeek();
+            Week = InitWeek(monday);
             Excel = new ExcelInterop(filename);
             //LoadWorkersFromFile();
-            DateTime prevWeekMonday = new DateTime(2019, 1, 27);
-            GenerateRandomWorkers(50, prevWeekMonday);
+            GenerateRandomWorkers(50);
         }
 
         public void ExtractOrderAmountsFromRange(string cellBegin, string cellEnd = null)
@@ -79,10 +77,10 @@ namespace Planner
             return newProductionLines;
         }
 
-        private DateTime[] InitWeek()
+        private DateTime[] InitWeek(DateTime monday)
         {
             DateTime[] newWeek = new DateTime[Const.WorkDays];
-            newWeek[0] = new DateTime(2018, 12, 24);
+            newWeek[0] = monday;
             for (int i = 1; i < Const.WorkDays; i++)
             {
                 newWeek[i] = newWeek[0].AddDays(i);
@@ -91,8 +89,9 @@ namespace Planner
             return newWeek;
         }
 
-        public void GenerateRandomWorkers(int count, DateTime prevWeekSunday)
+        public void GenerateRandomWorkers(int count)
         {
+            DateTime prevWeekSunday = Week[0].Subtract(new TimeSpan(1, 0, 0, 0));
             string[] lastnames = { "Mazur", "Górski", "Potok", "Podgórski", "Borkowski", "Stawecki", "Krajewski", "Czech", "Szymański", "Jankowski", "Wojciechowski", "Piotrowski", "Pawłowski", "Jakubowski", "Kowalski", "Woźniak", "Krawczyk", "Szewczyk", "Swat", "Kaczmarek", "Wdowiak", "Cichocki", "Wysocki", "Czarnecki", "Wesołowski", "Małecki", "Kędzierski", "Dobrucki", "Cieślak "};
             List<string>[] names = new List<string>[2];
             names[0] = new List<string>() { "Stanisław", "Andrzej", "Józef", "Tadeusz", "Jerzy", "Zbigniew", "Krzysztof", "Henryk", "Ryszard", "Kazimierz", "Marek", "Marian", "Piotr", "Janusz", "Władysław", "Adam", "Wiesław", "Zdzisław", "Edward", "Mieczysław", "Roman", "Mirosław", "Grzegorz", "Czesław", "Dariusz", "Wojciech", "Jacek", "Eugeniusz", "Tomasz"};
@@ -114,8 +113,7 @@ namespace Planner
                     random.Next(-3, 3),
                     dbFrom = new Worker.DateBool() { active = (random.Next(2) == 1), date = new DateTime(random.Next(2018, 2020), random.Next(1, 13), random.Next(1, 29)) },
                     new Worker.DateBool() { active = (random.Next(2) == 1), date = dbFrom.date.Add(new TimeSpan(random.Next(365),0,0,0)) },
-                    dsLast = new Worker.DateShift() { shift = random.Next(1, 4), date = prevWeekSunday.Subtract(new TimeSpan(random.Next(15),0,0,0)) },
-                    prevWeekSunday,
+                    dsLast = new Worker.DateShift() { shift = random.Next(1, 4), date = prevWeekSunday.Subtract(new TimeSpan(random.Next(15),0,0,0)) },                    
                     dsLast.date==prevWeekSunday?prevWeekSunday.Subtract(new TimeSpan(random.Next(1,7)*7,0,0,0)): prevWeekSunday,
                     RandomDayPick(true),
                     RandomDayPick(false),

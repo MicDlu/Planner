@@ -67,6 +67,10 @@ namespace Planner
 
         internal void SaveWorkers(List<Worker> workers)
         {
+            for (int a = 0; a < Const.attributeCount; a++)
+            {
+                excelWorksheetWorkers.Cells[1, a + 1] = Const.excelFields[a];
+            }
             for (int i = 0; i < workers.Count; i++)
             {
                 List<string> attributes = workers[i].ToExcelFormat();

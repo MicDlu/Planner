@@ -17,7 +17,6 @@ namespace Planner
         public DateBool AvailableTo { get; set; }
         public int Priority { get; set; }
         public DateShift LastShift { get; set; }
-        public DateTime LastFreeDay { get; set; }
         public DateTime LastFreeSunday { get; set; }
         public bool[,] WeekDisposition { get; set; }
         public bool[,] FixedPerDay { get; set; }
@@ -36,7 +35,7 @@ namespace Planner
             ProductionsCheck = new bool[Const.ProductionLinesCount];
         }
 
-        public Worker(int id, string name, string lastname, Const.Sex sex, int priority, DateBool dateFrom, DateBool dateTo, DateShift dateShift, DateTime freeDay, DateTime freeSunday, bool[,] currWeek, bool[,] fixedWeek, bool[] fixedProduction)
+        public Worker(int id, string name, string lastname, Const.Sex sex, int priority, DateBool dateFrom, DateBool dateTo, DateShift dateShift, DateTime freeSunday, bool[,] currWeek, bool[,] fixedWeek, bool[] fixedProduction)
         {
             Id = id;
             Name = name;
@@ -47,7 +46,6 @@ namespace Planner
             AvailableFrom = dateFrom;
             AvailableTo = dateTo;
             LastShift = dateShift;
-            LastFreeDay = freeDay;
             LastFreeSunday = freeSunday;
             WeekDisposition = currWeek;
             FixedPerDay = fixedWeek;
@@ -56,20 +54,20 @@ namespace Planner
 
         public Worker(List<string> fromExcel)
         {
-            Id = int.Parse(fromExcel[Const.excelFields.ID]);
-            Name = fromExcel[Const.excelFields.NAME];
-            Lastname = fromExcel[Const.excelFields.LASTNAME];
+            Id = int.Parse(fromExcel[Const.workerAttributes.ID]);
+            Name = fromExcel[Const.workerAttributes.NAME];
+            Lastname = fromExcel[Const.workerAttributes.LASTNAME];
             DisplayName = Name + " " + Lastname;
-            Sex = fromExcel[Const.excelFields.GENDER] =="M"?Const.Sex.Male:Const.Sex.Female;
-            Priority = int.Parse(fromExcel[Const.excelFields.PRIORITY]);
-            if (fromExcel[Const.excelFields.FROM] == string.Empty)
+            Sex = fromExcel[Const.workerAttributes.GENDER] =="M"?Const.Sex.Male:Const.Sex.Female;
+            Priority = int.Parse(fromExcel[Const.workerAttributes.PRIORITY]);
+            if (fromExcel[Const.workerAttributes.FROM] == string.Empty)
                 AvailableFrom = new DateBool() { active = false };
             else
-                AvailableFrom = new DateBool() { active = true, date=DateTime.ParseExact(fromExcel[Const.excelFields.FROM],Const.systemUIDateFormat,null)};
-            if (fromExcel[Const.excelFields.TO] == string.Empty)
+                AvailableFrom = new DateBool() { active = true, date=DateTime.ParseExact(fromExcel[Const.workerAttributes.FROM],Const.systemUIDateFormat,null)};
+            if (fromExcel[Const.workerAttributes.TO] == string.Empty)
                 AvailableTo = new DateBool() { active = false };
             else
-                AvailableTo = new DateBool() { active = true, date = DateTime.ParseExact(fromExcel[Const.excelFields.TO], Const.systemUIDateFormat, null) };
+                AvailableTo = new DateBool() { active = true, date = DateTime.ParseExact(fromExcel[Const.workerAttributes.TO], Const.systemUIDateFormat, null) };
 
             //AvailableTo = new DateBool()
             //{
@@ -79,16 +77,15 @@ namespace Planner
 
             LastShift = new DateShift()
             {
-                date = DateTime.ParseExact(fromExcel[Const.excelFields.LASTSHIFT].Substring(0, 10), Const.systemUIDateFormat, null),
-                shift = int.Parse(fromExcel[Const.excelFields.LASTSHIFT].Substring(11, 1))
+                date = DateTime.ParseExact(fromExcel[Const.workerAttributes.LASTSHIFT].Substring(0, 10), Const.systemUIDateFormat, null),
+                shift = int.Parse(fromExcel[Const.workerAttributes.LASTSHIFT].Substring(11, 1))
             };
 
-            LastFreeDay = fromExcel[Const.excelFields.LASTFREEDAY] == string.Empty ? new DateTime() : DateTime.ParseExact(fromExcel[Const.excelFields.LASTFREEDAY], Const.systemUIDateFormat, null);
-            LastFreeSunday = fromExcel[Const.excelFields.LASTFREESUNDAY] == string.Empty ? new DateTime() : DateTime.ParseExact(fromExcel[Const.excelFields.LASTFREESUNDAY], Const.systemUIDateFormat, null);
+            LastFreeSunday = fromExcel[Const.workerAttributes.LASTFREESUNDAY] == string.Empty ? new DateTime() : DateTime.ParseExact(fromExcel[Const.workerAttributes.LASTFREESUNDAY], Const.systemUIDateFormat, null);
 
-            WeekDisposition = DaysCheckFromText(fromExcel[Const.excelFields.THISWEEK]);
-            FixedPerDay = DaysCheckFromText(fromExcel[Const.excelFields.FIXEDWEEK]);
-            ProductionsCheck = ProductionCheckFromText(fromExcel[Const.excelFields.FIXEDPRODUCTION]);
+            WeekDisposition = DaysCheckFromText(fromExcel[Const.workerAttributes.THISWEEK]);
+            FixedPerDay = DaysCheckFromText(fromExcel[Const.workerAttributes.FIXEDWEEK]);
+            ProductionsCheck = ProductionCheckFromText(fromExcel[Const.workerAttributes.FIXEDPRODUCTION]);
         }
 
         public List<string> ToExcelFormat()
@@ -103,7 +100,6 @@ namespace Planner
                 AvailableFrom.ToString(),
                 AvailableTo.ToString(),
                 LastShift.ToString(),
-                LastFreeDay.ToString(Const.systemUIDateFormat),
                 LastFreeSunday.ToString(Const.systemUIDateFormat),
                 DaysCheckToText(WeekDisposition),
                 DaysCheckToText(FixedPerDay),

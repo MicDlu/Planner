@@ -19,7 +19,10 @@ namespace Planner
             InitializeComponent();
             SexSelected = Const.Sex.Male;
 
-            Values.plan = new Plan(@"C:\Users\micha\Documents\Planer Manpower\Planner Test.xlsx");
+            string filepath = @"C:\Users\micha\Documents\Planer Manpower\Planner Test.xlsx";
+            DateTime monday = new DateTime(2019, 1, 28);
+            Values.plan = new Plan(filepath,monday);
+            // cell = E(+21)6 --- E6,Z6,AU6,BP6
             Values.plan.ExtractOrderAmountsFromRange("E6");
         }
 

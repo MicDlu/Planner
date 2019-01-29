@@ -75,11 +75,6 @@ namespace Planner
             else
                 dtpActualTo.Value = DateTime.Today;
             dtpActualTo.Checked = CurrWorker.AvailableTo.active;
-            // Free day
-            if (CurrWorker.LastFreeDay <= dtpActualLastFreeDay.MaxDate && CurrWorker.LastFreeDay >= dtpActualLastFreeDay.MinDate)
-                dtpActualLastFreeDay.Value = CurrWorker.LastFreeDay;
-            else
-                dtpActualLastFreeDay.Value = dtpActualLastFreeDay.MinDate;
             // Free sunday
             if (CurrWorker.LastFreeSunday <= dtpActualLastFreeSunday.MaxDate && CurrWorker.LastFreeSunday >= dtpActualLastFreeSunday.MinDate)
                 dtpActualLastFreeSunday.Value = CurrWorker.LastFreeSunday;
@@ -164,7 +159,6 @@ namespace Planner
             CurrWorker.FixedPerDay = FixedDisposition;
             CurrWorker.AvailableFrom = new Worker.DateBool() { active = dtpActualFrom.Checked, date = dtpActualFrom.Value };
             CurrWorker.AvailableTo = new Worker.DateBool() { active = dtpActualTo.Checked, date = dtpActualTo.Value };
-            CurrWorker.LastFreeDay = dtpActualLastFreeDay.Value;
             CurrWorker.LastFreeSunday = dtpActualLastFreeSunday.Value;
             CurrWorker.LastShift = new Worker.DateShift() { date = dtpLastShift.Value, shift = ((ComboBoxItem)cbLastShift.SelectedItem).Value };
 
