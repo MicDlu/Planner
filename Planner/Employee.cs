@@ -43,6 +43,63 @@ namespace Planner
             ProductionsCheck = new bool[Const.ProductionLinesCount];
         }
 
+        public Worker(List<string> fromExcel)
+        {
+            Id = int.Parse(fromExcel[Const.excelFields.ID]);
+            Name = fromExcel[Const.excelFields.NAME];
+            Lastname = fromExcel[Const.excelFields.LASTNAME];
+            DisplayName = Name + " " + Lastname;
+            Sex = fromExcel[Const.excelFields.GENDER] =="M"?Const.Sex.Male:Const.Sex.Female;
+            Priority = int.Parse(fromExcel[Const.excelFields.PRIORITY]);
+            if (fromExcel[Const.excelFields.FROM] == string.Empty)
+                AvailableFrom = new DateBool() { active = false };
+            else
+                AvailableFrom = new DateBool() { active = true, date=DateTime.ParseExact(fromExcel[Const.excelFields.FROM],Const.systemUIDateFormat,null)};
+            if (fromExcel[Const.excelFields.TO] == string.Empty)
+                AvailableTo = new DateBool() { active = false };
+            else
+                AvailableTo = new DateBool() { active = true, date = DateTime.ParseExact(fromExcel[Const.excelFields.TO], Const.systemUIDateFormat, null) };
+
+            //AvailableTo = new DateBool()
+            //{
+            //    active = fromExcel[Const.excelFields.TO] != string.Empty,
+            //date = fromExcel[Const.excelFields.TO] == string.Empty ? new DateTime() : DateTime.ParseExact(fromExcel[Const.excelFields.TO], Const.systemUIDateFormat, null)
+            //};
+
+            LastShift = new DateShift()
+            {
+                date = DateTime.ParseExact(fromExcel[Const.excelFields.LASTSHIFT].Substring(0, 8), Const.systemUIDateFormat, null),
+                shift = int.Parse(fromExcel[Const.excelFields.LASTSHIFT].Substring(9, 1))
+            };
+
+            LastFreeDay = fromExcel[Const.excelFields.LASTFREEDAY] == string.Empty ? new DateTime() : DateTime.ParseExact(fromExcel[Const.excelFields.LASTFREEDAY], Const.systemUIDateFormat, null);
+            LastFreeSunday = fromExcel[Const.excelFields.LASTFREESUNDAY] == string.Empty ? new DateTime() : DateTime.ParseExact(fromExcel[Const.excelFields.LASTFREESUNDAY], Const.systemUIDateFormat, null);
+
+            WeekDisposition = DaysCheckFromText(fromExcel[Const.excelFields.THISWEEK]);
+            FixedPerDay = DaysCheckFromText(fromExcel[Const.excelFields.FIXEDWEEK]);
+            ProductionsCheck = ProductionCheckFromText(fromExcel[Const.excelFields.FIXEDPRODUCTION]);
+        }
+
+        public List<string> ToExcelFormat()
+        {
+            return new List<string>
+            {
+                Id.ToString(),
+                Name,
+                Lastname,
+                Sex==Const.Sex.Male?"M":"K",
+                AvailableFrom.ToString(),
+                AvailableTo.ToString(),
+                Priority.ToString(),
+                LastShift.ToString(),
+                LastFreeDay.ToString(Const.systemUIDateFormat),
+                LastFreeSunday.ToString(Const.systemUIDateFormat),
+                DaysCheckToText(WeekDisposition),
+                DaysCheckToText(FixedPerDay),
+                ProductionsCheckToText(ProductionsCheck)
+            };
+        }
+
         public string DaysCheckToText(bool[,] disposition)
         {
             string result = string.Empty;
@@ -60,6 +117,21 @@ namespace Planner
             return result;
         }
 
+        public bool[,] DaysCheckFromText(string text)
+        {
+            if (text == string.Empty)
+                return null;
+            bool[,] result = new bool[Const.WorkDays, Const.ShiftsPerDay];
+            for (int r = 0; r < Const.WorkDays; r++)
+            {
+                for (int c = 0; c < Const.ShiftsPerDay; c++)
+                {
+                    result[c, r] = text[6 * r + 2*c] == '1' ? true : false;
+                }
+            }
+            return result;
+        }
+
         public string ProductionsCheckToText(bool[] check)
         {
             string result = string.Empty;
@@ -72,16 +144,40 @@ namespace Planner
             return result;
         }
 
+        public bool[] ProductionCheckFromText(string text)
+        {
+            if (text == string.Empty)
+                return null;
+            bool[] result = new bool[Const.ProductionLinesCount];
+            for (int p = 0; p < Const.ProductionLinesCount; p++)
+            {
+                result[p] = text[2 * p] == '1' ? true : false;
+            }
+            return result;
+        }
+
+
         public struct DateShift
         {
             public DateTime date;
             public int shift;
+
+            public override string ToString()
+            {
+                return date.ToString(Const.systemUIDateFormat) + "-" + shift.ToString();
+            }
         }
 
         public struct DateBool
         {
             public DateTime date;
             public bool active;
+
+            public override string ToString()
+            {
+                //return date.ToString(Const.systemUIDateFormat) + "-" + (active?"1":"0");
+                return (active ? date.ToString(Const.systemUIDateFormat) : string.Empty);
+            }
         }
     }
 }

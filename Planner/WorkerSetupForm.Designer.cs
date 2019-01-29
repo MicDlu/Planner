@@ -45,6 +45,7 @@
             this.tbFixedDay = new System.Windows.Forms.TextBox();
             this.lFixedDay = new System.Windows.Forms.Label();
             this.gbActual = new System.Windows.Forms.GroupBox();
+            this.cbPriority = new System.Windows.Forms.ComboBox();
             this.dtpActualTo = new System.Windows.Forms.DateTimePicker();
             this.cbLastShift = new System.Windows.Forms.ComboBox();
             this.dtpLastShift = new System.Windows.Forms.DateTimePicker();
@@ -71,12 +72,15 @@
             this.lID = new System.Windows.Forms.Label();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.cbPriority = new System.Windows.Forms.ComboBox();
+            this.chbWeekAvailability = new System.Windows.Forms.CheckBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.msSaveToFile = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvWorkers)).BeginInit();
             this.gbWorkerSetup.SuspendLayout();
             this.gbFixed.SuspendLayout();
             this.gbActual.SuspendLayout();
             this.gbBoxGeneral.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvWorkers
@@ -87,7 +91,7 @@
             this.dgvWorkers.AllowUserToResizeRows = false;
             this.dgvWorkers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvWorkers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvWorkers.Location = new System.Drawing.Point(12, 12);
+            this.dgvWorkers.Location = new System.Drawing.Point(12, 31);
             this.dgvWorkers.Name = "dgvWorkers";
             this.dgvWorkers.ReadOnly = true;
             this.dgvWorkers.RowTemplate.Height = 24;
@@ -101,7 +105,7 @@
             this.gbWorkerSetup.Controls.Add(this.gbFixed);
             this.gbWorkerSetup.Controls.Add(this.gbActual);
             this.gbWorkerSetup.Controls.Add(this.gbBoxGeneral);
-            this.gbWorkerSetup.Location = new System.Drawing.Point(562, 12);
+            this.gbWorkerSetup.Location = new System.Drawing.Point(562, 31);
             this.gbWorkerSetup.Name = "gbWorkerSetup";
             this.gbWorkerSetup.Size = new System.Drawing.Size(569, 593);
             this.gbWorkerSetup.TabIndex = 1;
@@ -255,6 +259,7 @@
             // 
             // gbActual
             // 
+            this.gbActual.Controls.Add(this.chbWeekAvailability);
             this.gbActual.Controls.Add(this.cbPriority);
             this.gbActual.Controls.Add(this.dtpActualTo);
             this.gbActual.Controls.Add(this.cbLastShift);
@@ -277,6 +282,14 @@
             this.gbActual.TabIndex = 1;
             this.gbActual.TabStop = false;
             this.gbActual.Text = "Aktualne";
+            // 
+            // cbPriority
+            // 
+            this.cbPriority.FormattingEnabled = true;
+            this.cbPriority.Location = new System.Drawing.Point(213, 75);
+            this.cbPriority.Name = "cbPriority";
+            this.cbPriority.Size = new System.Drawing.Size(337, 24);
+            this.cbPriority.TabIndex = 8;
             // 
             // dtpActualTo
             // 
@@ -337,10 +350,10 @@
             // 
             // tbActualWeekAvailability
             // 
-            this.tbActualWeekAvailability.Location = new System.Drawing.Point(214, 190);
+            this.tbActualWeekAvailability.Location = new System.Drawing.Point(238, 190);
             this.tbActualWeekAvailability.Name = "tbActualWeekAvailability";
             this.tbActualWeekAvailability.ReadOnly = true;
-            this.tbActualWeekAvailability.Size = new System.Drawing.Size(273, 22);
+            this.tbActualWeekAvailability.Size = new System.Drawing.Size(249, 22);
             this.tbActualWeekAvailability.TabIndex = 29;
             // 
             // lActualWeekAvailability
@@ -495,7 +508,7 @@
             // buttonCancel
             // 
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(893, 636);
+            this.buttonCancel.Location = new System.Drawing.Point(893, 655);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(238, 35);
             this.buttonCancel.TabIndex = 2;
@@ -505,20 +518,40 @@
             // button1
             // 
             this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.button1.Location = new System.Drawing.Point(654, 636);
+            this.button1.Location = new System.Drawing.Point(654, 655);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(233, 35);
             this.button1.TabIndex = 3;
             this.button1.Text = "OK";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // cbPriority
+            // chbWeekAvailability
             // 
-            this.cbPriority.FormattingEnabled = true;
-            this.cbPriority.Location = new System.Drawing.Point(213, 75);
-            this.cbPriority.Name = "cbPriority";
-            this.cbPriority.Size = new System.Drawing.Size(337, 24);
-            this.cbPriority.TabIndex = 8;
+            this.chbWeekAvailability.AutoSize = true;
+            this.chbWeekAvailability.Location = new System.Drawing.Point(214, 194);
+            this.chbWeekAvailability.Name = "chbWeekAvailability";
+            this.chbWeekAvailability.Size = new System.Drawing.Size(18, 17);
+            this.chbWeekAvailability.TabIndex = 38;
+            this.chbWeekAvailability.UseVisualStyleBackColor = true;
+            this.chbWeekAvailability.CheckedChanged += new System.EventHandler(this.chbWeekAvailability_CheckedChanged);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.msSaveToFile});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1143, 28);
+            this.menuStrip1.TabIndex = 4;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // msSaveToFile
+            // 
+            this.msSaveToFile.Name = "msSaveToFile";
+            this.msSaveToFile.Size = new System.Drawing.Size(122, 24);
+            this.msSaveToFile.Text = "Zapisz do pliku";
+            this.msSaveToFile.Click += new System.EventHandler(this.zapiszDoPlikuToolStripMenuItem_Click);
             // 
             // WorkerSetupForm
             // 
@@ -529,6 +562,8 @@
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.gbWorkerSetup);
             this.Controls.Add(this.dgvWorkers);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "WorkerSetupForm";
             this.Text = "WorkerSetupForm";
             this.Load += new System.EventHandler(this.WorkerSetupForm_Load);
@@ -540,7 +575,10 @@
             this.gbActual.PerformLayout();
             this.gbBoxGeneral.ResumeLayout(false);
             this.gbBoxGeneral.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -590,5 +628,8 @@
         private System.Windows.Forms.DateTimePicker dtpActualFrom;
         private System.Windows.Forms.DateTimePicker dtpActualTo;
         private System.Windows.Forms.ComboBox cbPriority;
+        private System.Windows.Forms.CheckBox chbWeekAvailability;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem msSaveToFile;
     }
 }

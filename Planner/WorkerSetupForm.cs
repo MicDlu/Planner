@@ -75,6 +75,7 @@ namespace Planner
             cbSex.SelectedIndex = (int)CurrWorker.Sex;
             cbPriority.SelectedIndex = cbPriority.FindStringExact(CurrWorker.Priority.ToString());
             WeekDisposition = CurrWorker.WeekDisposition;
+            chbWeekAvailability.Checked = CurrWorker.WeekDisposition != null;
             tbActualWeekAvailability.Text = CurrWorker.DaysCheckToText(WeekDisposition);
             FixedDisposition = CurrWorker.FixedPerDay;
             tbFixedDay.Text = CurrWorker.DaysCheckToText(FixedDisposition);
@@ -181,6 +182,7 @@ namespace Planner
             CurrWorker.LastFreeDay = dtpActualLastFreeDay.Value;
             CurrWorker.LastFreeSunday = dtpActualLastFreeSunday.Value;
             CurrWorker.LastShift = new Worker.DateShift() { date = dtpLastShift.Value, shift = ((ComboBoxItem)cbLastShift.SelectedItem).Value };
+
         }
 
         private void bFixedProduction_Click(object sender, EventArgs e)
@@ -195,6 +197,22 @@ namespace Planner
                 ProductionsCheck = productionsPickForm.Matrix;
                 tbFixedProduction.Text = CurrWorker.ProductionsCheckToText(ProductionsCheck);
             }
+        }
+
+        private void chbWeekAvailability_CheckedChanged(object sender, EventArgs e)
+        {
+            bActualWeekAvailability.Enabled = chbWeekAvailability.Checked;
+            tbActualWeekAvailability.Enabled = chbWeekAvailability.Checked;
+            if (chbWeekAvailability.Checked)
+                WeekDisposition = new bool[Const.WorkDays, Const.ShiftsPerDay];
+            else
+                WeekDisposition = null;
+        }
+
+        private void zapiszDoPlikuToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Values.plan.Workers = Workers;
+            Values.plan.SaveWorkersToFile();
         }
     }
 }

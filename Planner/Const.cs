@@ -18,11 +18,14 @@ namespace Planner
         public const int GridColumnsCount = ProductionLinesCount;
         public const int GridRowsCount = ShiftsPerDay * WorkDays;
         public const int PriorityRange = 3;
+        public static readonly string systemUIDateFormat = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.ShortDatePattern;
+        public static readonly ExcelFields excelFields = new ExcelFields() { ID = 1, NAME = 2, LASTNAME = 3, GENDER = 4, PRIORITY = 5, FROM = 6, TO = 7, LASTSHIFT = 8, LASTFREEDAY = 9, LASTFREESUNDAY = 10, THISWEEK = 11, FIXEDWEEK = 12, FIXEDPRODUCTION = 13 };
     }
 
     static public class Values
     {
         public static DateTime[] Week { get; set; }
+        public static Plan plan;
     }
 
     class ComboBoxItem
@@ -34,5 +37,22 @@ namespace Planner
         {
             return Name;
         }
+    }
+
+    public struct ExcelFields
+    {
+        public int ID;
+        public int NAME;
+        public int LASTNAME;
+        public int GENDER;
+        public int PRIORITY;
+        public int FROM;
+        public int TO;
+        public int LASTSHIFT;
+        public int LASTFREEDAY;
+        public int LASTFREESUNDAY;
+        public int THISWEEK;
+        public int FIXEDWEEK;
+        public int FIXEDPRODUCTION;
     }
 }
