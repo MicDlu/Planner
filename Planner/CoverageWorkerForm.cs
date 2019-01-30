@@ -10,15 +10,16 @@ using System.Windows.Forms;
 
 namespace Planner
 {
-    public partial class CoverageForm : Form
+    public partial class CoverageWorkerForm : Form
     {
-        public CoverageForm()
+        public Worker worker;
+
+        public CoverageWorkerForm()
         {
             InitializeComponent();
-
         }
 
-        private void CoverageForm_Load(object sender, EventArgs e)
+        private void CoverageWorkerForm_Load(object sender, EventArgs e)
         {
             InitDataGridViewValues();
             InitDGVValues();
@@ -39,7 +40,7 @@ namespace Planner
             dataGridView1.Columns.Clear();
             for (int p = 0; p < Const.ProductionLinesCount; p++)
             {
-                DataGridViewColumn col = new DataGridViewColumn(new DataGridViewTextBoxCell())
+                DataGridViewCheckBoxColumn col = new DataGridViewCheckBoxColumn()
                 {
                     Name = Const.ProductionLines[p],
                     HeaderText = Const.ProductionLines[p],
@@ -52,10 +53,8 @@ namespace Planner
                 DataGridViewRow row = new DataGridViewRow();
                 row.CreateCells(dataGridView1);
                 for (int d = 0; d < Const.ProductionLinesCount; d++)
-                    //row.Cells[d].Value = Schedule.initialShiftCoverage[d, s, (int)Values.GenderSelected];
-                    row.Cells[d].Value = Values.plan.Shifts[d, s, (int)Values.GenderSelected].CoverageCapacity;
-
-                    row.HeaderCell.Value = ((s+1)%3).ToString();
+                    row.Cells[d].Value = Schedule.initialWorkerCoverage.ElementAt(worker.Id-1)[d,s];
+                row.HeaderCell.Value = ((s + 1) % 4).ToString();
                 dataGridView1.Rows.Add(row);
             }
         }
@@ -174,5 +173,6 @@ namespace Planner
             InvalidateHeader();
             SizeDGV(dataGridView1);
         }
+        
     }
 }

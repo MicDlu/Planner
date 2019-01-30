@@ -21,7 +21,7 @@ namespace Planner
             Week = InitWeek(monday);
             Excel = new ExcelInterop(filename);
             //LoadWorkersFromFile();
-            GenerateRandomWorkers(100);
+            GenerateRandomWorkers(120);
         }
 
         public void ExtractOrderAmountsFromRange(string cellBegin, string cellEnd = null)

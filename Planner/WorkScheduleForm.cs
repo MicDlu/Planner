@@ -21,7 +21,7 @@ namespace Planner
             DateTime monday = new DateTime(2019, 1, 28);
             Values.plan = new Plan(filepath,monday);
             // cell = E(+21)6 --- E6,Z6,AU6,BP6
-            Values.plan.ExtractOrderAmountsFromRange("E6");
+            Values.plan.ExtractOrderAmountsFromRange("CK6");
             Schedule schedule = new Schedule();
         }
 
@@ -172,7 +172,7 @@ namespace Planner
                 using (Pen p = new Pen(dataGridView1.GridColor))
                 using (StringFormat format = new StringFormat())
                 {
-                    string dayText = day.DayOfWeek.ToString();
+                    string dayText = Const.Days[((int)day.DayOfWeek)==0?6: ((int)day.DayOfWeek-1)];
                     dayText += Environment.NewLine + day.ToShortDateString();
 
                     format.Alignment = StringAlignment.Center;

@@ -30,6 +30,8 @@
         {
             this.dgvWorkers = new System.Windows.Forms.DataGridView();
             this.gbWorkerSetup = new System.Windows.Forms.GroupBox();
+            this.bRemove = new System.Windows.Forms.Button();
+            this.bNew = new System.Windows.Forms.Button();
             this.bSave = new System.Windows.Forms.Button();
             this.gbFixed = new System.Windows.Forms.GroupBox();
             this.bFixedProduction = new System.Windows.Forms.Button();
@@ -75,8 +77,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.msSaveToFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.bNew = new System.Windows.Forms.Button();
-            this.bRemove = new System.Windows.Forms.Button();
+            this.mWorkerCoverage = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvWorkers)).BeginInit();
             this.gbWorkerSetup.SuspendLayout();
             this.gbFixed.SuspendLayout();
@@ -115,6 +116,26 @@
             this.gbWorkerSetup.TabIndex = 1;
             this.gbWorkerSetup.TabStop = false;
             this.gbWorkerSetup.Text = "Ustawienia pracownika";
+            // 
+            // bRemove
+            // 
+            this.bRemove.Location = new System.Drawing.Point(6, 559);
+            this.bRemove.Name = "bRemove";
+            this.bRemove.Size = new System.Drawing.Size(165, 28);
+            this.bRemove.TabIndex = 6;
+            this.bRemove.Text = "Usuń";
+            this.bRemove.UseVisualStyleBackColor = true;
+            this.bRemove.Click += new System.EventHandler(this.bRemove_Click);
+            // 
+            // bNew
+            // 
+            this.bNew.Location = new System.Drawing.Point(177, 559);
+            this.bNew.Name = "bNew";
+            this.bNew.Size = new System.Drawing.Size(165, 28);
+            this.bNew.TabIndex = 5;
+            this.bNew.Text = "Nowy";
+            this.bNew.UseVisualStyleBackColor = true;
+            this.bNew.Click += new System.EventHandler(this.bNew_Click);
             // 
             // bSave
             // 
@@ -543,7 +564,8 @@
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.msSaveToFile});
+            this.msSaveToFile,
+            this.mWorkerCoverage});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1143, 28);
@@ -557,25 +579,12 @@
             this.msSaveToFile.Text = "Zapisz do pliku";
             this.msSaveToFile.Click += new System.EventHandler(this.zapiszDoPlikuToolStripMenuItem_Click);
             // 
-            // bNew
+            // mWorkerCoverage
             // 
-            this.bNew.Location = new System.Drawing.Point(177, 559);
-            this.bNew.Name = "bNew";
-            this.bNew.Size = new System.Drawing.Size(165, 28);
-            this.bNew.TabIndex = 5;
-            this.bNew.Text = "Nowy";
-            this.bNew.UseVisualStyleBackColor = true;
-            this.bNew.Click += new System.EventHandler(this.bNew_Click);
-            // 
-            // bRemove
-            // 
-            this.bRemove.Location = new System.Drawing.Point(6, 559);
-            this.bRemove.Name = "bRemove";
-            this.bRemove.Size = new System.Drawing.Size(165, 28);
-            this.bRemove.TabIndex = 6;
-            this.bRemove.Text = "Usuń";
-            this.bRemove.UseVisualStyleBackColor = true;
-            this.bRemove.Click += new System.EventHandler(this.bRemove_Click);
+            this.mWorkerCoverage.Name = "mWorkerCoverage";
+            this.mWorkerCoverage.Size = new System.Drawing.Size(189, 24);
+            this.mWorkerCoverage.Text = "Pokrywalność pracownika";
+            this.mWorkerCoverage.Click += new System.EventHandler(this.mWorkerCoverage_Click);
             // 
             // WorkerSetupForm
             // 
@@ -657,5 +666,6 @@
         private System.Windows.Forms.ToolStripMenuItem msSaveToFile;
         private System.Windows.Forms.Button bNew;
         private System.Windows.Forms.Button bRemove;
+        private System.Windows.Forms.ToolStripMenuItem mWorkerCoverage;
     }
 }

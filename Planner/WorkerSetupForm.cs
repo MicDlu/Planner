@@ -112,7 +112,7 @@ namespace Planner
                 row.Cells[0].Value = worker.Id.ToString();
                 row.Cells[1].Value = worker.Name;
                 row.Cells[2].Value = worker.Lastname;
-                row.Cells[3].Value = (worker.Gender == Const.Gender.Male)?("♂ Mężczyzna") :("♀ Kobieta");
+                row.Cells[3].Value = (worker.Gender == Const.Gender.Male) ? ("♂ Mężczyzna") : ("♀ Kobieta");
                 dgvWorkers.Rows.Add(row);
             }
         }
@@ -120,7 +120,7 @@ namespace Planner
         private void dgvWorkers_SelectionChanged(object sender, EventArgs e)
         {
             if (dgvWorkers.CurrentCell.RowIndex >= Values.plan.Workers.Count)
-                CurrWorker = Values.plan.Workers[dgvWorkers.CurrentCell.RowIndex-1];
+                CurrWorker = Values.plan.Workers[dgvWorkers.CurrentCell.RowIndex - 1];
             else
                 CurrWorker = Values.plan.Workers[dgvWorkers.CurrentCell.RowIndex];
             PopulateWorkerData();
@@ -214,6 +214,13 @@ namespace Planner
         {
             Values.plan.Workers.RemoveAt(Values.plan.Workers.FindIndex(x => x.Id == CurrWorker.Id));
             FillDGVRows();
+        }
+
+        private void mWorkerCoverage_Click(object sender, EventArgs e)
+        {
+            CoverageWorkerForm coverageWorkerForm = new CoverageWorkerForm();
+            coverageWorkerForm.worker = CurrWorker;
+            coverageWorkerForm.Show();
         }
     }
 }
