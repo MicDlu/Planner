@@ -22,7 +22,7 @@ namespace Planner
         public bool[,] WeekDisposition { get; set; }
         public bool[,] FixedPerDay { get; set; }
         public bool[] ProductionsCheck { get; set; }
-
+        public bool[,] CapabilityMap { get; set; }
 
         public Worker(int id, string name, string lastname, Const.Sex sex)
         {

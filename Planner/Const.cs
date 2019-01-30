@@ -15,7 +15,6 @@ namespace Planner
         public static readonly string[] Days = { "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela" };
         public const int SexTypes = 2;
         public enum Sex { Male, Female };
-        public const int GridColumnsCount = ProductionLinesCount;
         public const int GridRowsCount = ShiftsPerDay * WorkDays;
         public const int PriorityRange = 3;
         public static readonly string systemUIDateFormat = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.ShortDatePattern;

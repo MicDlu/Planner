@@ -197,7 +197,10 @@ namespace Planner
         private void zapiszDoPlikuToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Values.plan.Workers = Values.plan.Workers;
-            Values.plan.SaveWorkersToFile();
+            using (ProcessingForm processingForm = new ProcessingForm(Values.plan.SaveWorkersToFile))
+            {
+                processingForm.ShowDialog();
+            }
         }
 
         private void bNew_Click(object sender, EventArgs e)

@@ -24,6 +24,7 @@ namespace Planner
             Values.plan = new Plan(filepath,monday);
             // cell = E(+21)6 --- E6,Z6,AU6,BP6
             Values.plan.ExtractOrderAmountsFromRange("E6");
+            Schedule schedule = new Schedule();
         }
 
         private void WorkScheduleForm_Load(object sender, EventArgs e)

@@ -79,6 +79,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Plan.cs" />
+    <Compile Include="Schedule.cs" />
     <Compile Include="Shift.cs" />
     <Compile Include="WorkerSetupForm.cs">
       <SubType>Form</SubType>
