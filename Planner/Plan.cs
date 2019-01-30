@@ -8,7 +8,7 @@ namespace Planner
 {
     public class Plan
     {
-        public Shift[,] Shifts { get; set; }
+        public Shift[,,] Shifts { get; set; }
         public String[] ProductionLines { get; set; }
         public DateTime[] Week { get; set; }
         private ExcelInterop Excel;
@@ -29,21 +29,17 @@ namespace Planner
             Excel.SetWeekCellRange(cellBegin,cellEnd);
             int[,] rawOrder = Excel.ExtractRangeValues();
 
-            Shifts = new Shift[Const.ProductionLinesCount, Const.GridRowsCount];
+            Shifts = new Shift[Const.ProductionLinesCount, Const.GridRowsCount, 2];
             for (int p = 0; p < Const.ProductionLinesCount; p++)
             {
                 for (int d = 0; d < Const.WorkDays; d++)
                 {
                     for (int s = 0; s < Const.ShiftsPerDay; s++)
                     {
-                        Shift shift = new Shift(d, s, p);
-
                         int rawRow = p * 7 + s * 2;
                         int rawCol = d * 3;
-                        shift.SetOrderPerSex(Const.Sex.Female, rawOrder[rawRow,rawCol]);
-                        shift.SetOrderPerSex(Const.Sex.Male, rawOrder[rawRow + 1, rawCol]);
-
-                        Shifts[p, Const.ShiftsPerDay * d + s] = shift;
+                        Shifts[p, Const.ShiftsPerDay * d + s, 0] = new Shift(d, s, p, Const.Sex.Male, rawOrder[rawRow + 1, rawCol]);
+                        Shifts[p, Const.ShiftsPerDay * d + s, 1] = new Shift(d, s, p, Const.Sex.Female, rawOrder[rawRow, rawCol]);
                     }
                 }
             }

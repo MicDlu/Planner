@@ -29,7 +29,7 @@ namespace Planner
         {
             for (int s = 0; s < 2; s++)
             {
-               sortedShifts[s] = Values.plan.Shifts.Cast<Shift>().ToList().Where(w => w.PerSex[s].sex == (Const.Sex)s).OrderBy(x => x.PerSex[s].CoverageReserve()).ToList();
+               sortedShifts[s] = Values.plan.Shifts.Cast<Shift>().ToList().OrderBy(x => x.CoverageReserve()).ToList();
             }
         }
 
@@ -37,10 +37,10 @@ namespace Planner
         {
             for (int s = 0; s < 2; s++)
             {
-                shift.PerSex[s].coverageCapacity = 0;
+                shift.CoverageCapacity = 0;
                 foreach (Worker worker in Values.plan.Workers.Where(x => x.Sex == (Const.Sex)s))
                 {
-                    shift.PerSex[s].coverageCapacity += worker.CapabilityMap[shift.ProdLineNo,shift.No]?1:0;
+                    shift.CoverageCapacity += worker.CapabilityMap[shift.ProdLineNo,shift.No]?1:0;
                 }
             }
         }
@@ -74,7 +74,7 @@ namespace Planner
             {
                 for (int j = 0; j < Values.plan.Shifts.GetLength(1); j++)
                 {
-                    Console.Write(Values.plan.Shifts[i, j].PerSex[sex].CoverageReserve() + "\t");
+                    Console.Write(Values.plan.Shifts[i, j, sex].CoverageReserve() + "\t");
                 }
                 Console.WriteLine();
             }

@@ -132,8 +132,8 @@ namespace Planner
             {
                 for (int c = 0; c < dataGridView1.ColumnCount; c++)
                 {
-                    int assigned = Values.plan.Shifts[c, r].PerSex[(int)Values.SexSelected].employeeAssigned.Count;
-                    int ordered = Values.plan.Shifts[c, r].PerSex[(int)Values.SexSelected].order;
+                    int assigned = Values.plan.Shifts[c, r, (int)Values.SexSelected].EmployeeAssigned.Count;
+                    int ordered = Values.plan.Shifts[c, r, (int)Values.SexSelected].Order;
                     dataGridView1[c, r].Value = assigned.ToString() + " / " + ordered.ToString();
                     
                     if (ordered == 0)
@@ -217,7 +217,7 @@ namespace Planner
         private void FillAssignedWorkerList(int selectedRow, int selectedCol)
         {
             listBoxEmpolyees.DataSource = null;
-            listBoxEmpolyees.DataSource = Values.plan.Shifts[selectedRow, selectedCol].PerSex[(int)Values.SexSelected].employeeAssigned;
+            listBoxEmpolyees.DataSource = Values.plan.Shifts[selectedRow, selectedCol, (int)Values.SexSelected].EmployeeAssigned;
             listBoxEmpolyees.DisplayMember = "DisplayName";
             listBoxEmpolyees.ValueMember = "Id";
         }
@@ -226,7 +226,7 @@ namespace Planner
         {
             int selectedRow = dataGridView1.CurrentCell.RowIndex;
             int selectedCol = dataGridView1.CurrentCell.ColumnIndex;
-            if (Values.plan.Shifts[selectedCol, selectedRow].RemoveWorker((Worker)listBoxEmpolyees.SelectedItem, Values.SexSelected)) 
+            if (Values.plan.Shifts[selectedCol, selectedRow, (int)Values.SexSelected].RemoveWorker((Worker)listBoxEmpolyees.SelectedItem, Values.SexSelected)) 
             {
                 FillAssignedWorkerList(selectedRow, selectedCol);
                 UpdateAssignedValues();
@@ -247,7 +247,7 @@ namespace Planner
             {
                 int selectedRow = dataGridView1.CurrentCell.RowIndex;
                 int selectedCol = dataGridView1.CurrentCell.ColumnIndex;
-                if (Values.plan.Shifts[selectedCol, selectedRow].AddWorker(workerSetupForm.CurrWorker, Values.SexSelected))
+                if (Values.plan.Shifts[selectedCol, selectedRow, (int)Values.SexSelected].AddWorker(workerSetupForm.CurrWorker, Values.SexSelected))
                 {
                     FillAssignedWorkerList(selectedRow, selectedCol);
                     UpdateAssignedValues();

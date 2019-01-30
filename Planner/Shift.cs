@@ -13,33 +13,31 @@ namespace Planner
         public int Hour { get; set; }
         public int ProdLineNo { get; set; }
         public DateTime Date { get; set; }
-        public OrderPerSex[] PerSex { get; set; }
-        //public int Order { get; set; }
-        //public List<Employee> EmployeeAssigned { get; set; }
+        public Const.Sex Sex { get; set; }
+        public int Order { get; set; }
+        public List<Worker> EmployeeAssigned { get; set; }
+        public int CoverageCapacity { get; set; }
 
-        public Shift(int day, int hour, int prodLineNo)
+        public int CoverageReserve()
+        {
+            return CoverageCapacity - (Order - EmployeeAssigned.Count);
+        }
+
+        public Shift(int day, int hour, int prodLineNo, Const.Sex sex, int order)
         {
             No = Const.ShiftsPerDay * day + hour;
             Day = day;
             Hour = hour;
             ProdLineNo = prodLineNo;
-            PerSex = new OrderPerSex[2];
-            //Order = order;
-            //EmployeeAssigned = new List<Employee>();
-        }
-
-        public void SetOrderPerSex(Const.Sex sex, int order)
-        {
-            PerSex[(int)sex].sex = sex;
-            PerSex[(int)sex].order = order;
-            PerSex[(int)sex].employeeAssigned = new List<Worker>();
+            Order = order;
+            EmployeeAssigned = new List<Worker>();
         }
 
         public bool AddWorker(Worker worker, Const.Sex targetSex)
         {
-            if (PerSex[(int)worker.Sex].employeeAssigned.Count < PerSex[(int)targetSex].order)
+            if (EmployeeAssigned.Count < Order)
             {
-                PerSex[(int)targetSex].employeeAssigned.Add(worker);
+                EmployeeAssigned.Add(worker);
                 return true;
             }
             return false;
@@ -47,24 +45,12 @@ namespace Planner
 
         public bool RemoveWorker(Worker worker, Const.Sex targetSex)
         {
-            if (PerSex[(int)targetSex].employeeAssigned.Count > 0)
+            if (EmployeeAssigned.Count > 0)
             {
-                PerSex[(int)targetSex].employeeAssigned.Remove(worker);
+                EmployeeAssigned.Remove(worker);
                 return true;
             }
             return false;
-        }
-
-        public struct OrderPerSex
-        {
-            public Const.Sex sex;
-            public int order;
-            public List<Worker> employeeAssigned;
-            public int coverageCapacity;
-            public int CoverageReserve()
-            {
-                return coverageCapacity - (order - employeeAssigned.Count);
-            }
         }
     }
 }
