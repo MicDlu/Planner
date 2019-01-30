@@ -13,8 +13,8 @@ namespace Planner
         public const int ShiftsPerDay = 3;
         public const int WorkDays = 7;
         public static readonly string[] Days = { "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela" };
-        public const int SexTypes = 2;
-        public enum Sex { Male, Female };
+        public const int GenderTypes = 2;
+        public enum Gender { Male, Female };
         public const int GridRowsCount = ShiftsPerDay * WorkDays;
         public const int PriorityRange = 3;
         public static readonly string systemUIDateFormat = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.ShortDatePattern;
@@ -27,7 +27,7 @@ namespace Planner
     {
         public static DateTime[] Week { get; set; }
         public static Plan plan;
-        public static Const.Sex SexSelected = Const.Sex.Male;
+        public static Const.Gender GenderSelected = Const.Gender.Male;
     }
 
     class ComboBoxItem

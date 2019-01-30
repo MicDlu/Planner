@@ -34,7 +34,7 @@
             this.buttonAddEmployee = new System.Windows.Forms.Button();
             this.buttonRemoveEmployee = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.comboBoxSex = new System.Windows.Forms.ComboBox();
+            this.comboBoxGender = new System.Windows.Forms.ComboBox();
             this.groupBoxView = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBoxEmployees.SuspendLayout();
@@ -106,18 +106,18 @@
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // comboBoxSex
+            // comboBoxGender
             // 
-            this.comboBoxSex.FormattingEnabled = true;
-            this.comboBoxSex.Location = new System.Drawing.Point(6, 21);
-            this.comboBoxSex.Name = "comboBoxSex";
-            this.comboBoxSex.Size = new System.Drawing.Size(323, 24);
-            this.comboBoxSex.TabIndex = 4;
-            this.comboBoxSex.SelectedIndexChanged += new System.EventHandler(this.comboBoxSex_SelectedIndexChanged);
+            this.comboBoxGender.FormattingEnabled = true;
+            this.comboBoxGender.Location = new System.Drawing.Point(6, 21);
+            this.comboBoxGender.Name = "comboBoxGender";
+            this.comboBoxGender.Size = new System.Drawing.Size(323, 24);
+            this.comboBoxGender.TabIndex = 4;
+            this.comboBoxGender.SelectedIndexChanged += new System.EventHandler(this.comboBoxGender_SelectedIndexChanged);
             // 
             // groupBoxView
             // 
-            this.groupBoxView.Controls.Add(this.comboBoxSex);
+            this.groupBoxView.Controls.Add(this.comboBoxGender);
             this.groupBoxView.Location = new System.Drawing.Point(614, 31);
             this.groupBoxView.Name = "groupBoxView";
             this.groupBoxView.Size = new System.Drawing.Size(335, 61);
@@ -153,7 +153,7 @@
         private System.Windows.Forms.GroupBox groupBoxEmployees;
         private System.Windows.Forms.Button buttonRemoveEmployee;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ComboBox comboBoxSex;
+        private System.Windows.Forms.ComboBox comboBoxGender;
         private System.Windows.Forms.GroupBox groupBoxView;
         private System.Windows.Forms.Button buttonAddEmployee;
     }

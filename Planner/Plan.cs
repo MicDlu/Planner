@@ -38,8 +38,8 @@ namespace Planner
                     {
                         int rawRow = p * 7 + s * 2;
                         int rawCol = d * 3;
-                        Shifts[p, Const.ShiftsPerDay * d + s, 0] = new Shift(d, s, p, Const.Sex.Male, rawOrder[rawRow + 1, rawCol]);
-                        Shifts[p, Const.ShiftsPerDay * d + s, 1] = new Shift(d, s, p, Const.Sex.Female, rawOrder[rawRow, rawCol]);
+                        Shifts[p, Const.ShiftsPerDay * d + s, 0] = new Shift(d, s, p, Const.Gender.Male, rawOrder[rawRow + 1, rawCol]);
+                        Shifts[p, Const.ShiftsPerDay * d + s, 1] = new Shift(d, s, p, Const.Gender.Female, rawOrder[rawRow, rawCol]);
                     }
                 }
             }
@@ -108,9 +108,9 @@ namespace Planner
                     i+1,
                     names[gender].ElementAt(random.Next(names[gender].Count)),
                     lastnames[random.Next(lastnames.Length)],
-                    (Const.Sex)gender,
+                    (Const.Gender)gender,
                     random.Next(-3, 3),
-                    dbFrom = new Worker.DateBool() { active = (random.Next(2) == 1), date = new DateTime(random.Next(2018, 2020), random.Next(1, 13), random.Next(1, 29)) },
+                    dbFrom = new Worker.DateBool() { active = (random.Next(2) == 1), date = prevWeekSunday.Subtract(new TimeSpan(random.Next(90), 0, 0, 0)) },
                     new Worker.DateBool() { active = (random.Next(2) == 1), date = dbFrom.date.Add(new TimeSpan(random.Next(365),0,0,0)) },
                     dsLast = new Worker.DateShift() { shift = random.Next(1, 4), date = prevWeekSunday.Subtract(new TimeSpan(random.Next(15),0,0,0)) },
                     dsLast.date==prevWeekSunday?prevWeekSunday.Subtract(new TimeSpan(random.Next(1,10), 0, 0, 0)):prevWeekSunday,

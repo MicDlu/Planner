@@ -11,7 +11,7 @@ namespace Planner
         public int Id { get; set; }
         public string Name { get; set; }
         public string Lastname { get; set; }
-        public Const.Sex Sex { get; set; }
+        public Const.Gender Gender { get; set; }
         public string DisplayName { get; set; }
         public DateBool AvailableFrom { get; set; }
         public DateBool AvailableTo { get; set; }
@@ -23,26 +23,28 @@ namespace Planner
         public bool[,] FixedPerDay { get; set; }
         public bool[] ProductionsCheck { get; set; }
         public bool[,] CapabilityMap { get; set; }
+        public List<Shift> ShiftsAssigned { get; set; }
 
-        public Worker(int id, string name, string lastname, Const.Sex sex)
+        public Worker(int id, string name, string lastname, Const.Gender gender)
         {
             Id = id;
             Name = name;
             Lastname = lastname;
             DisplayName = name + " " + lastname;
-            Sex = sex;
+            Gender = gender;
             WeekDisposition = new bool[Const.WorkDays, Const.ShiftsPerDay];
             FixedPerDay = new bool[Const.WorkDays, Const.ShiftsPerDay];
             ProductionsCheck = new bool[Const.ProductionLinesCount];
+            ShiftsAssigned = new List<Shift>();
         }
 
-        public Worker(int id, string name, string lastname, Const.Sex sex, int priority, DateBool dateFrom, DateBool dateTo, DateShift dateShift, DateTime freeDay, DateTime freeSunday, bool[,] currWeek, bool[,] fixedWeek, bool[] fixedProduction)
+        public Worker(int id, string name, string lastname, Const.Gender gender, int priority, DateBool dateFrom, DateBool dateTo, DateShift dateShift, DateTime freeDay, DateTime freeSunday, bool[,] currWeek, bool[,] fixedWeek, bool[] fixedProduction)
         {
             Id = id;
             Name = name;
             Lastname = lastname;
             DisplayName = name + " " + lastname;
-            Sex = sex;
+            Gender = gender;
             Priority = priority;
             AvailableFrom = dateFrom;
             AvailableTo = dateTo;
@@ -52,6 +54,7 @@ namespace Planner
             WeekDisposition = currWeek;
             FixedPerDay = fixedWeek;
             ProductionsCheck = fixedProduction;
+            ShiftsAssigned = new List<Shift>();
         }
 
         public Worker(List<string> fromExcel)
@@ -60,7 +63,7 @@ namespace Planner
             Name = fromExcel[Const.workerAttributes.NAME];
             Lastname = fromExcel[Const.workerAttributes.LASTNAME];
             DisplayName = Name + " " + Lastname;
-            Sex = fromExcel[Const.workerAttributes.GENDER] =="M"?Const.Sex.Male:Const.Sex.Female;
+            Gender = fromExcel[Const.workerAttributes.GENDER] =="M"?Const.Gender.Male:Const.Gender.Female;
             Priority = int.Parse(fromExcel[Const.workerAttributes.PRIORITY]);
             if (fromExcel[Const.workerAttributes.FROM] == string.Empty)
                 AvailableFrom = new DateBool() { active = false };
@@ -70,12 +73,6 @@ namespace Planner
                 AvailableTo = new DateBool() { active = false };
             else
                 AvailableTo = new DateBool() { active = true, date = DateTime.ParseExact(fromExcel[Const.workerAttributes.TO], Const.systemUIDateFormat, null) };
-
-            //AvailableTo = new DateBool()
-            //{
-            //    active = fromExcel[Const.excelFields.TO] != string.Empty,
-            //date = fromExcel[Const.excelFields.TO] == string.Empty ? new DateTime() : DateTime.ParseExact(fromExcel[Const.excelFields.TO], Const.systemUIDateFormat, null)
-            //};
 
             LastShift = new DateShift()
             {
@@ -88,6 +85,12 @@ namespace Planner
             WeekDisposition = DaysCheckFromText(fromExcel[Const.workerAttributes.THISWEEK]);
             FixedPerDay = DaysCheckFromText(fromExcel[Const.workerAttributes.FIXEDWEEK]);
             ProductionsCheck = ProductionCheckFromText(fromExcel[Const.workerAttributes.FIXEDPRODUCTION]);
+            ShiftsAssigned = new List<Shift>();
+        }
+
+        public int Capabilities()
+        {
+            return CapabilityMap.Cast<bool>().ToList().Where(s => s == true).Count();
         }
 
         public List<string> ToExcelFormat()
@@ -97,7 +100,7 @@ namespace Planner
                 Id.ToString(),
                 Name,
                 Lastname,
-                Sex==Const.Sex.Male?"M":"K",
+                Gender==Const.Gender.Male?"M":"K",
                 Priority.ToString(),
                 AvailableFrom.ToString(),
                 AvailableTo.ToString(),

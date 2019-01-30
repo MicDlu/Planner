@@ -54,7 +54,7 @@ namespace Planner
             tbID.Text = CurrWorker.Id.ToString();
             tbName.Text = CurrWorker.Name;
             tbLastname.Text = CurrWorker.Lastname;
-            cbSex.SelectedIndex = (int)CurrWorker.Sex;
+            cbGender.SelectedIndex = (int)CurrWorker.Gender;
             cbPriority.SelectedIndex = cbPriority.FindStringExact(CurrWorker.Priority.ToString());
             WeekDisposition = CurrWorker.WeekDisposition;
             chbWeekAvailability.Checked = CurrWorker.WeekDisposition != null;
@@ -99,7 +99,7 @@ namespace Planner
             dgvWorkers.Columns.Add(new DataGridViewColumn(new DataGridViewTextBoxCell()) { Name = "ID", HeaderText = "ID" });
             dgvWorkers.Columns.Add(new DataGridViewColumn(new DataGridViewTextBoxCell()) { Name = "Name", HeaderText = "Imię" });
             dgvWorkers.Columns.Add(new DataGridViewColumn(new DataGridViewTextBoxCell()) { Name = "Lastname", HeaderText = "Nazwisko" });
-            dgvWorkers.Columns.Add(new DataGridViewColumn(new DataGridViewTextBoxCell()) { Name = "Sex", HeaderText = "Płeć" });
+            dgvWorkers.Columns.Add(new DataGridViewColumn(new DataGridViewTextBoxCell()) { Name = "Gender", HeaderText = "Płeć" });
         }
 
         private void FillDGVRows()
@@ -112,7 +112,7 @@ namespace Planner
                 row.Cells[0].Value = worker.Id.ToString();
                 row.Cells[1].Value = worker.Name;
                 row.Cells[2].Value = worker.Lastname;
-                row.Cells[3].Value = (worker.Sex == Const.Sex.Male)?("♂ Mężczyzna") :("♀ Kobieta");
+                row.Cells[3].Value = (worker.Gender == Const.Gender.Male)?("♂ Mężczyzna") :("♀ Kobieta");
                 dgvWorkers.Rows.Add(row);
             }
         }
@@ -158,7 +158,7 @@ namespace Planner
         {
             CurrWorker.Name = tbName.Text;
             CurrWorker.Lastname = tbLastname.Text;
-            CurrWorker.Sex = (Const.Sex)cbSex.SelectedIndex;
+            CurrWorker.Gender = (Const.Gender)cbGender.SelectedIndex;
             CurrWorker.Priority = ((ComboBoxItem)cbPriority.SelectedItem).Value;
             CurrWorker.WeekDisposition = WeekDisposition;
             CurrWorker.FixedPerDay = FixedDisposition;
@@ -205,7 +205,7 @@ namespace Planner
 
         private void bNew_Click(object sender, EventArgs e)
         {
-            Values.plan.Workers.Add(new Worker(Values.plan.Workers.Count + 1, "", "", Const.Sex.Male));
+            Values.plan.Workers.Add(new Worker(Values.plan.Workers.Count + 1, "", "", Const.Gender.Male));
             FillDGVRows();
             dgvWorkers.CurrentCell = dgvWorkers.Rows[Values.plan.Workers.Count - 1].Cells[0];
         }

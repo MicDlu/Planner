@@ -63,8 +63,8 @@
             this.lActualTo = new System.Windows.Forms.Label();
             this.lActualFrom = new System.Windows.Forms.Label();
             this.gbBoxGeneral = new System.Windows.Forms.GroupBox();
-            this.cbSex = new System.Windows.Forms.ComboBox();
-            this.lSex = new System.Windows.Forms.Label();
+            this.cbGender = new System.Windows.Forms.ComboBox();
+            this.lGender = new System.Windows.Forms.Label();
             this.tbLastname = new System.Windows.Forms.TextBox();
             this.lLastname = new System.Windows.Forms.Label();
             this.tbName = new System.Windows.Forms.TextBox();
@@ -435,8 +435,8 @@
             // 
             // gbBoxGeneral
             // 
-            this.gbBoxGeneral.Controls.Add(this.cbSex);
-            this.gbBoxGeneral.Controls.Add(this.lSex);
+            this.gbBoxGeneral.Controls.Add(this.cbGender);
+            this.gbBoxGeneral.Controls.Add(this.lGender);
             this.gbBoxGeneral.Controls.Add(this.tbLastname);
             this.gbBoxGeneral.Controls.Add(this.lLastname);
             this.gbBoxGeneral.Controls.Add(this.tbName);
@@ -450,25 +450,25 @@
             this.gbBoxGeneral.TabStop = false;
             this.gbBoxGeneral.Text = "Ogólne";
             // 
-            // cbSex
+            // cbGender
             // 
-            this.cbSex.FormattingEnabled = true;
-            this.cbSex.Items.AddRange(new object[] {
+            this.cbGender.FormattingEnabled = true;
+            this.cbGender.Items.AddRange(new object[] {
             "♂ Mężczyzna",
             "♀ Kobieta"});
-            this.cbSex.Location = new System.Drawing.Point(214, 108);
-            this.cbSex.Name = "cbSex";
-            this.cbSex.Size = new System.Drawing.Size(337, 24);
-            this.cbSex.TabIndex = 7;
+            this.cbGender.Location = new System.Drawing.Point(214, 108);
+            this.cbGender.Name = "cbGender";
+            this.cbGender.Size = new System.Drawing.Size(337, 24);
+            this.cbGender.TabIndex = 7;
             // 
-            // lSex
+            // lGender
             // 
-            this.lSex.Location = new System.Drawing.Point(6, 108);
-            this.lSex.Name = "lSex";
-            this.lSex.Size = new System.Drawing.Size(202, 24);
-            this.lSex.TabIndex = 6;
-            this.lSex.Text = "Płeć";
-            this.lSex.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lGender.Location = new System.Drawing.Point(6, 108);
+            this.lGender.Name = "lGender";
+            this.lGender.Size = new System.Drawing.Size(202, 24);
+            this.lGender.TabIndex = 6;
+            this.lGender.Text = "Płeć";
+            this.lGender.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // tbLastname
             // 
@@ -623,8 +623,8 @@
         private System.Windows.Forms.Label lFixedDay;
         private System.Windows.Forms.Label lActualTo;
         private System.Windows.Forms.Label lActualFrom;
-        private System.Windows.Forms.ComboBox cbSex;
-        private System.Windows.Forms.Label lSex;
+        private System.Windows.Forms.ComboBox cbGender;
+        private System.Windows.Forms.Label lGender;
         private System.Windows.Forms.TextBox tbLastname;
         private System.Windows.Forms.Label lLastname;
         private System.Windows.Forms.TextBox tbName;
