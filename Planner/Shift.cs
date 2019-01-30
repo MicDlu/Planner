@@ -61,6 +61,10 @@ namespace Planner
             public int order;
             public List<Worker> employeeAssigned;
             public int coverageCapacity;
+            public int CoverageReserve()
+            {
+                return coverageCapacity - (order - employeeAssigned.Count);
+            }
         }
     }
 }

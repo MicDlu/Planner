@@ -21,7 +21,7 @@ namespace Planner
             Week = InitWeek(monday);
             Excel = new ExcelInterop(filename);
             //LoadWorkersFromFile();
-            GenerateRandomWorkers(50);
+            GenerateRandomWorkers(100);
         }
 
         public void ExtractOrderAmountsFromRange(string cellBegin, string cellEnd = null)
@@ -52,8 +52,12 @@ namespace Planner
         public void CloseExcel(bool save)
         {
             Excel.Close(save);
-            //Excel.KillAllExcelProcesses();
         }
+        public void KillExcel()
+        {
+            Excel.KillAllExcelProcesses();
+        }
+
 
         public void SaveWorkersToFile()
         {
@@ -104,7 +108,6 @@ namespace Planner
                 Worker.DateBool dbFrom;
                 Worker.DateShift dsLast;
                 int gender = random.Next(2);
-                DateTime sunday = new DateTime(2019, 1, random.Next(4) * 7 + 6);
                 Worker worker = new Worker(
                     i+1,
                     names[gender].ElementAt(random.Next(names[gender].Count)),
@@ -114,7 +117,7 @@ namespace Planner
                     dbFrom = new Worker.DateBool() { active = (random.Next(2) == 1), date = new DateTime(random.Next(2018, 2020), random.Next(1, 13), random.Next(1, 29)) },
                     new Worker.DateBool() { active = (random.Next(2) == 1), date = dbFrom.date.Add(new TimeSpan(random.Next(365),0,0,0)) },
                     dsLast = new Worker.DateShift() { shift = random.Next(1, 4), date = prevWeekSunday.Subtract(new TimeSpan(random.Next(15),0,0,0)) },
-                    prevWeekSunday,
+                    dsLast.date==prevWeekSunday?prevWeekSunday.Subtract(new TimeSpan(random.Next(1,10), 0, 0, 0)):prevWeekSunday,
                     dsLast.date==prevWeekSunday?prevWeekSunday.Subtract(new TimeSpan(random.Next(1,7)*7,0,0,0)): prevWeekSunday,
                     RandomDayPick(true),
                     RandomDayPick(false),
@@ -144,7 +147,7 @@ namespace Planner
             bool[] pick = new bool[Const.ProductionLinesCount];
             for (int i = 0; i < pick.GetLength(0); i++)
             {
-                pick[i] = random.Next(2) == 1;
+                pick[i] = random.Next(10)/2 > 0;
             }
             return pick;
         }
