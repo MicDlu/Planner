@@ -30,19 +30,13 @@ namespace Planner
         void CalcWorkersCapabilities(Worker worker)
         {
             bool[,] capa = new bool[Const.ProductionLinesCount,Const.GridRowsCount];
-            bool[,] allow;
-            // check
-            if (worker.WeekDisposition != null)
-                allow = worker.WeekDisposition;
-            else
-                allow = worker.FixedPerDay;
             for (int d = 0; d < Const.WorkDays; d++)
             {
                 for (int s = 0; s < Const.ShiftsPerDay; s++)
                 {
                     for (int p = 0; p < Const.ProductionLinesCount; p++)
                     {
-                        bool condDayCheck = allow[d, s];
+                        bool condDayCheck = (worker.WeekDisposition != null) ? (worker.WeekDisposition[d, s]) : (worker.FixedPerDay[d, s]);
                         bool condFrom = (!worker.AvailableFrom.active) || (Values.plan.Week[d] >= worker.AvailableFrom.date);
                         bool condTo = (!worker.AvailableTo.active) || (Values.plan.Week[d] <= worker.AvailableTo.date);
                         bool condLastShift = 2 < ((Values.plan.Week[d] - worker.LastShift.date).Days * Const.ShiftsPerDay + (s - worker.LastShift.shift));
@@ -53,6 +47,7 @@ namespace Planner
                     }
                 }
             }
+            worker.CapabilityMap = capa;
         }
     }
 }
