@@ -36,8 +36,10 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.comboBoxGender = new System.Windows.Forms.ComboBox();
             this.groupBoxView = new System.Windows.Forms.GroupBox();
+            this.pokrywalnośćToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBoxEmployees.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.groupBoxView.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,6 +66,7 @@
             this.listBoxEmpolyees.Name = "listBoxEmpolyees";
             this.listBoxEmpolyees.Size = new System.Drawing.Size(323, 244);
             this.listBoxEmpolyees.TabIndex = 1;
+            this.listBoxEmpolyees.SelectedIndexChanged += new System.EventHandler(this.listBoxEmpolyees_SelectedIndexChanged);
             // 
             // groupBoxEmployees
             // 
@@ -100,9 +103,11 @@
             // menuStrip1
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.pokrywalnośćToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(987, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(987, 28);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -125,6 +130,13 @@
             this.groupBoxView.TabStop = false;
             this.groupBoxView.Text = "Wyświetlanie";
             // 
+            // pokrywalnośćToolStripMenuItem
+            // 
+            this.pokrywalnośćToolStripMenuItem.Name = "pokrywalnośćToolStripMenuItem";
+            this.pokrywalnośćToolStripMenuItem.Size = new System.Drawing.Size(109, 24);
+            this.pokrywalnośćToolStripMenuItem.Text = "Pokrywalność";
+            this.pokrywalnośćToolStripMenuItem.Click += new System.EventHandler(this.pokrywalnośćToolStripMenuItem_Click);
+            // 
             // WorkScheduleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -140,6 +152,8 @@
             this.Load += new System.EventHandler(this.WorkScheduleForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBoxEmployees.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.groupBoxView.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -156,5 +170,6 @@
         private System.Windows.Forms.ComboBox comboBoxGender;
         private System.Windows.Forms.GroupBox groupBoxView;
         private System.Windows.Forms.Button buttonAddEmployee;
+        private System.Windows.Forms.ToolStripMenuItem pokrywalnośćToolStripMenuItem;
     }
 }

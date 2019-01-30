@@ -24,45 +24,37 @@ namespace Planner
             SortWorkers();
 
             // process
-            //for (int g = 0; g < 2; g++)
-            //{
-            //    for (int s = 0; s < shiftsByReserve[g].Count(); )
-            //    {
-            //        Shift s1 = shiftsByReserve[g].ElementAt(s);
-            //        for (int i = 0; i < workersByCapaPriority[g].Count(); i++)
-            //        {
-            //            Worker w1 = workersByCapaPriority[g].ElementAt(i);
-            //            if (w1.CapabilityMap[s1.ProdLineNo, s1.No])
-            //            {
-            //                s1.AddWorker(w1, (Const.Gender)g);
-            //                CalcWorkersCapabilities(w1);
-            //                SortWorkers();
-            //                CalcShiftCoverage(s1);
-            //                SortShifts();
-            //                break;
-            //            }
-            //        }
-            //    }
-            //}
-            for (int s = 0; s < shiftsByReserve[0].Count(); s++)
+            bool finish = false;
+            for (int g = 0; g < 2; g++)
             {
-                Shift s1 = shiftsByReserve[0].ElementAt(s);
-                for (int w = 0; w < workersByCapaPriority[0].Count(); w++)
+                for (int s = 0; s < shiftsByReserve[g].Count(); s++)
                 {
-                    //s1 = shiftsByReserve[0].First();
-                    Worker w1 = workersByCapaPriority[0].ElementAt(w);
-                    if (w1.CapabilityMap[s1.ProdLineNo, s1.No])
+                    Shift s1 = shiftsByReserve[g].ElementAt(s);
+                    for (int w = 0; w < workersByCapaPriority[g].Count(); w++)
                     {
-                        s1.AddWorker(w1, (Const.Gender)0);
-                        CalcWorkersCapabilities(w1);
-                        SortWorkers();
-                        CalcShiftCoverage(s1);
-                        SortShifts();
-                        s1 = shiftsByReserve[0].First();
-                        w = -1;
-                        s = -1;
+                        //s1 = shiftsByReserve[0].First();
+                        Worker w1 = workersByCapaPriority[g].ElementAt(w);
+                        if (w1.CapabilityMap[s1.ProdLineNo, s1.No])
+                        {
+                            s1.AddWorker(w1, (Const.Gender)0);
+                            CalcWorkersCapabilities(w1);
+                            SortWorkers();
+                            CalcShiftCoverage(s1);
+                            SortShifts();
+                            w = -1;
+                            s = -1;
+                            if (!(finish = shiftsByReserve[g].Count() == 0))
+
+                                s1 = shiftsByReserve[g].First();
+                        }
+                        if (finish)
+                            break;
                     }
+                    if (finish)
+                        break;
                 }
+                if (finish)
+                    continue;
             }
         }
 

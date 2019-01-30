@@ -142,7 +142,6 @@ namespace Planner
                         dataGridView1[c, r].Style.BackColor = Color.Gray;
                     else if (assigned == ordered)
                         dataGridView1[c, r].Style.BackColor = Color.LightGray;
-
                 }
             }
         }
@@ -258,6 +257,21 @@ namespace Planner
         private void WorkScheduleForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Values.plan.CloseExcel(true);
+        }
+
+        private void listBoxEmpolyees_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateAssignedValues();
+            if (listBoxEmpolyees.SelectedItem != null)
+                foreach (Shift shift in ((Worker)listBoxEmpolyees.SelectedItem).ShiftsAssigned)
+                {
+                    dataGridView1[shift.ProdLineNo, shift.No].Style.BackColor = Color.Yellow;
+                }
+        }
+
+        private void pokrywalnośćToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
