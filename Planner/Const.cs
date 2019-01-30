@@ -27,6 +27,7 @@ namespace Planner
     {
         public static DateTime[] Week { get; set; }
         public static Plan plan;
+        public static Const.Sex SexSelected = Const.Sex.Male;
     }
 
     class ComboBoxItem

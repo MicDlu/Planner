@@ -60,7 +60,7 @@ namespace Planner
             public Const.Sex sex;
             public int order;
             public List<Worker> employeeAssigned;
-            public int[,] coverageMap;
+            public int coverageCapacity;
         }
     }
 }

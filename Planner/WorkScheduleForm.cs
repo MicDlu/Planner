@@ -12,12 +12,10 @@ namespace Planner
 {
     public partial class WorkScheduleForm : Form
     {
-        private Const.Sex SexSelected;
 
         public WorkScheduleForm()
         {
             InitializeComponent();
-            SexSelected = Const.Sex.Male;
 
             string filepath = @"C:\Users\micha\Documents\Planer Manpower\Planner Test.xlsx";
             DateTime monday = new DateTime(2019, 1, 28);
@@ -46,7 +44,7 @@ namespace Planner
 
             comboBoxSex.Items.Add(new ComboBoxItem() { Name = "♂ Mężczyźni", Value = (int)Const.Sex.Male });
             comboBoxSex.Items.Add(new ComboBoxItem() { Name = "♀ Kobiety", Value = (int)Const.Sex.Female });
-            comboBoxSex.SelectedIndex = (int)SexSelected;
+            comboBoxSex.SelectedIndex = (int)Values.SexSelected;
         }
 
         private void InitGroupBoxAssignedStyle()
@@ -134,8 +132,8 @@ namespace Planner
             {
                 for (int c = 0; c < dataGridView1.ColumnCount; c++)
                 {
-                    int assigned = Values.plan.Shifts[c, r].PerSex[(int)SexSelected].employeeAssigned.Count;
-                    int ordered = Values.plan.Shifts[c, r].PerSex[(int)SexSelected].order;
+                    int assigned = Values.plan.Shifts[c, r].PerSex[(int)Values.SexSelected].employeeAssigned.Count;
+                    int ordered = Values.plan.Shifts[c, r].PerSex[(int)Values.SexSelected].order;
                     dataGridView1[c, r].Value = assigned.ToString() + " / " + ordered.ToString();
                     
                     if (ordered == 0)
@@ -219,7 +217,7 @@ namespace Planner
         private void FillAssignedWorkerList(int selectedRow, int selectedCol)
         {
             listBoxEmpolyees.DataSource = null;
-            listBoxEmpolyees.DataSource = Values.plan.Shifts[selectedRow, selectedCol].PerSex[(int)SexSelected].employeeAssigned;
+            listBoxEmpolyees.DataSource = Values.plan.Shifts[selectedRow, selectedCol].PerSex[(int)Values.SexSelected].employeeAssigned;
             listBoxEmpolyees.DisplayMember = "DisplayName";
             listBoxEmpolyees.ValueMember = "Id";
         }
@@ -228,7 +226,7 @@ namespace Planner
         {
             int selectedRow = dataGridView1.CurrentCell.RowIndex;
             int selectedCol = dataGridView1.CurrentCell.ColumnIndex;
-            if (Values.plan.Shifts[selectedCol, selectedRow].RemoveWorker((Worker)listBoxEmpolyees.SelectedItem, SexSelected)) 
+            if (Values.plan.Shifts[selectedCol, selectedRow].RemoveWorker((Worker)listBoxEmpolyees.SelectedItem, Values.SexSelected)) 
             {
                 FillAssignedWorkerList(selectedRow, selectedCol);
                 UpdateAssignedValues();
@@ -237,7 +235,7 @@ namespace Planner
 
         private void comboBoxSex_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SexSelected = (Const.Sex) comboBoxSex.SelectedIndex;
+            Values.SexSelected = (Const.Sex) comboBoxSex.SelectedIndex;
             UpdateAssignedValues();
         }
 
@@ -249,7 +247,7 @@ namespace Planner
             {
                 int selectedRow = dataGridView1.CurrentCell.RowIndex;
                 int selectedCol = dataGridView1.CurrentCell.ColumnIndex;
-                if (Values.plan.Shifts[selectedCol, selectedRow].AddWorker(workerSetupForm.CurrWorker, SexSelected))
+                if (Values.plan.Shifts[selectedCol, selectedRow].AddWorker(workerSetupForm.CurrWorker, Values.SexSelected))
                 {
                     FillAssignedWorkerList(selectedRow, selectedCol);
                     UpdateAssignedValues();

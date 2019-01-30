@@ -24,12 +24,19 @@ namespace Planner
 
         void CalcShiftCoverage(Shift shift)
         {
-
+            for (int s = 0; s < 2; s++)
+            {
+                shift.PerSex[s].coverageCapacity = 0;
+                foreach (Worker worker in Values.plan.Workers.Where(x => x.Sex == (Const.Sex)s))
+                {
+                    shift.PerSex[s].coverageCapacity += worker.CapabilityMap[shift.ProdLineNo,shift.No]?1:0;
+                }
+            }
         }
 
         void CalcWorkersCapabilities(Worker worker)
         {
-            bool[,] capa = new bool[Const.ProductionLinesCount,Const.GridRowsCount];
+            worker.CapabilityMap = new bool[Const.ProductionLinesCount,Const.GridRowsCount];
             for (int d = 0; d < Const.WorkDays; d++)
             {
                 for (int s = 0; s < Const.ShiftsPerDay; s++)
@@ -43,11 +50,10 @@ namespace Planner
                         bool condLastFreeDay = 6 >= ((Values.plan.Week[d] - worker.LastFreeDay).Days);
                         bool condLastFreeSunday = (d!=6) || ( 3 >= ((Values.plan.Week[d] - worker.LastFreeSunday).Days / 7));
 
-                        capa[p, d * Const.ShiftsPerDay + s] = condDayCheck && condFrom && condFrom && condTo && condLastShift && condLastFreeDay && condLastFreeSunday;
+                        worker.CapabilityMap[p, d * Const.ShiftsPerDay + s] = condDayCheck && condFrom && condFrom && condTo && condLastShift && condLastFreeDay && condLastFreeSunday;
                     }
                 }
             }
-            worker.CapabilityMap = capa;
         }
     }
 }
