@@ -10,6 +10,7 @@ namespace Planner
     {
         private List<Shift>[] shiftsByReserve = new List<Shift>[2];
         private List<Worker>[] workersByCapaPriority = new List<Worker>[2];
+        public static int[,,] initialCoverage = new int[Const.ProductionLinesCount, Const.GridRowsCount,2];
 
         public Schedule()
         {
@@ -18,7 +19,10 @@ namespace Planner
                 CalcWorkersCapabilities(worker);
 
             foreach (Shift shift in Values.plan.Shifts)
+            {
                 CalcShiftCoverage(shift);
+                initialCoverage[shift.ProdLineNo, shift.No, (int)shift.Gender] = shift.CoverageCapacity;
+            }
 
             SortShifts();
             SortWorkers();
@@ -79,7 +83,7 @@ namespace Planner
             }
         }
 
-        void CalcShiftCoverage(Shift shift)
+        static public void CalcShiftCoverage(Shift shift)
         {
             for (int s = 0; s < 2; s++)
             {

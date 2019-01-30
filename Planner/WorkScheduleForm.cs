@@ -271,7 +271,8 @@ namespace Planner
 
         private void pokrywalnośćToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            CoverageForm coverageForm = new CoverageForm();
+            coverageForm.Show();
         }
     }
 }

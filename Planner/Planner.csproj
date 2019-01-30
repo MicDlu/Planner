@@ -50,6 +50,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Const.cs" />
+    <Compile Include="CoverageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CoverageForm.Designer.cs">
+      <DependentUpon>CoverageForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DaysPickForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,6 +99,9 @@
     <Compile Include="WorkScheduleForm.Designer.cs">
       <DependentUpon>WorkScheduleForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CoverageForm.resx">
+      <DependentUpon>CoverageForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DaysPickForm.resx">
       <DependentUpon>DaysPickForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -20,7 +20,18 @@ namespace Planner
 
         private void CoverageForm_Load(object sender, EventArgs e)
         {
+            InitDataGridViewValues();
+            InitDGVValues();
             InitDataGridViewStyle();
+            AlignFormSize();
+        }
+
+        private void AlignFormSize()
+        {
+            this.Size = new Size(
+                dataGridView1.Location.X + dataGridView1.Size.Width + 30,
+                dataGridView1.Location.Y + dataGridView1.Size.Height + 50
+            );
         }
 
         private void InitDGVValues()
@@ -28,24 +39,23 @@ namespace Planner
             dataGridView1.Columns.Clear();
             for (int p = 0; p < Const.ProductionLinesCount; p++)
             {
-                DataGridViewColumn col = new DataGridViewColumn()
+                DataGridViewColumn col = new DataGridViewColumn(new DataGridViewTextBoxCell())
                 {
                     Name = Const.ProductionLines[p],
-                    HeaderText = Const.Days[p],
-                    Width = 50
+                    HeaderText = Const.ProductionLines[p],
                 };
                 dataGridView1.Columns.Add(col);
             }
 
-            //for (int s = 0; s < Const.GridRowsCount; s++)
-            //{
-            //    DataGridViewRow row = new DataGridViewRow();
-            //    row.CreateCells(dataGridView1);
-            //    for (int d = 0; d < Const.WorkDays; d++)
-            //        row.Cells[d].Value = Matrix[d, s];
-            //    row.HeaderCell.Value = (s + 1).ToString();
-            //    dataGridView1.Rows.Add(row);
-            //}
+            for (int s = 0; s < Const.GridRowsCount; s++)
+            {
+                DataGridViewRow row = new DataGridViewRow();
+                row.CreateCells(dataGridView1);
+                for (int d = 0; d < Const.ProductionLinesCount; d++)
+                    row.Cells[d].Value = Schedule.initialCoverage[d, s, (int)Values.GenderSelected];
+                row.HeaderCell.Value = ((s + 1)%4).ToString();
+                dataGridView1.Rows.Add(row);
+            }
         }
 
         // Draw DataGridView Headers
@@ -65,7 +75,7 @@ namespace Planner
             foreach (DataGridViewColumn column in dataGridView1.Columns)
             {
                 column.SortMode = DataGridViewColumnSortMode.Programmatic;
-                column.Width = 75;
+                column.Width = 40;
                 column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
 
@@ -75,18 +85,18 @@ namespace Planner
 
         // Fill cells and headers with values
         // https://stackoverflow.com/questions/29633018/show-2d-array-in-datagridview
-        private void InitDataGridViewValues(Plan plan)
+        private void InitDataGridViewValues()
         {
-            int columnCount = plan.ProductionLines.Length;
-            int rowCount = plan.Shifts.GetLength(1);
+            int columnCount = Values.plan.ProductionLines.Length;
+            int rowCount = Values.plan.Shifts.GetLength(1);
 
             // Columns - Production Lines
-            for (int i = 0; i < plan.ProductionLines.Length; i++)
+            for (int i = 0; i < Values.plan.ProductionLines.Length; i++)
             {
                 DataGridViewTextBoxColumn dgvColumn = new DataGridViewTextBoxColumn()
                 {
-                    Name = plan.ProductionLines[i],
-                    HeaderText = plan.ProductionLines[i],
+                    Name = Values.plan.ProductionLines[i],
+                    HeaderText = Values.plan.ProductionLines[i],
                 };
                 dataGridView1.Columns.Add(dgvColumn);
             }
